@@ -1,0 +1,46 @@
+.yelo_box{
+    background-color: #fffbe6;
+    border: 1px solid #ffe799;
+    color: rgba(0,0,0,0.85);
+    padding: 8px 15px;
+    border-radius: 4px;
+}
+
+.loc_buttn{
+    background-color: rgba(0,0,0,0.1);
+    border-color: rgba(0,0,0,.1);
+    color: rgba(0,0,0,0.3);
+}
+
+.aFtr_sty{
+    font-size: 14px;
+    font-weight:600;
+}
+
+.hovr_clr:hover {
+    border-color: #f14668;
+}
+
+.form-control:focus {
+    color: #212529;
+    background-color: #fff;
+    border-color: #f14668;
+    outline: 0;
+    box-shadow: 0 0 0 2px #f6cfde !important;
+}
+
+.form-check-input:hover{
+    border-color:#f14668;
+}
+
+.form-check-input:checked{
+    background-color:#f14668;
+    border-color:#f14668;
+}
+
+.form-check-input:focus {
+    border-color:#f14668 ;
+    outline: 0;
+    box-shadow: 0 0 0 2px  #f6cfde;
+    /* background-color: #f14668 !important; */
+}

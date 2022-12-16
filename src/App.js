@@ -3,6 +3,8 @@ import './App.css';
 import { useSelector, useDispatch } from 'react-redux'
 import { connectWallet, walletaddress } from './features/pinksale/pinksaleSlice'
 import { loadWeb3 } from './connectivity/connectivity';
+import Creatlock from './component/Creat_lock/Creatlock';
+import Token from './component/Token_pink/Token';
 
 function App() {
   const walletaddress = useSelector((state) => state.pinksale.walletaddress)
@@ -15,7 +17,9 @@ function App() {
   }
   return (
     <div className="App">
-      <div>
+      <Creatlock/>
+      {/* <Token/> */}
+      {/* <div>
         <div>
           <button
             aria-label="Connect Wallet"
@@ -26,7 +30,7 @@ function App() {
           <h1>{walletaddress}</h1>
 
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
