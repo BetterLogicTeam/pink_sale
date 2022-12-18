@@ -17,7 +17,7 @@ function App() {
   // }
   return (
     <div className="App">
-      <Creatlock/>
+      <Creatlock />
       {/* <Token/> */}
       {/* <div>
         <div>
