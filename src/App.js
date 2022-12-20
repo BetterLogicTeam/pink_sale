@@ -5,16 +5,22 @@ import { connectWallet, walletaddress, connect } from './features/pinksale/pinks
 import { loadWeb3 } from './connectivity/connectivity';
 import Creatlock from './component/Creat_lock/Creatlock';
 import Token from './component/Token_pink/Token';
+import { useEffect } from 'react';
+// import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
 
 function App() {
   const walletaddress = useSelector((state) => state.pinksale.walletaddress)
-  console.log('walletaddress', walletaddress)
   const dispatch = useDispatch()
-  // const coonect = async () => {
-  //   let acc = await loadWeb3();
 
-  //   dispatch(connectWallet(acc))
-  // }
+  useEffect(() => {
+    dispatch(connectWallet())
+  }, []);
+
   return (
     <div className="App">
       <Creatlock />

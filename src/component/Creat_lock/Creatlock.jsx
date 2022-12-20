@@ -1,50 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, CSSProperties } from "react";
 import "./Creatlock.css";
 import Form from "react-bootstrap/Form";
 // import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  connectWallet,
+  walletaddress,
+  connect,
+} from "../../features/pinksale/pinksaleSlice";
+
+import axios from "axios";
+import {
+  pinkSaleLockContract,
+  pinkSaleLockAbi,
+  tokenAbi,
+  tokenAdress,
+} from "../../utilies/Contract";
+import { loadWeb3 } from "../../connectivity/connectivity";
+// import Web3, { fromWei, toWei } from "web3";
+import Web3 from "web3";
+import ClipLoader from "react-spinners/ClipLoader";
+import { DotLoader } from "react-spinners";
+import MoonLoader from "react-spinners/MoonLoader";
+import PulseLoader from "react-spinners/PulseLoader";
 
 function Creatlock() {
+  const [btntext, setbtnText] = useState("Approve");
+
   const [show, setShow] = useState(false);
+  const [flag, setFlag] = useState(true);
+  const [spinner, setSpinner] = useState(false);
+  const override = {
+    margin: "5px 0",
+    // borderColor: "red",
+  };
+  let walletaddress = useSelector((state) => state.pinksale.walletaddress);
 
   const createLockScheme = Yup.object().shape({
-    tokenAddress: Yup.string("'EntermIL")
-      .min(2, "Too Short!")
-      .max(50, "Too Long!")
-      .required(),
-    // ownerAddress: Yup.string()
-    //   .min(2, "Too Short!")
-    //   .max(50, "Too Long!")
-    //   .required("Required"),
-    // title: Yup.string()
-    //   .min(2, "Too Short!")
-    //   .max(50, "Too Long!")
-    //   .required("Required"),
-    // amount: Yup.string()
-    //   .min(2, "Too Short!")
-    //   .max(50, "Too Long!")
-    //   .required("amount is a required field"),
-    // date: Yup.string()
-    //   .min(2, "Too Short!")
-    //   .max(50, "Too Long!")
-    //   .required("Unlock time need to be after now"),
-    // date1: Yup.string()
-    //   .min(2, "Too Short!")
-    //   .max(50, "Too Long!")
-    //   .required("TGE Date needs to be after now"),
-    // tgePercent: Yup.string()
-    //   .min(2, "Too Short!")
-    //   .max(50, "Too Long!")
-    //   .required("TGE Percent can not be blank"),
-    // cycleDays: Yup.string()
-    //   .min(2, "Too Short!")
-    //   .max(50, "Too Long!")
-    //   .required("Cycle can not be blank"),
-    // cycleReleasePercent: Yup.string()
-    //   .min(2, "Too Short!")
-    //   .max(50, "Too Long!")
-    //   .required("Cycle Release Percent can not be blank"),
+    tokenAddress: Yup.string().required("tokenAddress is a required field"),
+    // ownerAddress: Yup.string().required("Required"),
+    // title: Yup.string().required("Required"),
+    amount: Yup.string().required("amount is a required field"),
+    date: Yup.date()
+      .required("Unlock time need to be after now")
+      .min(new Date(), "date must be greater then current date"),
+    // date1: Yup.string().required("TGE Date needs to be after now"),
+    // tgePercent: Yup.string().required("TGE Percent can not be blank"),
+    // cycleDays: Yup.string().required("Cycle can not be blank"),
+    // cycleReleasePercent: Yup.string().required(
+    //   "Cycle Release Percent can not be blank"
+    // ),
     // email: Yup.string().email('Invalid email').required('Required'),
   });
 
@@ -55,23 +62,94 @@ function Creatlock() {
       title: "",
       amount: "",
       date: "",
-      date1: "",
-      tgePercent: "",
-      cycleDays: "",
-      cycleReleasePercent: "",
+      useAnotherOwner: false,
+
+      //   date1: "",
+      //   tgePercent: "",
+      //   cycleDays: "",
+      //   cycleReleasePercent: "",
     },
     validationSchema: createLockScheme,
-    onSubmit: (values) => {
-      // same shape as initial values
-      console.log(values);
-      callAPI(values);
+
+    onSubmit: async (values, action) => {
+      console.log("checkbox", values);
+      await callAPI(values);
+      // action.resetForm();
     },
   });
 
-  const callAPI = (values) => {
+  const callAPI = async (values) => {
+    setSpinner(true);
+    // console.log("values", values);
+    let acc = await loadWeb3();
+    // console.log("acc", acc);
+    if (acc == "No Wallet") {
+      //   toast.error("No Wallet Connected")
+    } else if (acc == "Wrong Network") {
+      //   toast.error("Wrong Newtwork please connect to BSC MainNet ")
+    } else {
+      try {
+        // setaccadress(acc)
+        const web3 = window.web3;
+
+        let { tokenAddress, ownerAddress, amount, title, date } = values;
+
+        let owner;
+        if (values.useAnotherOwner) {
+          owner = ownerAddress;
+        } else {
+          owner = acc;
+        }
+        // alert(owner);
+        const dates = new Date(date);
+        const seconds = Math.floor(dates.getTime() / 1000);
+
+        console.log(seconds);
+
+        let _amount = web3.utils.toWei(amount.toString());
+        console.log("_amount", _amount);
+        let pinkSaleContract = new web3.eth.Contract(
+          pinkSaleLockAbi,
+          pinkSaleLockContract
+        );
+        if (flag) {
+          let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
+          let approve = await pinkSaleToken.methods
+            .approve(pinkSaleLockContract, _amount)
+            .send({ from: acc });
+          setFlag(false);
+          setSpinner(false);
+          setbtnText("Lock");
+        } else {
+          let lockHash = await pinkSaleContract.methods
+            .lock(owner, tokenAddress, _amount, seconds, title)
+            .send({ from: acc });
+          setFlag(true);
+          setSpinner(false);
+          setbtnText("Approve");
+        }
+
+        // setowneradress(owneradress)
+      } catch (e) {
+        setSpinner(false);
+
+        console.log(e);
+      }
+    }
+
+    // console.log("values", values);
+    // let data = JSON.stringify({ ...values });
+    // axios
+    //   .post("http://localhost:3344/postuser", data, {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //   .then((e) => console.log("axois resp", e))
+    //   .catch((e) => console.log("e::", e));
     // if (values.tokenAddress.length > 3) {
     //call web3
-    formik.setErrors({ tokenAddress: "Invalid Address" });
+    // formik.setErrors({ tokenAddress: "Invalid Address" });
     // }
   };
 
@@ -101,14 +179,14 @@ function Creatlock() {
                       value={formik.values.tokenAddress}
                       className="hovr_clr"
                     />
-                    {console.log("formik.errors", formik.errors)}
-                    {console.log("formik.errors", formik)}
+
                     <div className="text-start">
-                      {formik.errors.tokenAddress && (
-                        <Form.Text className="text-danger">
-                          {formik.errors.tokenAddress}
-                        </Form.Text>
-                      )}
+                      {formik.errors.tokenAddress &&
+                        formik.touched.tokenAddress && (
+                          <Form.Text className="text-danger">
+                            {formik.errors.tokenAddress}
+                          </Form.Text>
+                        )}
                     </div>
                     <Form.Group
                       className="my-3"
@@ -117,6 +195,8 @@ function Creatlock() {
                     >
                       <Form.Check
                         type="checkbox"
+                        name="useAnotherOwner"
+                        onChange={formik.handleChange}
                         label={
                           <span className="apna ">use another owner?</span>
                         }
@@ -134,12 +214,14 @@ function Creatlock() {
                       name="ownerAddress"
                       placeholder="Enter your address "
                       className="hovr_clr"
+                      onChange={formik.handleChange}
+                      value={formik.values.ownerAddress}
                     />
                     <div className="text-start">
                       <Form.Text className="text-primary">
                         the address you input here will be receive the tokens
                         once they are unlocked
-                      </Form.Text>{" "}
+                      </Form.Text>
                     </div>
                   </div>
 
@@ -152,6 +234,8 @@ function Creatlock() {
                       name="title"
                       placeholder="Ex:My Lock"
                       className="hovr_clr"
+                      onChange={formik.handleChange}
+                      value={formik.values.title}
                     />
 
                     <div className="text-start mt-3 aFtr_sty">
@@ -160,21 +244,27 @@ function Creatlock() {
                       </Form.Label>
                     </div>
                     <Form.Control
-                      type="text"
+                      type="number"
                       name="amount"
                       placeholder="Enter amount"
                       className="hovr_clr"
+                      onChange={formik.handleChange}
+                      value={formik.values.amount}
                     />
                     <div className="text-start">
-                      <Form.Text className="text-danger">
-                        amount is a required field
-                      </Form.Text>{" "}
+                      {formik.errors.amount && (
+                        <Form.Text className="text-danger">
+                          {formik.errors.amount}
+                        </Form.Text>
+                      )}
                     </div>
                   </div>
 
                   <Form.Group className="my-3" controlId="formBasicCheckbox">
                     <Form.Check
                       type="checkbox"
+                      onChange={formik.handleChange}
+                      name="useVesting"
                       label={<span className="apna">use vesting?</span>}
                       className="text-start"
                     />
@@ -192,15 +282,19 @@ function Creatlock() {
                       name="date"
                       placeholder="Select date"
                       className="hovr_clr"
+                      onChange={formik.handleChange}
+                      value={formik.values.date}
                     />
                     <div className="text-start">
-                      <Form.Text className="text-danger">
-                        Unlock time need to be after now
-                      </Form.Text>{" "}
+                      {formik.errors.date && (
+                        <Form.Text className="text-danger">
+                          {formik.errors.date}
+                        </Form.Text>
+                      )}
                     </div>
                   </div>
 
-                  <div className="row">
+                  {/* <div className="row">
                     <div className="col-lg-6">
                       <div className="text-start mt-3 aFtr_sty">
                         <Form.Label>
@@ -213,11 +307,15 @@ function Creatlock() {
                         name="date1"
                         placeholder="Select date"
                         className="hovr_clr"
+                        onChange={formik.handleChange}
+                        value={formik.values.date1}
                       />
                       <div className="text-start">
-                        <Form.Text className="text-danger">
-                          TGE Date needs to be after now
-                        </Form.Text>{" "}
+                        {formik.errors.date1 && (
+                          <Form.Text className="text-danger">
+                            {formik.errors.date1}
+                          </Form.Text>
+                        )}
                       </div>
                     </div>
                     <div className="col-lg-6">
@@ -231,11 +329,15 @@ function Creatlock() {
                         name="tgePercent"
                         placeholder="Ex:10"
                         className="hovr_clr"
+                        onChange={formik.handleChange}
+                        value={formik.values.tgePercent}
                       />
                       <div className="text-start">
-                        <Form.Text className="text-danger">
-                          TGE Percent can not be blank
-                        </Form.Text>{" "}
+                        {formik.errors.tgePercent && (
+                          <Form.Text className="text-danger">
+                            {formik.errors.tgePercent}
+                          </Form.Text>
+                        )}
                       </div>
                     </div>
 
@@ -251,11 +353,15 @@ function Creatlock() {
                         name="cycleDays"
                         placeholder="Ex:10"
                         className="hovr_clr"
+                        onChange={formik.handleChange}
+                        value={formik.values.cycleDays}
                       />
                       <div className="text-start">
-                        <Form.Text className="text-danger">
-                          Cycle can not be blank
-                        </Form.Text>{" "}
+                        {formik.errors.cycleDays && (
+                          <Form.Text className="text-danger">
+                            {formik.errors.cycleDays}
+                          </Form.Text>
+                        )}
                       </div>
                     </div>
 
@@ -271,14 +377,18 @@ function Creatlock() {
                         name="cycleReleasePercent"
                         placeholder="Ex:10"
                         className="hovr_clr"
+                        onChange={formik.handleChange}
+                        value={formik.values.cycleReleasePercent}
                       />
                       <div className="text-start">
-                        <Form.Text className="text-danger">
-                          Cycle Release Percent can not be blank
-                        </Form.Text>{" "}
+                        {formik.errors.cycleReleasePercent && (
+                          <Form.Text className="text-danger">
+                            {formik.errors.cycleReleasePercent}
+                          </Form.Text>
+                        )}
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
                   <div className="mt-4 text-start rounder yelo_box">
                     <span>
@@ -289,9 +399,23 @@ function Creatlock() {
                     </span>
                   </div>
 
-                  <div className="mt-4">
-                    <button type="submit" className="btn btn-small loc_buttn">
-                      Lock
+                  <div className="mt-4 d-flex justify-content-center align-items-center">
+                    <button
+                      type="submit"
+                      className="btn btn-small loc_buttn "
+                      disabled={!(formik.isValid && formik.dirty)}
+                    >
+                      {spinner ? (
+                        <ClipLoader
+                          cssOverride={override}
+                          color="pink"
+                          size={20}
+                          className=""
+                        />
+                      ) : (
+                        ""
+                      )}
+                      {btntext}
                     </button>
                   </div>
                 </form>

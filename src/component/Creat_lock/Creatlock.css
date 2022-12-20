@@ -29,8 +29,19 @@
     box-shadow: 0 0 0 2px #f6cfde !important;
 }
 
+.loc_buttn{
+    justify-content:center  !important;
+    /* align-items: baseline !important; */
+    display: flex !important;
+}
+.loc_buttn:focus{
+    box-shadow: none !important;
+}
 .form-check-input:hover{
     border-color:#f14668;
+}
+.loc_buttn:hover{
+    cursor: no-drop !important;
 }
 
 .form-check-input:checked{
