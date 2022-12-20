@@ -1,0 +1,11 @@
+
+
+@media screen and (max-width:600px) {
+    .mg_k{
+        display: none !important;
+    }
+    
+    .css-19kzrtu {
+        padding: 10px !important;
+    }
+}

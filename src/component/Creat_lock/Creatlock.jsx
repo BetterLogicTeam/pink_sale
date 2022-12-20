@@ -8,45 +8,16 @@ import { useFormik } from "formik";
 function Creatlock() {
   const [show, setShow] = useState(false);
 
+  const [show2, setShow2] = useState(false);
+
   const createLockScheme = Yup.object().shape({
     tokenAddress: Yup.string("'EntermIL")
       .min(2, "Too Short!")
       .max(50, "Too Long!")
       .required(),
-    // ownerAddress: Yup.string()
-    //   .min(2, "Too Short!")
-    //   .max(50, "Too Long!")
-    //   .required("Required"),
-    // title: Yup.string()
-    //   .min(2, "Too Short!")
-    //   .max(50, "Too Long!")
-    //   .required("Required"),
-    // amount: Yup.string()
-    //   .min(2, "Too Short!")
-    //   .max(50, "Too Long!")
-    //   .required("amount is a required field"),
-    // date: Yup.string()
-    //   .min(2, "Too Short!")
-    //   .max(50, "Too Long!")
-    //   .required("Unlock time need to be after now"),
-    // date1: Yup.string()
-    //   .min(2, "Too Short!")
-    //   .max(50, "Too Long!")
-    //   .required("TGE Date needs to be after now"),
-    // tgePercent: Yup.string()
-    //   .min(2, "Too Short!")
-    //   .max(50, "Too Long!")
-    //   .required("TGE Percent can not be blank"),
-    // cycleDays: Yup.string()
-    //   .min(2, "Too Short!")
-    //   .max(50, "Too Long!")
-    //   .required("Cycle can not be blank"),
-    // cycleReleasePercent: Yup.string()
-    //   .min(2, "Too Short!")
-    //   .max(50, "Too Long!")
-    //   .required("Cycle Release Percent can not be blank"),
-    // email: Yup.string().email('Invalid email').required('Required'),
+   
   });
+  
 
   const formik = useFormik({
     initialValues: {
@@ -172,7 +143,10 @@ function Creatlock() {
                     </div>
                   </div>
 
-                  <Form.Group className="my-3" controlId="formBasicCheckbox">
+                  <Form.Group className="my-3"
+                   controlId="formBasicCheckbox"
+                   onClick={() => setShow2(!show2)}
+                  >
                     <Form.Check
                       type="checkbox"
                       label={<span className="apna">use vesting?</span>}
@@ -188,7 +162,7 @@ function Creatlock() {
                       </Form.Label>
                     </div>
                     <Form.Control
-                      type="date"
+                      type="datetime-local"
                       name="date"
                       placeholder="Select date"
                       className="hovr_clr"
@@ -200,6 +174,7 @@ function Creatlock() {
                     </div>
                   </div>
 
+                  <div className={`${show2 ? "d-block" : "d-none"}`}>
                   <div className="row">
                     <div className="col-lg-6">
                       <div className="text-start mt-3 aFtr_sty">
@@ -209,7 +184,7 @@ function Creatlock() {
                         </Form.Label>
                       </div>
                       <Form.Control
-                        type="date"
+                        type="datetime-local"
                         name="date1"
                         placeholder="Select date"
                         className="hovr_clr"
@@ -278,6 +253,7 @@ function Creatlock() {
                         </Form.Text>{" "}
                       </div>
                     </div>
+                  </div>
                   </div>
 
                   <div className="mt-4 text-start rounder yelo_box">
