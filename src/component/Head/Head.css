@@ -235,6 +235,14 @@ z-index: 1 !important;
   background-color: rgb(255, 255, 255) !important;
  
 }
+.css-168noda{
+  background: transparent !important;
+  box-shadow: none !important;
+}
+.css-v464i3::before{
+  background-color: none !important;
+  opacity: 0px !important;
+}
 
 
 .height_sidebar{
