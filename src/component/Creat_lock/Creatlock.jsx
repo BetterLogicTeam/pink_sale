@@ -72,7 +72,7 @@ function Creatlock() {
     validationSchema: createLockScheme,
 
     onSubmit: async (values, action) => {
-      console.log("checkbox", values);
+      // console.log("checkbox", formik);
       await callAPI(values);
       // action.resetForm();
     },
@@ -152,7 +152,9 @@ function Creatlock() {
     // formik.setErrors({ tokenAddress: "Invalid Address" });
     // }
   };
-
+  const valid = async (e) => {
+    console.log("event", e.target.value);
+  };
   return (
     <div className="container">
       <div className="row">
@@ -175,14 +177,18 @@ function Creatlock() {
                       type="text"
                       name="tokenAddress"
                       placeholder="Enter token or PL token address"
-                      onChange={formik.handleChange}
+                      onChange={(e) => {
+                        formik.handleChange(e);
+                        valid(e);
+                      }}
                       value={formik.values.tokenAddress}
                       className="hovr_clr"
                     />
 
                     <div className="text-start">
-                      {formik.errors.tokenAddress &&
-                        formik.touched.tokenAddress && (
+                      {/* {console.log("touched", formik)} */}
+                      {formik.touched.tokenAddress &&
+                        formik.errors.tokenAddress && (
                           <Form.Text className="text-danger">
                             {formik.errors.tokenAddress}
                           </Form.Text>
@@ -252,7 +258,7 @@ function Creatlock() {
                       value={formik.values.amount}
                     />
                     <div className="text-start">
-                      {formik.errors.amount && (
+                      {formik.touched.amount && formik.errors.amount && (
                         <Form.Text className="text-danger">
                           {formik.errors.amount}
                         </Form.Text>
@@ -286,7 +292,7 @@ function Creatlock() {
                       value={formik.values.date}
                     />
                     <div className="text-start">
-                      {formik.errors.date && (
+                      {formik.touched.date && formik.errors.date && (
                         <Form.Text className="text-danger">
                           {formik.errors.date}
                         </Form.Text>
@@ -398,7 +404,7 @@ function Creatlock() {
                       tokens.
                     </span>
                   </div>
-
+                  {console.log("formik", formik)}
                   <div className="mt-4 d-flex justify-content-center align-items-center">
                     <button
                       type="submit"

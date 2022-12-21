@@ -40,9 +40,9 @@
 .form-check-input:hover{
     border-color:#f14668;
 }
-.loc_buttn:hover{
+/* .loc_buttn:hover{
     cursor: no-drop !important;
-}
+} */
 
 .form-check-input:checked{
     background-color:#f14668;
