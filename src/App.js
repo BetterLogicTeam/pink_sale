@@ -1,4 +1,5 @@
 import logo from './logo.svg';
+import { unstable_HistoryRouter } from 'react-router-dom';
 import './App.css';
 import { useSelector, useDispatch } from 'react-redux'
 import { connectWallet, walletaddress, connect } from './features/pinksale/pinksaleSlice'
@@ -10,6 +11,12 @@ import { useEffect } from 'react';
 
 import 'react-toastify/dist/ReactToastify.css';
 
+import Head from './component/Head/Head';
+import Lockinfo from './component/Lock_detail/Lockinfo';
+import Lockin from './component/Lock_in/Lockin';
+import Mylockin from './component/Mylockin/Mylockin';
+import Pink_drawer from './component/Pink_drawer/Pink_drawer';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
 
@@ -23,8 +30,22 @@ function App() {
 
   return (
     <div className="App">
-      <Creatlock />
+        <BrowserRouter>
+        <Head/>
+      {/* <Routes>
+        <Route path="/Creatlock" element={<Creatlock/>}> </Route>
+        <Route path="/Token" element={<Token />}> </Route>
+        <Route path="/Lockinfo" element={<Lockinfo />}> </Route>
+        <Route path="/Lockin" element={<Lockin />}> </Route>
+        <Route path="/Mylockin" element={<Mylockin />}> </Route>
+        
+      </Routes> */}
+      </BrowserRouter>
+{/*     
+      <Creatlock />/ */}
       {/* <Token/> */}
+      {/* <Lockinfo/> */}
+      {/* <Lockin/> */}
       {/* <div>
         <div>
           <button

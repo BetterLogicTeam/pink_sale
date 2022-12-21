@@ -38,6 +38,8 @@ function Creatlock() {
   };
   let walletaddress = useSelector((state) => state.pinksale.walletaddress);
 
+  const [show2, setShow2] = useState(false);
+
   const createLockScheme = Yup.object().shape({
     tokenAddress: Yup.string().required("tokenAddress is a required field"),
     // ownerAddress: Yup.string().required("Required"),
@@ -72,7 +74,7 @@ function Creatlock() {
     validationSchema: createLockScheme,
 
     onSubmit: async (values, action) => {
-      // console.log("checkbox", formik);
+      console.log("values", values);
       await callAPI(values);
       // action.resetForm();
     },
@@ -153,7 +155,21 @@ function Creatlock() {
     // }
   };
   const valid = async (e) => {
-    console.log("event", e.target.value);
+    const web3 = window.web3;
+    const _address = e.target.value;
+    // console.log("event", e.target.value);
+    if (web3.utils.isAddress(_address)) {
+      let _addressStatus = await web3.eth.getCode(_address);
+      if (_addressStatus === "0x") {
+        formik.setErrors({
+          tokenAddress: "Invalid Address",
+        });
+      }
+    } else {
+      formik.setErrors({
+        tokenAddress: "Invalid Address",
+      });
+    }
   };
   return (
     <div className="container">
@@ -178,7 +194,6 @@ function Creatlock() {
                       name="tokenAddress"
                       placeholder="Enter token or PL token address"
                       onChange={(e) => {
-                        formik.handleChange(e);
                         valid(e);
                       }}
                       value={formik.values.tokenAddress}
@@ -186,13 +201,11 @@ function Creatlock() {
                     />
 
                     <div className="text-start">
-                      {/* {console.log("touched", formik)} */}
-                      {formik.touched.tokenAddress &&
-                        formik.errors.tokenAddress && (
-                          <Form.Text className="text-danger">
-                            {formik.errors.tokenAddress}
-                          </Form.Text>
-                        )}
+                      {formik.errors.tokenAddress && (
+                        <Form.Text className="text-danger">
+                          {formik.errors.tokenAddress}
+                        </Form.Text>
+                      )}
                     </div>
                     <Form.Group
                       className="my-3"
@@ -258,7 +271,7 @@ function Creatlock() {
                       value={formik.values.amount}
                     />
                     <div className="text-start">
-                      {formik.touched.amount && formik.errors.amount && (
+                      {formik.errors.amount && (
                         <Form.Text className="text-danger">
                           {formik.errors.amount}
                         </Form.Text>
@@ -266,7 +279,11 @@ function Creatlock() {
                     </div>
                   </div>
 
-                  <Form.Group className="my-3" controlId="formBasicCheckbox">
+                  <Form.Group
+                    className="my-3"
+                    controlId="formBasicCheckbox"
+                    onClick={() => setShow2(!show2)}
+                  >
                     <Form.Check
                       type="checkbox"
                       onChange={formik.handleChange}
@@ -276,7 +293,7 @@ function Creatlock() {
                     />
                   </Form.Group>
 
-                  <div className="">
+                  <div className={`  ${show2 ? "d-none" : "row"}`}>
                     <div className="text-start mt-3 aFtr_sty">
                       <Form.Label>
                         Lock until (UTC time)
@@ -284,7 +301,7 @@ function Creatlock() {
                       </Form.Label>
                     </div>
                     <Form.Control
-                      type="date"
+                      type="datetime-local"
                       name="date"
                       placeholder="Select date"
                       className="hovr_clr"
@@ -292,7 +309,7 @@ function Creatlock() {
                       value={formik.values.date}
                     />
                     <div className="text-start">
-                      {formik.touched.date && formik.errors.date && (
+                      {formik.errors.date && (
                         <Form.Text className="text-danger">
                           {formik.errors.date}
                         </Form.Text>
@@ -300,7 +317,7 @@ function Creatlock() {
                     </div>
                   </div>
 
-                  {/* <div className="row">
+                  {/* <div className={`  ${show2 ? "row" : "d-none"}`}>
                     <div className="col-lg-6">
                       <div className="text-start mt-3 aFtr_sty">
                         <Form.Label>
@@ -309,7 +326,7 @@ function Creatlock() {
                         </Form.Label>
                       </div>
                       <Form.Control
-                        type="date"
+                        type="datetime-local"
                         name="date1"
                         placeholder="Select date"
                         className="hovr_clr"
@@ -406,6 +423,7 @@ function Creatlock() {
                   </div>
                   {console.log("formik", formik)}
                   <div className="mt-4 d-flex justify-content-center align-items-center">
+                    {console.log("formik", formik)}
                     <button
                       type="submit"
                       className="btn btn-small loc_buttn "

@@ -1,0 +1,9 @@
+.main_time{
+    gap: 6px !important;
+}
+
+.pik_clr{
+    background-color: #fdeaf1;
+    border-radius: 5px;
+    font-weight: 600;
+}
