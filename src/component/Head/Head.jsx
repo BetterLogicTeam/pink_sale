@@ -39,7 +39,7 @@ import Token from "../Token_pink/Token"
 import Createlock from "../Creat_lock/Creatlock"
 import Lockinfo from "../Lock_detail/Lockinfo"
 import Lockin from "../Lock_in/Lockin"
-// import Hello from "../Hello/Hello";
+import Canvas from "../Canvas/Canvas";
 const drawerWidth = 220;
 
 const openedMixin = (theme) => ({
@@ -127,11 +127,15 @@ const history = useNavigate()
 
   return (
     <Box sx={{ display: "flex", }} className="boby">
+      
       <CssBaseline />
-      <AppBar position="fixed" open={open} className="appbar_color">
-        <Toolbar>
+      <AppBar position="fixed" open={open} className="appbar_color ">
+ <Canvas/>
+
+        <Toolbar className="d-none d-md-flex  ">
           <IconButton
             color=""
+
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
@@ -140,7 +144,8 @@ const history = useNavigate()
               ...(open && { display: "none" }),
             }}
           >
-            <MenuIcon className="open_menu"/>
+            <MenuIcon className="open_menu d-none d-md-block"/>
+           
           </IconButton>
 
           <Typography
@@ -163,11 +168,11 @@ const history = useNavigate()
             component="div"
             sx={{ flexGrow: 1 }}
           >
-            <Modal_connect />
+            <Modal_connect/>
           </Typography>
         </Toolbar>
       </AppBar>
-      <div className="height_sidebar2">
+      <div className="height_sidebar2 d-none d-md-block">
       <Drawer variant="permanent" open={open}   >
         
           <DrawerHeader className="close_icon_start">
@@ -177,8 +182,8 @@ const history = useNavigate()
           </DrawerHeader>
           <Divider />
 
-          <div>
-            <div className="HOVER text-start ps-3 pt-3 d-flex align ">
+          <div className="border">
+            <div className="HOVER text-start home_icon_launch pt-3 d-flex align ">
               <svg
                 stroke="currentColor"
                 fill="currentColor"
@@ -195,7 +200,7 @@ const history = useNavigate()
                 Home
               </p>{" "}
             </div>
-            <Accordion className="border-none p-0" disableGutters  expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+            <Accordion className="border-none " disableGutters  expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className="expand_icon" />}
                 aria-controls="panel1a-content"
@@ -372,14 +377,14 @@ const history = useNavigate()
                 <Typography>
                   <ul className="text-start">
                     <li className="list-style-none">
-                      <a href="#" className="HOVER text-decoration-none" onClick={()=> history('/create_token')}>
+                      <a href="#" className="HOVER text-decoration-none" onClick={()=> history('/Createlock')}>
                         Create Lock
                       </a>
                     </li>
-                    <li className="list-style-none bg-tokan">
-                      <p className="HOVER text-decoration-none" onClick={()=> history('/token')}>
+                    <li className="list-style-none bg-tokan ">
+                      <a className="HOVER text-decoration-none" onClick={()=> history('/token')}>
                         Token
-                      </p>
+                      </a>
                     </li>
                     <li className="list-style-none">
                       <a href="#" className="HOVER text-decoration-none">
@@ -609,7 +614,7 @@ const history = useNavigate()
                 aria-controls="panel3a-content"
                 id="panel3a-header"
               >
-                <Typography className="HOVER d-flex ms-1 pt-2">
+                <Typography className="HOVER d-flex ms- pt-2">
                   <div class="dropdown">
                     <div class="dropbtn">
                       <svg
@@ -707,7 +712,7 @@ const history = useNavigate()
             </div>
           </div>
 
-          <div className="HOVER text-start ps-3 pt-3 d-flex align ">
+          <div className="HOVER text-start ps-3 pt-3 d-flex align mb-5-margin ">
             <svg
               stroke="currentColor"
               fill="currentColor"
@@ -753,7 +758,7 @@ const history = useNavigate()
           </div>
         </div>
         {/* <div style="height: 4px;"></div> */}
-        <div class="d-flex items-center justify-content-around pb-1">
+        <div class="d-flex items-center justify-content-around pb-1 d-none d-md-flex">
           <div class="flex-1" style={{ display: !open ? "none" : "block" }}>
             <div class="ant-dropdown-trigger Language_root__131TC d-flex align-items-center">
               <img
@@ -842,10 +847,11 @@ const history = useNavigate()
         <Route exact path="/" element={<Mylockin/>}/>
         <Route exact path="/my_lockin" element={<Mylockin/>}/>
         <Route exact path="/token" element={<Token/>}/>
-        <Route exact path="/create_token" element={<Createlock/>}/>
+        <Route exact path="/Createlock" element={<Createlock/>}/>
         {/* <Route exact path="/" element={<Mylockin/>}/> */}
         <Route exact path="/lockinfo" element={<Lockinfo/>}/>
         <Route exact path="/lockin" element={<Lockin/>}/>
+       
 
        </Routes>
      
