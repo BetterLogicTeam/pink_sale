@@ -5,6 +5,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import { connectWallet, walletaddress, connect } from './features/pinksale/pinksaleSlice'
 import { loadWeb3 } from './connectivity/connectivity';
 import Creatlock from './component/Creat_lock/Creatlock';
+import Token from './component/Token_pink/Token';
+import { useEffect } from 'react';
+// import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
+
 import Head from './component/Head/Head';
 import Lockinfo from './component/Lock_detail/Lockinfo';
 import Lockin from './component/Lock_in/Lockin';
@@ -16,13 +22,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   const walletaddress = useSelector((state) => state.pinksale.walletaddress)
-  console.log('walletaddress', walletaddress)
   const dispatch = useDispatch()
-  // const coonect = async () => {
-  //   let acc = await loadWeb3();
 
-  //   dispatch(connectWallet(acc))
-  // }
+  useEffect(() => {
+    dispatch(connectWallet())
+  }, []);
+
   return (
     <div className="App">
         <BrowserRouter>
