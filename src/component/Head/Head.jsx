@@ -119,15 +119,19 @@ const history = useNavigate()
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const [expanded, setExpanded] = React.useState(false);
 
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
   return (
-    <Box sx={{ display: "flex" }} className="boby">
+    <Box sx={{ display: "flex", }} className="boby">
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" open={open} className="appbar_color">
         <Toolbar>
           <IconButton
-            color="inherit"
+            color=""
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
@@ -136,7 +140,7 @@ const history = useNavigate()
               ...(open && { display: "none" }),
             }}
           >
-            <MenuIcon />
+            <MenuIcon className="open_menu"/>
           </IconButton>
 
           <Typography
@@ -163,8 +167,9 @@ const history = useNavigate()
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open} className="height_sidebar2">
-        <div className="height_sidebar">
+      <div className="height_sidebar2">
+      <Drawer variant="permanent" open={open}   >
+        
           <DrawerHeader className="close_icon_start">
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === "" ? <MenuOpenIcon /> : <MenuOpenIcon />}
@@ -190,7 +195,7 @@ const history = useNavigate()
                 Home
               </p>{" "}
             </div>
-            <Accordion className="border-none p-0" disableGutters>
+            <Accordion className="border-none p-0" disableGutters  expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className="expand_icon" />}
                 aria-controls="panel1a-content"
@@ -269,7 +274,7 @@ const history = useNavigate()
                 </Typography>
               </AccordionDetails>
             </Accordion>
-            <Accordion className="border-none" disableGutters>
+            <Accordion className="border-none" disableGutters expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className="expand_icon" />}
                 aria-controls="panel2a-content"
@@ -324,7 +329,7 @@ const history = useNavigate()
                 </Typography>
               </AccordionDetails>
             </Accordion>
-            <Accordion disableGutters>
+            <Accordion disableGutters  expanded={expanded === 'panel3'} onChange={handleChange('panel3')} className="accordian_shadow">
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className="expand_icon" />}
                 aria-controls="panel3a-content"
@@ -386,7 +391,7 @@ const history = useNavigate()
               </AccordionDetails>
             </Accordion>
 
-            <Accordion className="border-none-shadoe" disableGutters>
+            <Accordion   className="accordian_shadow" disableGutters  expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className="expand_icon" />}
                 aria-controls="panel3a-content"
@@ -598,7 +603,7 @@ const history = useNavigate()
               </p>{" "}
             </div>
 
-            <Accordion disableGutters>
+            <Accordion disableGutters  expanded={expanded === 'panel5'} onChange={handleChange('panel5')}  className="accordian_shadow">
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className="expand_icon" />}
                 aria-controls="panel3a-content"
@@ -722,8 +727,8 @@ const history = useNavigate()
               Facebook
             </p>{" "}
           </div>
-        </div>
-      </Drawer>
+       
+      </Drawer> </div>
       <div className="hello_pink">
         <div style={{ display: !open ? "none" : "block" }}>
           <div class="MainLayout_siderFooter__3itw9 d-flex justify-content-around ">

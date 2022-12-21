@@ -44,11 +44,11 @@ function Modal_connect() {
         <div>
           {/* <!-- Modal connect --> */}
           <div
-            class="modal fade"
+            class="modal"
             id="staticBackdrop"
             data-bs-backdrop="static"
             data-bs-keyboard="false"
-            tabindex="-1"
+            tabindex="1"
             aria-labelledby="staticBackdropLabel"
             aria-hidden="true"
           >

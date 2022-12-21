@@ -8,15 +8,13 @@
 .css-i4bv87-MuiSvgIcon-root {
   color: black !important;
 }
-.css-19z1ozs-MuiPaper-root-MuiAppBar-root {
+.appbar_color {
   background-color: white !important;
   box-shadow: none !important;
   border-bottom: 1px solid #eaeaea;
+  /* z-index: -1 !important; */
 }
-.css-118zgj2-MuiPaper-root-MuiAppBar-root  {
-  background-color: white !important;
-  box-shadow: none !important;
-}
+
 .color_text_h6 {
   color: black !important;
   font-size: 17px !important;
@@ -111,13 +109,18 @@
   .font_size_eth {
     font-size: 13px !important;
   }
+  
 }
 
 /* width */
 ::-webkit-scrollbar {
   width: 8px;
   overflow: visible !important;
-  z-index: -1 !important;
+  
+}
+.open_menu{
+  color: rgb(0, 0, 0) !important;
+  
 }
 
 /* Track */
@@ -181,7 +184,7 @@
 .css-1wc0u5o-MuiPaper-root-MuiAccordion-root:before {
   position: relative !important;
 }
-.css-1wc0u5o-MuiPaper-root-MuiAccordion-root {
+.accordian_shadow {
   box-shadow: none !important;
 }
 .css-1betqn-MuiAccordionSummary-content {
@@ -214,7 +217,7 @@
   }
   
   .dropdown-content a:hover {background-color: #ddd;}
-  
+  z-inde
   .dropdown:hover .dropdown-content {display: block;
 z-index: 1 !important;
 }
@@ -245,16 +248,17 @@ z-index: 1 !important;
 }
 
 
-.height_sidebar{
+.height_sidebar2{
   height: 80% !important;
+  background-color: #807e7e !important;
 }
-.css-z80cdi-MuiDrawer-docked .MuiDrawer-paper {
+/* .css-z80cdi-MuiDrawer-docked .MuiDrawer-paper {
   height: 87% !important;
 }
 .css-1ko1kbg-MuiDrawer-docked .MuiDrawer-paper {
   height: 88% !important;
   width: calc(67px + 1px) !important;
-}
+} */
 .fs-6-pink{
   font-size: 13px !important;
   font-weight: 500;
