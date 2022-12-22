@@ -38,7 +38,10 @@
 }
 .HOVER:hover {
   color: #f95997 !important;
+
 }
+
+
 .model_flex{
   display: flex !important;
 }
@@ -120,6 +123,10 @@
   }
   .font_size_eth {
     font-size: 13px !important;
+  }
+  .hello_pink{
+  
+   width: 61% !important;
   }
   
 }
@@ -249,6 +256,7 @@ z-index: 1 !important;
   bottom: 1px !important;
   background-color: rgb(255, 255, 255) !important;
  z-index: 2222 !important;
+ 
 }
 .home_icon_launch{
 padding-left: 18px !important;

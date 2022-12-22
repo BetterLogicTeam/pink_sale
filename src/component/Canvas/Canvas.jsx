@@ -48,7 +48,7 @@ import { AiOutlineMenu } from 'react-icons/ai';
 import Model_resp from "../Model_resp/Model_resp";
 function ResponsiveExample() {
     const [show, setShow] = useState(false);
-
+    const [visible, setVisible] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(!show);
     const [expanded, setExpanded] = React.useState(false);
@@ -69,7 +69,7 @@ function ResponsiveExample() {
                 <Offcanvas.Header closeButton>
 
                 </Offcanvas.Header>
-                <Offcanvas.Body>
+                <Offcanvas.Body className="px-0">
 
                     <div>
                         <div className="HOVER text-start ps-3 pt-3 d-flex align ">
@@ -123,7 +123,7 @@ function ResponsiveExample() {
                                 <Typography>
                                     <ul className="text-start">
                                         <li className="list-style-none">
-                                            <a href="#" className="HOVER text-decoration-none">
+                                            <a href="#" className="HOVER text-decoration-none" >
                                                 Create launchpad
                                             </a>
                                         </li>
@@ -203,7 +203,7 @@ function ResponsiveExample() {
                                 </Typography>
                             </AccordionDetails>
                         </Accordion>
-                        <Accordion disableGutters expanded={expanded === 'panel3'} onChange={handleChange('panel3')} className="accordian_shadow">
+                        <Accordion disableGutters expanded={expanded === 'panel3'} onChange={handleChange('panel3')} className="accordian_shadow"  >
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon className="expand_icon" />}
                                 aria-controls="panel3a-content"
@@ -237,7 +237,7 @@ function ResponsiveExample() {
                                 <Typography>
                                     <ul className="text-start">
                                         <li className="list-style-none">
-                                            <Link to="/Createlock" className="HOVER text-decoration-none">
+                                            <Link to="/Createlock" className="HOVER text-decoration-none"  onClick={handleShow} >
                                                 Create Lock
                                             </Link>
                                         </li>

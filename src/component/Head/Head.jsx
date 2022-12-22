@@ -183,7 +183,7 @@ const history = useNavigate()
           <Divider />
 
           <div className="border">
-            <div className="HOVER text-start home_icon_launch pt-3 d-flex align ">
+            <div className="HOVER text-start home_icon_launch pt-3 d-flex align color_home ">
               <svg
                 stroke="currentColor"
                 fill="currentColor"
