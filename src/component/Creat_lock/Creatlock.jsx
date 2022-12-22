@@ -74,6 +74,7 @@ function Creatlock() {
       amount: "",
       date: "",
       useAnotherOwner: false,
+      tokenerror: "",
 
       //   date1: "",
       //   tgePercent: "",
@@ -199,9 +200,9 @@ function Creatlock() {
 
       setValidate(false);
 
-      formik.setErrors({
-        tokenAddress: "Invalid Address",
-      });
+      // formik.setErrors({
+      //   tokenAddress: "Invalid Address",
+      // });
     }
   };
   return (
@@ -227,6 +228,7 @@ function Creatlock() {
                       name="tokenAddress"
                       placeholder="Enter token or PL token address"
                       onChange={(e) => {
+                        console.log("here ");
                         formik.handleChange(e);
                         valid(e);
                       }}
@@ -241,7 +243,7 @@ function Creatlock() {
                         </Form.Text>
                       )}
                     </div>
-
+                    {/* {console.log} */}
                     <Form.Group
                       className="my-3"
                       controlId="formBasicCheckbox"
