@@ -15,7 +15,7 @@ import Head from './component/Head/Head';
 import Lockinfo from './component/Lock_detail/Lockinfo';
 import Lockin from './component/Lock_in/Lockin';
 import Mylockin from './component/Mylockin/Mylockin';
-import Pink_drawer from './component/Pink_drawer/Pink_drawer';
+import Canvas from './component/Canvas/Canvas';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 
@@ -32,6 +32,7 @@ function App() {
     <div className="App">
         <BrowserRouter>
         <Head/>
+        {/* <Canvas/> */}
       {/* <Routes>
         <Route path="/Creatlock" element={<Creatlock/>}> </Route>
         <Route path="/Token" element={<Token />}> </Route>

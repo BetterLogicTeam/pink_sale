@@ -361,7 +361,7 @@ function Creatlock() {
                   </Form.Group>
 
                   <div className={`  ${show2 ? "d-none" : "row"}`}>
-                    <div className="text-start mt-3 aFtr_sty">
+                    <div className="text-start mt-3 aFtr_sty ">
                       <Form.Label>
                         Lock until (UTC time)
                         <span className="text-danger">*</span>

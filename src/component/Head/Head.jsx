@@ -39,7 +39,7 @@ import Token from "../Token_pink/Token"
 import Createlock from "../Creat_lock/Creatlock"
 import Lockinfo from "../Lock_detail/Lockinfo"
 import Lockin from "../Lock_in/Lockin"
-// import Hello from "../Hello/Hello";
+import Canvas from "../Canvas/Canvas";
 const drawerWidth = 220;
 
 const openedMixin = (theme) => ({
@@ -119,15 +119,23 @@ const history = useNavigate()
   const handleDrawerClose = () => {
     setOpen(false);
   };
+  const [expanded, setExpanded] = React.useState(false);
 
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
   return (
-    <Box sx={{ display: "flex" }} className="boby">
+    <Box sx={{ display: "flex", }} className="boby">
+      
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
+      <AppBar position="fixed" open={open} className="appbar_color ">
+ <Canvas/>
+
+        <Toolbar className="d-none d-md-flex  ">
           <IconButton
-            color="inherit"
+            color=""
+
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
@@ -136,7 +144,8 @@ const history = useNavigate()
               ...(open && { display: "none" }),
             }}
           >
-            <MenuIcon />
+            <MenuIcon className="open_menu d-none d-md-block"/>
+           
           </IconButton>
 
           <Typography
@@ -159,12 +168,13 @@ const history = useNavigate()
             component="div"
             sx={{ flexGrow: 1 }}
           >
-            <Modal_connect />
+            <Modal_connect/>
           </Typography>
         </Toolbar>
       </AppBar>
-      <Drawer variant="permanent" open={open} className="height_sidebar2">
-        <div className="height_sidebar">
+      <div className="height_sidebar2 d-none d-md-block">
+      <Drawer variant="permanent" open={open}   >
+        
           <DrawerHeader className="close_icon_start">
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === "" ? <MenuOpenIcon /> : <MenuOpenIcon />}
@@ -172,8 +182,8 @@ const history = useNavigate()
           </DrawerHeader>
           <Divider />
 
-          <div>
-            <div className="HOVER text-start ps-3 pt-3 d-flex align ">
+          <div className="border">
+            <div className="HOVER text-start home_icon_launch pt-3 d-flex align ">
               <svg
                 stroke="currentColor"
                 fill="currentColor"
@@ -190,7 +200,7 @@ const history = useNavigate()
                 Home
               </p>{" "}
             </div>
-            <Accordion className="border-none p-0" disableGutters>
+            <Accordion className="border-none " disableGutters  expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className="expand_icon" />}
                 aria-controls="panel1a-content"
@@ -269,7 +279,7 @@ const history = useNavigate()
                 </Typography>
               </AccordionDetails>
             </Accordion>
-            <Accordion className="border-none" disableGutters>
+            <Accordion className="border-none" disableGutters expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className="expand_icon" />}
                 aria-controls="panel2a-content"
@@ -324,7 +334,7 @@ const history = useNavigate()
                 </Typography>
               </AccordionDetails>
             </Accordion>
-            <Accordion disableGutters>
+            <Accordion disableGutters  expanded={expanded === 'panel3'} onChange={handleChange('panel3')} className="accordian_shadow">
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className="expand_icon" />}
                 aria-controls="panel3a-content"
@@ -367,14 +377,14 @@ const history = useNavigate()
                 <Typography>
                   <ul className="text-start">
                     <li className="list-style-none">
-                      <a href="#" className="HOVER text-decoration-none" onClick={()=> history('/create_token')}>
+                      <a href="#" className="HOVER text-decoration-none" onClick={()=> history('/Createlock')}>
                         Create Lock
                       </a>
                     </li>
-                    <li className="list-style-none bg-tokan">
-                      <p className="HOVER text-decoration-none" onClick={()=> history('/token')}>
+                    <li className="list-style-none bg-tokan ">
+                      <a className="HOVER text-decoration-none" onClick={()=> history('/token')}>
                         Token
-                      </p>
+                      </a>
                     </li>
                     <li className="list-style-none">
                       <a href="#" className="HOVER text-decoration-none">
@@ -386,7 +396,7 @@ const history = useNavigate()
               </AccordionDetails>
             </Accordion>
 
-            <Accordion className="border-none-shadoe" disableGutters>
+            <Accordion   className="accordian_shadow" disableGutters  expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className="expand_icon" />}
                 aria-controls="panel3a-content"
@@ -598,13 +608,13 @@ const history = useNavigate()
               </p>{" "}
             </div>
 
-            <Accordion disableGutters>
+            <Accordion disableGutters  expanded={expanded === 'panel5'} onChange={handleChange('panel5')}  className="accordian_shadow">
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className="expand_icon" />}
                 aria-controls="panel3a-content"
                 id="panel3a-header"
               >
-                <Typography className="HOVER d-flex ms-1 pt-2">
+                <Typography className="HOVER d-flex ms- pt-2">
                   <div class="dropdown">
                     <div class="dropbtn">
                       <svg
@@ -702,7 +712,7 @@ const history = useNavigate()
             </div>
           </div>
 
-          <div className="HOVER text-start ps-3 pt-3 d-flex align ">
+          <div className="HOVER text-start ps-3 pt-3 d-flex align mb-5-margin ">
             <svg
               stroke="currentColor"
               fill="currentColor"
@@ -722,8 +732,8 @@ const history = useNavigate()
               Facebook
             </p>{" "}
           </div>
-        </div>
-      </Drawer>
+       
+      </Drawer> </div>
       <div className="hello_pink">
         <div style={{ display: !open ? "none" : "block" }}>
           <div class="MainLayout_siderFooter__3itw9 d-flex justify-content-around ">
@@ -748,7 +758,7 @@ const history = useNavigate()
           </div>
         </div>
         {/* <div style="height: 4px;"></div> */}
-        <div class="d-flex items-center justify-content-around pb-1">
+        <div class="d-flex items-center justify-content-around pb-1 d-none d-md-flex">
           <div class="flex-1" style={{ display: !open ? "none" : "block" }}>
             <div class="ant-dropdown-trigger Language_root__131TC d-flex align-items-center">
               <img
@@ -837,10 +847,11 @@ const history = useNavigate()
         <Route exact path="/" element={<Mylockin/>}/>
         <Route exact path="/my_lockin" element={<Mylockin/>}/>
         <Route exact path="/token" element={<Token/>}/>
-        <Route exact path="/create_token" element={<Createlock/>}/>
+        <Route exact path="/Createlock" element={<Createlock/>}/>
         {/* <Route exact path="/" element={<Mylockin/>}/> */}
         <Route exact path="/lockinfo" element={<Lockinfo/>}/>
         <Route exact path="/lockin" element={<Lockin/>}/>
+       
 
        </Routes>
      

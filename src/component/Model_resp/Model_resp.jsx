@@ -17,11 +17,11 @@ import bnc4 from "../Assets/avalache.svg";
 import bnc5 from "../Assets/fantom.svg";
 import bnc6 from "../Assets/cornor.svg";
 import bnc7 from "../Assets/doge.png";
-function Modal_connect() {
+function Model_resp() {
   return (
-    <div className="model_flex">
+    <div>
       <Typography
-        className="d-flex justify-content-end d-none d-md-flex "
+        className="d-flex justify-content-end  "
         component="div"
         sx={{ flexGrow: 1 }}
       >
@@ -313,4 +313,4 @@ function Modal_connect() {
   );
 }
 
-export default Modal_connect;
+export default Model_resp;
