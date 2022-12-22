@@ -35,10 +35,10 @@ import { Tooltip } from "@mui/material";
 import Modal_connect from "../Modal_connect/Modal_connect";
 import { useNavigate } from "react-router";
 import Mylockin from "../Mylockin/Mylockin";
-import Token from "../Token_pink/Token"
-import Createlock from "../Creat_lock/Creatlock"
-import Lockinfo from "../Lock_detail/Lockinfo"
-import Lockin from "../Lock_in/Lockin"
+import Token from "../Token_pink/Token";
+import Createlock from "../Creat_lock/Creatlock";
+import Lockinfo from "../Lock_detail/Lockinfo";
+import Lockin from "../Lock_in/Lockin";
 import Canvas from "../Canvas/Canvas";
 const drawerWidth = 220;
 
@@ -111,7 +111,7 @@ const Drawer = styled(MuiDrawer, {
 export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-const history = useNavigate()
+  const history = useNavigate();
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -126,16 +126,14 @@ const history = useNavigate()
   };
 
   return (
-    <Box sx={{ display: "flex", }} className="boby">
-      
+    <Box sx={{ display: "flex" }} className="boby">
       <CssBaseline />
       <AppBar position="fixed" open={open} className="appbar_color ">
- <Canvas/>
+        <Canvas />
 
         <Toolbar className="d-none d-md-flex  ">
           <IconButton
             color=""
-
             aria-label="open drawer"
             onClick={handleDrawerOpen}
             edge="start"
@@ -144,8 +142,7 @@ const history = useNavigate()
               ...(open && { display: "none" }),
             }}
           >
-            <MenuIcon className="open_menu d-none d-md-block"/>
-           
+            <MenuIcon className="open_menu d-none d-md-block" />
           </IconButton>
 
           <Typography
@@ -168,13 +165,12 @@ const history = useNavigate()
             component="div"
             sx={{ flexGrow: 1 }}
           >
-            <Modal_connect/>
+            <Modal_connect />
           </Typography>
         </Toolbar>
       </AppBar>
       <div className="height_sidebar2 d-none d-md-block">
-      <Drawer variant="permanent" open={open}   >
-        
+        <Drawer variant="permanent" open={open}>
           <DrawerHeader className="close_icon_start">
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === "" ? <MenuOpenIcon /> : <MenuOpenIcon />}
@@ -200,7 +196,12 @@ const history = useNavigate()
                 Home
               </p>{" "}
             </div>
-            <Accordion className="border-none " disableGutters  expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+            <Accordion
+              className="border-none "
+              disableGutters
+              expanded={expanded === "panel1"}
+              onChange={handleChange("panel1")}
+            >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className="expand_icon" />}
                 aria-controls="panel1a-content"
@@ -279,7 +280,12 @@ const history = useNavigate()
                 </Typography>
               </AccordionDetails>
             </Accordion>
-            <Accordion className="border-none" disableGutters expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+            <Accordion
+              className="border-none"
+              disableGutters
+              expanded={expanded === "panel2"}
+              onChange={handleChange("panel2")}
+            >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className="expand_icon" />}
                 aria-controls="panel2a-content"
@@ -334,7 +340,12 @@ const history = useNavigate()
                 </Typography>
               </AccordionDetails>
             </Accordion>
-            <Accordion disableGutters  expanded={expanded === 'panel3'} onChange={handleChange('panel3')} className="accordian_shadow">
+            <Accordion
+              disableGutters
+              expanded={expanded === "panel3"}
+              onChange={handleChange("panel3")}
+              className="accordian_shadow"
+            >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className="expand_icon" />}
                 aria-controls="panel3a-content"
@@ -364,10 +375,9 @@ const history = useNavigate()
                       </div>
                     </div>
                   </div>
-                  <p
-                    className=""
-                    style={{ display: !open ? "none" : "block" }}
-                  >PinkLock</p>
+                  <p className="" style={{ display: !open ? "none" : "block" }}>
+                    PinkLock
+                  </p>
                 </Typography>
               </AccordionSummary>
               <AccordionDetails
@@ -377,12 +387,19 @@ const history = useNavigate()
                 <Typography>
                   <ul className="text-start">
                     <li className="list-style-none">
-                      <a href="#" className="HOVER text-decoration-none" onClick={()=> history('/Createlock')}>
+                      <a
+                        href="#"
+                        className="HOVER text-decoration-none"
+                        onClick={() => history("/Createlock")}
+                      >
                         Create Lock
                       </a>
                     </li>
                     <li className="list-style-none bg-tokan ">
-                      <a className="HOVER text-decoration-none" onClick={()=> history('/token')}>
+                      <a
+                        className="HOVER text-decoration-none"
+                        onClick={() => history("/token")}
+                      >
                         Token
                       </a>
                     </li>
@@ -396,7 +413,12 @@ const history = useNavigate()
               </AccordionDetails>
             </Accordion>
 
-            <Accordion   className="accordian_shadow" disableGutters  expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
+            <Accordion
+              className="accordian_shadow"
+              disableGutters
+              expanded={expanded === "panel4"}
+              onChange={handleChange("panel4")}
+            >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className="expand_icon" />}
                 aria-controls="panel3a-content"
@@ -608,7 +630,12 @@ const history = useNavigate()
               </p>{" "}
             </div>
 
-            <Accordion disableGutters  expanded={expanded === 'panel5'} onChange={handleChange('panel5')}  className="accordian_shadow">
+            <Accordion
+              disableGutters
+              expanded={expanded === "panel5"}
+              onChange={handleChange("panel5")}
+              className="accordian_shadow"
+            >
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon className="expand_icon" />}
                 aria-controls="panel3a-content"
@@ -732,8 +759,8 @@ const history = useNavigate()
               Facebook
             </p>{" "}
           </div>
-       
-      </Drawer> </div>
+        </Drawer>{" "}
+      </div>
       <div className="hello_pink">
         <div style={{ display: !open ? "none" : "block" }}>
           <div class="MainLayout_siderFooter__3itw9 d-flex justify-content-around ">
@@ -841,20 +868,17 @@ const history = useNavigate()
         </div>
       </div>
       <Box component="" sx={{ flexGrow: 1, p: 1 }}>
-        <DrawerHeader/>
-      
-       <Routes>
-        <Route exact path="/" element={<Mylockin/>}/>
-        <Route exact path="/my_lockin" element={<Mylockin/>}/>
-        <Route exact path="/token" element={<Token/>}/>
-        <Route exact path="/Createlock" element={<Createlock/>}/>
-        {/* <Route exact path="/" element={<Mylockin/>}/> */}
-        <Route exact path="/lockinfo" element={<Lockinfo/>}/>
-        <Route exact path="/lockin" element={<Lockin/>}/>
-       
+        <DrawerHeader />
 
-       </Routes>
-     
+        <Routes>
+          <Route exact path="/" element={<Mylockin />} />
+          <Route exact path="/my_lockin/:id" element={<Mylockin />} />
+          <Route exact path="/token" element={<Token />} />
+          <Route exact path="/Createlock" element={<Createlock />} />
+          {/* <Route exact path="/" element={<Mylockin/>}/> */}
+          <Route exact path="/lockinfo" element={<Lockinfo />} />
+          <Route exact path="/lockin" element={<Lockin />} />
+        </Routes>
       </Box>
     </Box>
   );

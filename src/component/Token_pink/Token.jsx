@@ -23,6 +23,14 @@ import {
 import { loadWeb3 } from "../../connectivity/connectivity";
 import { useSelector, useDispatch } from "react-redux";
 import { userData } from "./userData.js";
+
+import {
+  connectWallet,
+  walletaddress,
+  connect,
+  userLockedData,
+} from "../../features/pinksale/pinksaleSlice";
+
 const webSupply = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545");
 
 function TabPanel(props) {
@@ -61,6 +69,7 @@ function a11yProps(index) {
 export default function BasicTabs() {
   const [value, setValue] = useState(0);
   const [userTokens, setUserTokens] = useState([]);
+  const dispatch = useDispatch();
 
   let walletaddress = useSelector((state) => state.pinksale.walletaddress);
 
@@ -75,7 +84,9 @@ export default function BasicTabs() {
       //   toast.error("Wrong Newtwork please connect to BSC MainNet ")
     } else {
       try {
+        const web3 = window.web3;
         let _data = await userData(acc);
+        console.log("_Data", _data["tokens"]);
         let arr = [];
         let obj = {};
         // console.log("User Data", _data);
@@ -84,7 +95,7 @@ export default function BasicTabs() {
             output.description = _data["tokenName"];
           }
           obj = {
-            _amount: output.amount,
+            _amount: web3.utils.fromWei(output.amount),
             _description: output.description,
             _id: output.id,
             _lockDate: output.lockDate,
@@ -93,9 +104,12 @@ export default function BasicTabs() {
             _unlockDate: output.unlockDate,
             _unlockedAmount: output.unlockedAmount,
             _symbol: _data["tokenSymbol"],
+            _tokenName: _data["tokenName"],
+            _tokenDecimals: _data["tokenDecimals"],
           };
           arr.push(obj);
         });
+        dispatch(userLockedData(arr));
         setUserTokens([...arr]);
         console.log("Array ", arr);
 
@@ -289,7 +303,7 @@ export default function BasicTabs() {
 
                     <div className="frnt_Main my-5">
                       <div>
-                        {userTokens.map((tokendata) => {
+                        {userTokens.map((tokendata, index) => {
                           return (
                             <div className="mt-3">
                               <Mylock
@@ -299,6 +313,7 @@ export default function BasicTabs() {
                                 amount1={tokendata._amount}
                                 amount2={tokendata._symbol}
                                 fullpage="View"
+                                index={index}
                               />
                             </div>
                           );
