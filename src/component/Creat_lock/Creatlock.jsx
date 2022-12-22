@@ -1,4 +1,5 @@
 import React, { useState, CSSProperties } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Creatlock.css";
 import Form from "react-bootstrap/Form";
 // import { Formik, Field, ErrorMessage } from "formik";
@@ -25,17 +26,25 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { DotLoader } from "react-spinners";
 import MoonLoader from "react-spinners/MoonLoader";
 import PulseLoader from "react-spinners/PulseLoader";
+import { userData } from "../Token_pink/userData.js";
 
 function Creatlock() {
   const [btntext, setbtnText] = useState("Approve");
 
   const [show, setShow] = useState(false);
+  const [showtokeninfo, setshowtokeninfo] = useState(false);
+
+  const [tokenInfo, setTokenInfo] = useState("");
+
   const [flag, setFlag] = useState(true);
+  const [validate, setValidate] = useState(true);
+
   const [spinner, setSpinner] = useState(false);
   const override = {
     margin: "5px 0",
     // borderColor: "red",
   };
+  const navigate = useNavigate();
   let walletaddress = useSelector((state) => state.pinksale.walletaddress);
 
   const [show2, setShow2] = useState(false);
@@ -65,6 +74,7 @@ function Creatlock() {
       amount: "",
       date: "",
       useAnotherOwner: false,
+      tokenerror: "",
 
       //   date1: "",
       //   tgePercent: "",
@@ -91,7 +101,6 @@ function Creatlock() {
       //   toast.error("Wrong Newtwork please connect to BSC MainNet ")
     } else {
       try {
-        // setaccadress(acc)
         const web3 = window.web3;
 
         let { tokenAddress, ownerAddress, amount, title, date } = values;
@@ -102,7 +111,6 @@ function Creatlock() {
         } else {
           owner = acc;
         }
-        // alert(owner);
         const dates = new Date(date);
         const seconds = Math.floor(dates.getTime() / 1000);
 
@@ -129,9 +137,8 @@ function Creatlock() {
           setFlag(true);
           setSpinner(false);
           setbtnText("Approve");
+          navigate("/my_lockin");
         }
-
-        // setowneradress(owneradress)
       } catch (e) {
         setSpinner(false);
 
@@ -155,20 +162,47 @@ function Creatlock() {
     // }
   };
   const valid = async (e) => {
+    let acc = await loadWeb3();
     const web3 = window.web3;
     const _address = e.target.value;
     // console.log("event", e.target.value);
     if (web3.utils.isAddress(_address)) {
       let _addressStatus = await web3.eth.getCode(_address);
+      let obj = {};
       if (_addressStatus === "0x") {
+        setshowtokeninfo(false);
+
+        setValidate(false);
+
         formik.setErrors({
           tokenAddress: "Invalid Address",
         });
+      } else {
+        let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
+        let tokenName, tokenSymbol, tokenDecimal, tokenBalance;
+        tokenName = await pinkSaleToken.methods.name().call();
+        tokenSymbol = await pinkSaleToken.methods.symbol().call();
+        tokenDecimal = await pinkSaleToken.methods.decimals().call();
+        tokenBalance = await pinkSaleToken.methods.balanceOf(acc).call();
+
+        tokenBalance = web3.utils.fromWei(tokenBalance);
+        obj.tokenName = tokenName;
+        obj.tokenSymbol = tokenSymbol;
+        obj.tokenDecimal = tokenDecimal;
+        obj.tokenBalance = tokenBalance;
+        setshowtokeninfo(true);
       }
+      setTokenInfo({ ...obj });
+
+      // console.log("obj", obj);
     } else {
-      formik.setErrors({
-        tokenAddress: "Invalid Address",
-      });
+      setshowtokeninfo(false);
+
+      setValidate(false);
+
+      // formik.setErrors({
+      //   tokenAddress: "Invalid Address",
+      // });
     }
   };
   return (
@@ -194,6 +228,8 @@ function Creatlock() {
                       name="tokenAddress"
                       placeholder="Enter token or PL token address"
                       onChange={(e) => {
+                        console.log("here ");
+                        formik.handleChange(e);
                         valid(e);
                       }}
                       value={formik.values.tokenAddress}
@@ -207,6 +243,7 @@ function Creatlock() {
                         </Form.Text>
                       )}
                     </div>
+                    {/* {console.log} */}
                     <Form.Group
                       className="my-3"
                       controlId="formBasicCheckbox"
@@ -243,6 +280,36 @@ function Creatlock() {
                       </Form.Text>
                     </div>
                   </div>
+                  {showtokeninfo ? (
+                    <>
+                      <ul class="list-group list-group-flush ">
+                        <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                          Name
+                          <span className="text-primary fs_14">
+                            {tokenInfo.tokenName}
+                          </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                          Symbol
+                          <span className="fs_14">{tokenInfo.tokenSymbol}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                          Deimals
+                          <span className="fs_14">
+                            {tokenInfo.tokenDecimal}
+                          </span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                          Balance
+                          <span className="text-primary fs_14">
+                            {tokenInfo.tokenBalance}
+                          </span>
+                        </li>
+                      </ul>
+                    </>
+                  ) : (
+                    ""
+                  )}
 
                   <div className="mt-3">
                     <div className="text-start aFtr_sty">
@@ -423,11 +490,11 @@ function Creatlock() {
                   </div>
                   {console.log("formik", formik)}
                   <div className="mt-4 d-flex justify-content-center align-items-center">
-                    {console.log("formik", formik)}
+                    {console.log("formikformik", formik)}
                     <button
                       type="submit"
                       className="btn btn-small loc_buttn "
-                      disabled={!(formik.isValid && formik.dirty)}
+                      disabled={!(formik.isValid && validate)}
                     >
                       {spinner ? (
                         <ClipLoader
