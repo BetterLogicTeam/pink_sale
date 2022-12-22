@@ -57,8 +57,8 @@ function ResponsiveExample() {
         setExpanded(isExpanded ? panel : false);
     };
     return (
-        <div className="d-block d-md-none py-3">
-            <span className=" d-flex align-items-center justify-content-around" >
+        <div className="d-block d-md-none py-3 ">
+            <span className=" d-flex align-items-center justify-content-around index_canva" >
                 <AiOutlineMenu className="text-dark size_of_pink" onClick={handleShow} />
                 <img src={pink1} width="25" alt="" />
                 <Model_resp />
@@ -236,13 +236,13 @@ function ResponsiveExample() {
                             >
                                 <Typography>
                                     <ul className="text-start">
-                                        <li className="list-style-none">
-                                            <Link to="/Createlock" className="HOVER text-decoration-none"  onClick={handleShow} >
+                                        <li className="list-style-none ">
+                                            <Link to="/Createlock" className="HOVER text-decoration-none "  onClick={handleShow} >
                                                 Create Lock
                                             </Link>
                                         </li>
                                         <li className="list-style-none bg-tokan">
-                                            <Link to="/Token" className="HOVER text-decoration-none" >
+                                            <Link to="/Token" className="HOVER text-decoration-none"  onClick={handleShow} >
                                                 Token
                                             </Link>
                                         </li>

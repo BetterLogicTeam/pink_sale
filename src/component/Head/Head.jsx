@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -40,6 +41,7 @@ import Createlock from "../Creat_lock/Creatlock"
 import Lockinfo from "../Lock_detail/Lockinfo"
 import Lockin from "../Lock_in/Lockin"
 import Canvas from "../Canvas/Canvas";
+import Modal_bnb from "../Model_bnb/Model_bnb";
 const drawerWidth = 220;
 
 const openedMixin = (theme) => ({
@@ -110,12 +112,12 @@ const Drawer = styled(MuiDrawer, {
 
 export default function MiniDrawer() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
-const history = useNavigate()
+  const [open, setOpen] = React.useState(true);
+  const history = useNavigate()
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-
+  const [show, setShow] = useState(false);
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -127,10 +129,10 @@ const history = useNavigate()
 
   return (
     <Box sx={{ display: "flex", }} className="boby">
-      
+
       <CssBaseline />
       <AppBar position="fixed" open={open} className="appbar_color ">
- <Canvas/>
+        <Canvas />
 
         <Toolbar className="d-none d-md-flex  ">
           <IconButton
@@ -144,8 +146,8 @@ const history = useNavigate()
               ...(open && { display: "none" }),
             }}
           >
-            <MenuIcon className="open_menu d-none d-md-block"/>
-           
+            <MenuIcon className="open_menu d-none d-md-block" />
+
           </IconButton>
 
           <Typography
@@ -157,7 +159,7 @@ const history = useNavigate()
             <img src={pink1} className="pink_img " alt="" />
             <Typography
               variant="h6"
-              className="color_text_h6 ps-2 d-none d-md-block"
+              className="color_text_h6 ps-2 d-none d-md-flex"
             >
               Pinksales
             </Typography>
@@ -168,13 +170,14 @@ const history = useNavigate()
             component="div"
             sx={{ flexGrow: 1 }}
           >
-            <Modal_connect/>
+            <Modal_bnb />
+            <Modal_connect />
           </Typography>
         </Toolbar>
       </AppBar>
       <div className="height_sidebar2 d-none d-md-block">
-      <Drawer variant="permanent" open={open}   >
-        
+        <Drawer variant="permanent" open={open}   >
+
           <DrawerHeader className="close_icon_start">
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === "" ? <MenuOpenIcon /> : <MenuOpenIcon />}
@@ -184,30 +187,36 @@ const history = useNavigate()
 
           <div className="border">
             <div className="HOVER text-start home_icon_launch pt-3 d-flex align color_home ">
-              <svg
-                stroke="currentColor"
-                fill="currentColor"
-                stroke-width="0"
-                viewBox="0 0 1024 1024"
-                class="ant-menu-item-icon me-1 "
-                height="19"
-                width="19"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z"></path>
-              </svg>
+              <Tooltip title="Home" arrow placement="right">
+
+
+                <svg
+                  stroke="currentColor"
+                  fill="currentColor"
+                  stroke-width="0"
+                  viewBox="0 0 1024 1024"
+                  class="ant-menu-item-icon me-1 "
+                  height="19"
+                  width="19"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z"></path>
+                </svg>
+              </Tooltip>
+
               <p className="" style={{ display: !open ? "none" : "block" }}>
                 Home
               </p>{" "}
             </div>
-            <Accordion className="border-none " disableGutters  expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+            <Accordion className="border-none " disableGutters expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon className="expand_icon" />}
+                expandIcon={<ExpandMoreIcon className="" style={{ display: !open ? "none" : "block" }} />}
                 aria-controls="panel1a-content"
                 id="panel1a-header"
                 className=""
+
               >
-                <div className="HOVER d-flex pt-3">
+                <div className="HOVER d-flex pt-3" >
                   <div class="dropdown">
                     <div class="dropbtn">
                       <svg
@@ -223,7 +232,7 @@ const history = useNavigate()
                         <path d="M864 736c0-111.6-65.4-208-160-252.9V317.3c0-15.1-5.3-29.7-15.1-41.2L536.5 95.4C530.1 87.8 521 84 512 84s-18.1 3.8-24.5 11.4L335.1 276.1a63.97 63.97 0 0 0-15.1 41.2v165.8C225.4 528 160 624.4 160 736h156.5c-2.3 7.2-3.5 15-3.5 23.8 0 22.1 7.6 43.7 21.4 60.8a97.2 97.2 0 0 0 43.1 30.6c23.1 54 75.6 88.8 134.5 88.8 29.1 0 57.3-8.6 81.4-24.8 23.6-15.8 41.9-37.9 53-64a97 97 0 0 0 43.1-30.5 97.52 97.52 0 0 0 21.4-60.8c0-8.4-1.1-16.4-3.1-23.8H864zM762.3 621.4c9.4 14.6 17 30.3 22.5 46.6H700V558.7a211.6 211.6 0 0 1 62.3 62.7zM388 483.1V318.8l124-147 124 147V668H388V483.1zM239.2 668c5.5-16.3 13.1-32 22.5-46.6 16.3-25.2 37.5-46.5 62.3-62.7V668h-84.8zm388.9 116.2c-5.2 3-11.2 4.2-17.1 3.4l-19.5-2.4-2.8 19.4c-5.4 37.9-38.4 66.5-76.7 66.5-38.3 0-71.3-28.6-76.7-66.5l-2.8-19.5-19.5 2.5a27.7 27.7 0 0 1-17.1-3.5c-8.7-5-14.1-14.3-14.1-24.4 0-10.6 5.9-19.4 14.6-23.8h231.3c8.8 4.5 14.6 13.3 14.6 23.8-.1 10.2-5.5 19.6-14.2 24.5zM464 400a48 48 0 1 0 96 0 48 48 0 1 0-96 0z"></path>
                       </svg>
                     </div>
-                    <div style={{ display: !open ? " block" : "none" }}>
+                    <div style={{ display: !open ? " block" : "none", zIndex: "1 !important" }} >
                       <div class="dropdown-content text-start">
                         <a href="#"> Create launchpad</a>
                         <a href="#"> Create fair launch</a>
@@ -281,7 +290,7 @@ const history = useNavigate()
             </Accordion>
             <Accordion className="border-none" disableGutters expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon className="expand_icon" />}
+                expandIcon={<ExpandMoreIcon className="" style={{ display: !open ? "none" : "block" }} />}
                 aria-controls="panel2a-content"
                 id="panel2a-header"
               >
@@ -334,9 +343,9 @@ const history = useNavigate()
                 </Typography>
               </AccordionDetails>
             </Accordion>
-            <Accordion disableGutters  expanded={expanded === 'panel3'} onChange={handleChange('panel3')} className="accordian_shadow">
+            <Accordion disableGutters expanded={expanded === 'panel3'} onChange={handleChange('panel3')} className="accordian_shadow">
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon className="expand_icon" />}
+                expandIcon={<ExpandMoreIcon className="" style={{ display: !open ? "none" : "block" }} />}
                 aria-controls="panel3a-content"
                 id="panel3a-header"
               >
@@ -376,18 +385,18 @@ const history = useNavigate()
               >
                 <Typography>
                   <ul className="text-start">
-                    <li className="list-style-none">
-                      <a href="#" className="HOVER text-decoration-none" onClick={()=> history('/Createlock')}>
+                    <li className="list-style-none pink_lock_and_key">
+                      <a href="#" className="HOVER text-decoration-none " onClick={() => history('/Createlock')}>
                         Create Lock
                       </a>
                     </li>
-                    <li className="list-style-none bg-tokan ">
-                      <a className="HOVER text-decoration-none" onClick={()=> history('/token')}>
+                    <li className="list-style-none bg-tokan pink_lock_and_key">
+                      <a className="HOVER text-decoration-none " onClick={() => history('/token')}  >
                         Token
                       </a>
                     </li>
-                    <li className="list-style-none">
-                      <a href="#" className="HOVER text-decoration-none">
+                    <li className="list-style-none pink_lock_and_key" >
+                      <a href="#" className="HOVER text-decoration-none" onClick={() => setShow(!show)} >
                         Liquidity
                       </a>
                     </li>
@@ -396,9 +405,9 @@ const history = useNavigate()
               </AccordionDetails>
             </Accordion>
 
-            <Accordion   className="accordian_shadow" disableGutters  expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
+            <Accordion className="accordian_shadow" disableGutters expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon className="expand_icon" />}
+                expandIcon={<ExpandMoreIcon className="" style={{ display: !open ? "none" : "block" }} />}
                 aria-controls="panel3a-content"
                 id="panel3a-header"
                 className="new_no"
@@ -608,9 +617,9 @@ const history = useNavigate()
               </p>{" "}
             </div>
 
-            <Accordion disableGutters  expanded={expanded === 'panel5'} onChange={handleChange('panel5')}  className="accordian_shadow">
+            <Accordion disableGutters expanded={expanded === 'panel5'} onChange={handleChange('panel5')} className="accordian_shadow">
               <AccordionSummary
-                expandIcon={<ExpandMoreIcon className="expand_icon" />}
+                expandIcon={<ExpandMoreIcon className="" style={{ display: !open ? "none" : "block" }} />}
                 aria-controls="panel3a-content"
                 id="panel3a-header"
               >
@@ -732,8 +741,8 @@ const history = useNavigate()
               Facebook
             </p>{" "}
           </div>
-       
-      </Drawer> </div>
+
+        </Drawer> </div>
       <div className="hello_pink">
         <div style={{ display: !open ? "none" : "block" }}>
           <div class="MainLayout_siderFooter__3itw9 d-flex justify-content-around ">
@@ -772,7 +781,9 @@ const history = useNavigate()
             </div>
           </div>
           <div class="ThemeSwitcher_root__20QfE d-flex">
-            <div class="ThemeSwitcher_label__9Qa0m"></div>
+            <div class="ThemeSwitcher_label__9Qa0m">
+
+            </div>
             <div class="ThemeSwitcher_themeIcon__3wg-7 ThemeSwitcher_active__7oUEZ pb-3 ps-1">
               <svg
                 stroke="currentColor"
@@ -841,20 +852,20 @@ const history = useNavigate()
         </div>
       </div>
       <Box component="" sx={{ flexGrow: 1, p: 1 }}>
-        <DrawerHeader/>
-      
-       <Routes>
-        <Route exact path="/" element={<Mylockin/>}/>
-        <Route exact path="/my_lockin" element={<Mylockin/>}/>
-        <Route exact path="/token" element={<Token/>}/>
-        <Route exact path="/Createlock" element={<Createlock/>}/>
-        {/* <Route exact path="/" element={<Mylockin/>}/> */}
-        <Route exact path="/lockinfo" element={<Lockinfo/>}/>
-        <Route exact path="/lockin" element={<Lockin/>}/>
-       
+        <DrawerHeader />
 
-       </Routes>
-     
+        <Routes>
+          <Route exact path="/" element={<Mylockin />} />
+          <Route exact path="/my_lockin" element={<Mylockin />} />
+          <Route exact path="/token" element={<Token />} />
+          <Route exact path="/Createlock" element={<Createlock />} />
+          {/* <Route exact path="/" element={<Mylockin/>}/> */}
+          <Route exact path="/lockinfo" element={<Lockinfo />} />
+          <Route exact path="/lockin" element={<Lockin />} />
+
+
+        </Routes>
+
       </Box>
     </Box>
   );
