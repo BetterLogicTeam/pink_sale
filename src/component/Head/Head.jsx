@@ -744,7 +744,7 @@ export default function MiniDrawer() {
           </div>
 
         </Drawer> </div>
-      <div className="hello_pink">
+      <div className="hello_pink d-none d-md-block">
         <div style={{ display: !open ? "none" : "block" }}>
           <div class="MainLayout_siderFooter__3itw9 d-flex justify-content-around ">
             <div class="pb-2 ms-2">

@@ -17,7 +17,7 @@
   border-bottom: 1px solid #eaeaea;
   /* z-index: 999 !important; */
   margin-left: 220px !important;
-  width: calc(100% - 30px) !important;
+  width: calc(100% - 50px) !important;
 
   background-color: #fff;
   color: rgba(0, 0, 0, 0.87);
@@ -31,13 +31,13 @@
   -webkit-flex-direction: column !important;
   -ms-flex-direction: column !important;
   flex-direction: column !important;
-  width: 100% !important;
+  /* width: 100% !important; */
   box-sizing: border-box !important;
   -webkit-flex-shrink: 0 !important;
   -ms-flex-negative: 0 !important;
   flex-shrink: 0 !important;
   position: fixed !important;
-  z-index: 1100 !important;
+  z-index: 600 !important;
   top: 0 !important;
   left: auto !important;
   right: 0 !important;
