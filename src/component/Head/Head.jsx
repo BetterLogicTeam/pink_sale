@@ -131,9 +131,10 @@ export default function MiniDrawer() {
     <Box sx={{ display: "flex", }} className="boby">
 
       <CssBaseline />
+      
       <AppBar position="fixed" open={open} className="appbar_color ">
-        <Canvas />
-
+   
+      <Canvas />
         <Toolbar className="d-none d-md-flex  ">
           <IconButton
             color=""

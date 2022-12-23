@@ -57,12 +57,12 @@ function ResponsiveExample() {
         setExpanded(isExpanded ? panel : false);
     };
     return (
-        <div className="d-block d-md-none py-3 ">
-            <span className=" d-flex align-items-center justify-content-around index_canva" >
+        <div className="d-block d-md-none py-3 px-0 ">
+            <div className=" d-flex align-items-center justify-content-around index_canva" >
                 <AiOutlineMenu className="text-dark size_of_pink" onClick={handleShow} />
                 <img src={pink1} width="25" alt="" />
                 <Model_resp />
-            </span>
+            </div>
 
 
             <Offcanvas show={show} onHide={handleClose} responsive="" className="width_canvas ">
