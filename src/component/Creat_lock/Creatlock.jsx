@@ -40,10 +40,14 @@ function Creatlock() {
   const [validate, setValidate] = useState(true);
 
   const [spinner, setSpinner] = useState(false);
+  const [getInputdata, setgetInputdata] = useState();
+
   const override = {
     margin: "5px 0",
     // borderColor: "red",
   };
+
+  
   const navigate = useNavigate();
   let walletaddress = useSelector((state) => state.pinksale.walletaddress);
 
@@ -84,7 +88,7 @@ function Creatlock() {
     validationSchema: createLockScheme,
 
     onSubmit: async (values, action) => {
-      console.log("values", values);
+    
       await callAPI(values);
       // action.resetForm();
     },
@@ -122,22 +126,25 @@ function Creatlock() {
           pinkSaleLockAbi,
           pinkSaleLockContract
         );
+        let get_length= await pinkSaleContract.methods.normalLockCountForUser(acc).call();
+        console.log("get_length",get_length);
+
         if (flag) {
           let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
-          let approve = await pinkSaleToken.methods
-            .approve(pinkSaleLockContract, _amount)
-            .send({ from: acc });
+          let approve = await pinkSaleToken.methods.approve(pinkSaleLockContract, _amount).send({
+             from: acc
+             });
           setFlag(false);
           setSpinner(false);
           setbtnText("Lock");
         } else {
-          let lockHash = await pinkSaleContract.methods
-            .lock(owner, tokenAddress, _amount, seconds, title)
-            .send({ from: acc });
+          let lockHash = await pinkSaleContract.methods.lock(owner, tokenAdress, _amount, seconds, title).send({ 
+            from: acc
+           });
           setFlag(true);
           setSpinner(false);
           setbtnText("Approve");
-          navigate("/my_lockin");
+          navigate(`/my_lockin/${get_length}`);
         }
       } catch (e) {
         setSpinner(false);
@@ -178,7 +185,11 @@ function Creatlock() {
           tokenAddress: "Invalid Address",
         });
       } else {
-        let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
+      
+        setgetInputdata(e.target.value)
+        sessionStorage.setItem("token_Address", e.target.value);
+       
+        let pinkSaleToken = new web3.eth.Contract(tokenAbi,tokenAdress);
         let tokenName, tokenSymbol, tokenDecimal, tokenBalance;
         tokenName = await pinkSaleToken.methods.name().call();
         tokenSymbol = await pinkSaleToken.methods.symbol().call();
@@ -193,6 +204,7 @@ function Creatlock() {
         setshowtokeninfo(true);
       }
       setTokenInfo({ ...obj });
+     
 
       // console.log("obj", obj);
     } else {
@@ -227,12 +239,11 @@ function Creatlock() {
                       type="text"
                       name="tokenAddress"
                       placeholder="Enter token or PL token address"
+                      value={formik.values.tokenAddress}
                       onChange={(e) => {
-                        console.log("here ");
-                        formik.handleChange(e);
+                        formik.handleChange(e)
                         valid(e);
                       }}
-                      value={formik.values.tokenAddress}
                       className="hovr_clr"
                     />
 
@@ -310,6 +321,8 @@ function Creatlock() {
                   ) : (
                     ""
                   )}
+
+
 
                   <div className="mt-3">
                     <div className="text-start aFtr_sty">
@@ -488,9 +501,9 @@ function Creatlock() {
                       tokens.
                     </span>
                   </div>
-                  {console.log("formik", formik)}
+                 
                   <div className="mt-4 d-flex justify-content-center align-items-center">
-                    {console.log("formikformik", formik)}
+                   
                     <button
                       type="submit"
                       className="btn btn-small loc_buttn "
@@ -503,9 +516,10 @@ function Creatlock() {
                           size={20}
                           className=""
                         />
-                      ) : (
-                        ""
-                      )}
+                      ) : 
+                       ""
+
+                      }
                       {btntext}
                     </button>
                   </div>

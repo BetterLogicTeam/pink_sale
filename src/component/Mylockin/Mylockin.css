@@ -15,8 +15,14 @@
 }
 
 .last_butn_main{
+   display: flex;
+   justify-content: center;
+}
+.last_btn_in{
+    width: 57%;
     display: flex;
     justify-content: space-evenly;
+
 }
 
 @media screen and (max-width:600px) {

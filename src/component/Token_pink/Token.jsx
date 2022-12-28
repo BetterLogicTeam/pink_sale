@@ -22,7 +22,7 @@ import {
 } from "../../utilies/Contract";
 import { loadWeb3 } from "../../connectivity/connectivity";
 import { useSelector, useDispatch } from "react-redux";
-import { userData } from "./userData.js";
+import { tokenData, userData } from "./userData.js";
 
 import {
   connectWallet,
@@ -90,28 +90,28 @@ export default function BasicTabs() {
         let arr = [];
         let obj = {};
         // console.log("User Data", _data);
-        _data["tokens"].forEach((output) => {
-          if (output.description === "") {
-            output.description = _data["tokenName"];
-          }
+        _data["tokens"].forEach( async(output) => {
+          let token_data= await tokenData(output?.token)
+        
+          
           obj = {
             _amount: web3.utils.fromWei(output.amount),
-            _description: output.description,
+            _description: output?.description==""?token_data["tokenName"]:output?.description,
             _id: output.id,
             _lockDate: output.lockDate,
             _owner: output.owner,
             _token: output.token,
             _unlockDate: output.unlockDate,
             _unlockedAmount: output.unlockedAmount,
-            _symbol: _data["tokenSymbol"],
-            _tokenName: _data["tokenName"],
-            _tokenDecimals: _data["tokenDecimals"],
+            _symbol: token_data["tokenSymbol"],
+            _tokenName: token_data["tokenName"],
+            _tokenDecimals: token_data["tokenDecimals"],
           };
-          arr.push(obj);
+          arr=[...arr,obj]
+          dispatch(userLockedData(arr));
+          setUserTokens([...arr]);
         });
-        dispatch(userLockedData(arr));
-        setUserTokens([...arr]);
-        console.log("Array ", arr);
+   
 
         // const web3 = window.web3;
         // let pinkSaleContract = new webSupply.eth.Contract(

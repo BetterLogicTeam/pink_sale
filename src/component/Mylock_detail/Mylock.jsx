@@ -28,7 +28,7 @@ function Tokenli(props) {
           </span>
         </div>
         <div
-          className="col-lg-4 d-flex col-sm-5 fr_wdh justify-content-end align-items-center res_coll"
+          className="col-lg-4 d-flex col-sm-5 fr_wdh justify-content-end align-items-center res_coll" style={{cursor:"pointer",color:"#f95192"}}
           onClick={() => history(`/my_lockin/${props.index}`)}
         >
           {/* <Link to="/my_lockin" className="text-decoration-none tx_styL"> */}

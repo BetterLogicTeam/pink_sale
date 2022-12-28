@@ -9,12 +9,14 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import UpdateLock from "./Update_lock/UpdateLock";
-function Lockin({ index }) {
+import Countdown from 'react-countdown';
+import { userData } from "../Token_pink/userData";
+
+function Lockin() {
   const { id } = useParams();
   const [show, setShow] = useState(false);
   const [showUpdates, setShowUpdate] = useState(false);
   const [trasenctionId, settrasenctionId] = useState("");
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [data, setData] = useState({});
@@ -24,9 +26,54 @@ function Lockin({ index }) {
   const [unlockseconds, setunlockseconds] = useState(0);
   const [lockedAmount, setlockedAmount] = useState("");
   const [description, setdescription] = useState("");
+  const [Timer, setTimer] = useState(null)
 
   const userLockedData = useSelector((state) => state.pinksale.userLockedData);
+  console.log("userLockedData", userLockedData);
+
+  const Completionist = () => <div class="featured-card-clock" data-countdown="2021/10/10">Time Ended</div>;
+
+  const renderer = ({ days, hours, minutes, seconds, completed }) => {
+    // setTimeEnded(completed)
+
+
+    if (completed) {
+
+      // Render a completed state
+      return <Completionist />;
+    } else {
+
+      return (
+        <div className="countdown">
+          {/* <div class="timer-text" data-countdown="2021/11/11">{`${days} : ${hours} : ${minutes} : ${seconds} `}</div> */}
+          <div className="main_time mt-3 d-flex justify-content-center">
+            <div className="pik_clr p-2 arounded">{days}</div>
+            <div className="pik_clr p-2 arounded">{hours}</div>
+            <div className="pik_clr p-2 arounded">{minutes}</div>
+            <div className="pik_clr p-2 arounded">{seconds}</div>
+          </div>
+        </div>
+      )
+    }
+  };
+
+
+
+  const get_All_data=async()=>{
+    let acc= await loadWeb3()
+
+    let data_timer=await userData(acc)
+    data_timer=data_timer["tokens"]
+    console.log("data_timer",data_timer[id].unlockDate);
+    sessionStorage.setItem("Time",data_timer[id].unlockDate);
+  
+    setTimer(data_timer[id].unlockDate)
+
+  }
+
+
   useEffect(() => {
+    get_All_data()
     setData(userLockedData[id]);
     const lockseconds = userLockedData[id]?._lockDate;
     const unlockSeconds = userLockedData[id]?._unlockDate;
@@ -41,9 +88,9 @@ function Lockin({ index }) {
     setlockedAmount(lockedamount);
     settrasenctionId(transictionid);
     settransferOwnership(ownerAddress);
-
     setlockDate(new Date(lockseconds * 1000).toUTCString());
     setunlockDate(new Date(unlockSeconds * 1000).toUTCString());
+
   }, []);
   const renounceLockOwnership = async () => {
     // setSpinner(true);
@@ -62,8 +109,7 @@ function Lockin({ index }) {
           pinkSaleLockAbi,
           pinkSaleLockContract
         );
-        let renounceLockOwnership = await pinkSaleContract.methods
-          .renounceLockOwnership(trasenctionId)
+        let renounceLockOwnership = await pinkSaleContract.methods.renounceLockOwnership(trasenctionId)
           .send({ from: acc });
       } catch (e) {
         // setSpinner(false);
@@ -103,6 +149,9 @@ function Lockin({ index }) {
   const showUpdate = async () => {
     setShowUpdate(!showUpdates);
   };
+
+const Time = sessionStorage.getItem("Time");
+
   return (
     <div className="container red_order">
       <div className="row">
@@ -125,14 +174,14 @@ function Lockin({ index }) {
                     <div>
                       <span>Unlock in</span>
                     </div>
-                    <div className="main_time mt-3 d-flex justify-content-center">
-                      <div className="pik_clr p-2 arounded">364</div>
-                      <div className="pik_clr p-2 arounded">15</div>
-                      <div className="pik_clr p-2 arounded">50</div>
-                      <div className="pik_clr p-2 arounded">22</div>
-                    </div>
+                    {
+                      console.log("Timer", Time)
+                    }
+                    <Countdown date={Date.now() + (((Time * 1000)) - Date.now())} renderer={renderer} />
+
                   </div>
                 </div>
+
 
                 <div className="col-lg-10 bg-white mt-4">
                   <div className="text-start border-bottom py-3">
@@ -143,7 +192,7 @@ function Lockin({ index }) {
                       <span className="left_txt">Token Address</span>
                       <span className="fnt_sz">
                         <a href="" className="adrs">
-                          {" "}
+
                           {data?._token}
                         </a>
                       </span>
@@ -195,34 +244,36 @@ function Lockin({ index }) {
                     </div>
 
                     <div className="last_butn_main py-2 mt-3 ">
-                      <button
-                        type="button"
-                        className="btn btn-sm fst_bB"
-                        onClick={handleShow}
-                      >
-                        Transfer Lock Ownership
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm fst_bB"
-                        onClick={renounceLockOwnership}
-                      >
-                        Renounce Lock Ownership
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm fst_bB"
-                        onClick={showUpdate}
-                      >
-                        Update
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm fst_bB"
-                        disabled
-                      >
-                        Unlock
-                      </button>
+                      <div className="last_btn_in">
+                        <button
+                          type="button"
+                          className="btn btn-sm fst_bB"
+                          onClick={handleShow}
+                        >
+                          Transfer Lock Ownership
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-sm fst_bB"
+                          onClick={renounceLockOwnership}
+                        >
+                          Renounce Lock Ownership
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-sm fst_bB"
+                          onClick={showUpdate}
+                        >
+                          Update
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-sm fst_bB"
+                          disabled
+                        >
+                          Unlock
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
