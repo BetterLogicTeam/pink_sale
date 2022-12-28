@@ -46,6 +46,9 @@ import Lockinfo from "../Lock_detail/Lockinfo"
 import Lockin from "../Lock_in/Lockin"
 import { AiOutlineMenu } from 'react-icons/ai';
 import Model_resp from "../Model_resp/Model_resp";
+
+
+
 function ResponsiveExample() {
     const [show, setShow] = useState(false);
     const [visible, setVisible] = useState(false);

@@ -131,26 +131,33 @@ export default function MiniDrawer() {
     <Box sx={{ display: "flex", }} className="boby">
 
       <CssBaseline />
-      
+
       <AppBar position="fixed" open={open} className="appbar_color ">
-   
-      <Canvas />
+
+        <Canvas />
         <Toolbar className="d-none d-md-flex  ">
           <IconButton
-            color=""
-
-            aria-label="open drawer"
+          
             onClick={handleDrawerOpen}
             edge="start"
             sx={{
-              marginRight: 5,
+              marginRight: 1,
               ...(open && { display: "none" }),
             }}
           >
             <MenuIcon className="open_menu d-none d-md-block" />
 
           </IconButton>
+          {/* <DrawerHeader className="close_icon_start" > */}
 
+          <IconButton onClick={handleDrawerClose} sx={{ display: !open ? "none" : "block" ,marginRight:1}} color=""
+
+            aria-label="open drawer"
+           
+            edge="start">
+            {theme.direction === "" ? <MenuIcon  /> : <MenuOpenIcon />}
+          </IconButton>
+          {/* </DrawerHeader> */}
           <Typography
             variant="h6"
             noWrap
@@ -166,6 +173,7 @@ export default function MiniDrawer() {
             </Typography>
           </Typography>
 
+
           <Typography
             className="d-flex justify-content-end  "
             component="div"
@@ -175,19 +183,16 @@ export default function MiniDrawer() {
             <Modal_connect />
           </Typography>
         </Toolbar>
+
       </AppBar>
-      <div className="height_sidebar2 d-none d-md-block">
+      <div className="height_sidebar2 d-none d-md-block ">
         <Drawer variant="permanent" open={open}   >
 
-          <DrawerHeader className="close_icon_start">
-            <IconButton onClick={handleDrawerClose}>
-              {theme.direction === "" ? <MenuOpenIcon /> : <MenuOpenIcon />}
-            </IconButton>
-          </DrawerHeader>
+
           <Divider />
 
-          <div className="border">
-            <div className="HOVER text-start home_icon_launch pt-3 d-flex align color_home ">
+          <div className="border mt-5" >
+            <div className="HOVER text-start home_icon_launch pt-3 d-flex align color_home mt-2 ">
               <Tooltip title="Home" arrow placement="right">
 
 
@@ -205,7 +210,7 @@ export default function MiniDrawer() {
                 </svg>
               </Tooltip>
 
-              <p className="" style={{ display: !open ? "none" : "block" }}>
+              <p className="ms-1" style={{ display: !open ? "none" : "block" }}>
                 Home
               </p>{" "}
             </div>
@@ -743,7 +748,8 @@ export default function MiniDrawer() {
             </p>{" "}
           </div>
 
-        </Drawer> </div>
+        </Drawer>
+      </div>
       <div className="hello_pink d-none d-md-block">
         <div style={{ display: !open ? "none" : "block" }}>
           <div class="MainLayout_siderFooter__3itw9 d-flex justify-content-around ">
@@ -856,7 +862,7 @@ export default function MiniDrawer() {
         <DrawerHeader />
 
         <Routes>
-          <Route exact path="/" element={<Mylockin />} />
+          <Route exact path="/" element={<Createlock/>} />
           <Route exact path="/my_lockin" element={<Mylockin />} />
           <Route exact path="/token" element={<Token />} />
           <Route exact path="/Createlock" element={<Createlock />} />
