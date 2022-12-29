@@ -15,7 +15,10 @@ export const connectWallet = createAsyncThunk(
 
 const initialState = {
     walletaddress: '',
-    userLockedData: []
+    userLockedData: [],
+    allLockedData: [],
+    locksForTokens: []
+
 }
 
 export const pinksaleSlice = createSlice({
@@ -26,6 +29,18 @@ export const pinksaleSlice = createSlice({
             // let acc = await loadWeb3();
             // console.log('state userdata', action.payload)
             state.userLockedData = action.payload
+
+        },
+        allLockedData: (state, action) => {
+            // let acc = await loadWeb3();
+            // console.log('state userdata', action.payload)
+            state.allLockedData = action.payload
+
+        },
+        locksForToken: (state, action) => {
+            // let acc = await loadWeb3();
+            console.log('stateuserdata', action.payload)
+            state.locksForTokens = action.payload
 
         },
     },
@@ -47,6 +62,6 @@ export const pinksaleSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { userLockedData } = pinksaleSlice.actions
+export const { userLockedData, allLockedData, locksForToken } = pinksaleSlice.actions
 
 export default pinksaleSlice.reducer

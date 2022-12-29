@@ -876,8 +876,8 @@ export default function MiniDrawer() {
           <Route exact path="/token" element={<Token />} />
           <Route exact path="/Createlock" element={<Createlock />} />
           {/* <Route exact path="/" element={<Mylockin/>}/> */}
-          <Route exact path="/lockinfo" element={<Lockinfo />} />
-          <Route exact path="/lockin" element={<Lockin />} />
+          <Route exact path="/lockinfo/:id" element={<Lockinfo />} />
+          <Route exact path="/lockin/:id" element={<Lockin />} />
         </Routes>
       </Box>
     </Box>

@@ -10,10 +10,6 @@ import {
 export const userData = async (_userAddress) => {
     console.log("User address", _userAddress);
     const web3 = window.web3;
-    // let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
-    // let tokenName = await pinkSaleToken.methods.name().call();
-    // let tokenSymbol = await pinkSaleToken.methods.symbol().call();
-    // let tokenDecimals = await pinkSaleToken.methods.decimals().call();
 
     let pinkSaleContract = new web3.eth.Contract(
         pinkSaleLockAbi,
@@ -21,13 +17,52 @@ export const userData = async (_userAddress) => {
     );
 
     let _userTokens = await pinkSaleContract.methods.normalLocksForUser(_userAddress).call();
-    console.log("_userTokens",_userTokens[0].unlockDate);
-    // let _totalLocked = await pinkSaleContract.methods.normalLocksForUser(_userAddress).call();
+    console.log("_userTokens", _userTokens[0].unlockDate);
 
-    return  {tokens: _userTokens} ;
-   
+
+
+    return { tokens: _userTokens };
+
 }
 
+export const allDataForToken = async (_tokenAddress) => {
+    const web3 = await window.web3;
+
+    let pinkSaleContract = await new web3.eth.Contract(
+        pinkSaleLockAbi,
+        pinkSaleLockContract
+    );
+
+    let _totalLockCountForToken = await pinkSaleContract.methods.totalLockCountForToken(_tokenAddress).call();
+    // console.log(_totalLockCountForToken)
+    let _allDataForToken = await pinkSaleContract.methods.getLocksForToken(_tokenAddress, 0, _totalLockCountForToken).call();
+    // console.log('_allDataForToken', _allDataForToken)
+
+
+
+
+    return _allDataForToken
+
+}
+
+export const allTokensData = async () => {
+    const web3 = window.web3;
+
+    let pinkSaleContract = new web3.eth.Contract(
+        pinkSaleLockAbi,
+        pinkSaleLockContract
+    );
+
+    let _tokensCount = await pinkSaleContract.methods.allNormalTokenLockedCount().call();
+    let _allTokensArray = await pinkSaleContract.methods.getCumulativeNormalTokenLockInfo(0, _tokensCount).call();
+    console.log('_allTokensArray', _allTokensArray)
+
+
+
+
+    return { allTokensArray: _allTokensArray };
+
+}
 
 export const tokenData = async (_tokenAddress) => {
     console.log("token address", _tokenAddress);
@@ -38,7 +73,7 @@ export const tokenData = async (_tokenAddress) => {
     let tokenDecimals = await pinkSaleToken.methods.decimals().call();
 
     return { tokenName: tokenName, tokenSymbol: tokenSymbol, tokenDecimals: tokenDecimals };
-   
+
 }
 
 

@@ -9,7 +9,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import UpdateLock from "./Update_lock/UpdateLock";
-import Countdown from 'react-countdown';
+import Countdown from "react-countdown";
 import { userData } from "../Token_pink/userData";
 
 function Lockin() {
@@ -26,23 +26,24 @@ function Lockin() {
   const [unlockseconds, setunlockseconds] = useState(0);
   const [lockedAmount, setlockedAmount] = useState("");
   const [description, setdescription] = useState("");
-  const [Timer, setTimer] = useState(null)
+  const [Timer, setTimer] = useState(null);
 
   const userLockedData = useSelector((state) => state.pinksale.userLockedData);
   console.log("userLockedData", userLockedData);
 
-  const Completionist = () => <div class="featured-card-clock" data-countdown="2021/10/10">Time Ended</div>;
+  const Completionist = () => (
+    <div class="featured-card-clock" data-countdown="2021/10/10">
+      Time Ended
+    </div>
+  );
 
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
     // setTimeEnded(completed)
 
-
     if (completed) {
-
       // Render a completed state
       return <Completionist />;
     } else {
-
       return (
         <div className="countdown">
           {/* <div class="timer-text" data-countdown="2021/11/11">{`${days} : ${hours} : ${minutes} : ${seconds} `}</div> */}
@@ -53,27 +54,23 @@ function Lockin() {
             <div className="pik_clr p-2 arounded">{seconds}</div>
           </div>
         </div>
-      )
+      );
     }
   };
 
+  const get_All_data = async () => {
+    let acc = await loadWeb3();
 
+    let data_timer = await userData(acc);
+    data_timer = data_timer["tokens"];
+    console.log("data_timer", data_timer[id].unlockDate);
+    sessionStorage.setItem("Time", data_timer[id].unlockDate);
 
-  const get_All_data=async()=>{
-    let acc= await loadWeb3()
-
-    let data_timer=await userData(acc)
-    data_timer=data_timer["tokens"]
-    console.log("data_timer",data_timer[id].unlockDate);
-    sessionStorage.setItem("Time",data_timer[id].unlockDate);
-  
-    setTimer(data_timer[id].unlockDate)
-
-  }
-
+    setTimer(data_timer[id].unlockDate);
+  };
 
   useEffect(() => {
-    get_All_data()
+    get_All_data();
     setData(userLockedData[id]);
     const lockseconds = userLockedData[id]?._lockDate;
     const unlockSeconds = userLockedData[id]?._unlockDate;
@@ -90,8 +87,7 @@ function Lockin() {
     settransferOwnership(ownerAddress);
     setlockDate(new Date(lockseconds * 1000).toUTCString());
     setunlockDate(new Date(unlockSeconds * 1000).toUTCString());
-
-  }, []);
+  });
   const renounceLockOwnership = async () => {
     // setSpinner(true);
     // console.log("values", values);
@@ -109,7 +105,8 @@ function Lockin() {
           pinkSaleLockAbi,
           pinkSaleLockContract
         );
-        let renounceLockOwnership = await pinkSaleContract.methods.renounceLockOwnership(trasenctionId)
+        let renounceLockOwnership = await pinkSaleContract.methods
+          .renounceLockOwnership(trasenctionId)
           .send({ from: acc });
       } catch (e) {
         // setSpinner(false);
@@ -150,7 +147,7 @@ function Lockin() {
     setShowUpdate(!showUpdates);
   };
 
-const Time = sessionStorage.getItem("Time");
+  const Time = sessionStorage.getItem("Time");
 
   return (
     <div className="container red_order">
@@ -174,14 +171,13 @@ const Time = sessionStorage.getItem("Time");
                     <div>
                       <span>Unlock in</span>
                     </div>
-                    {
-                      console.log("Timer", Time)
-                    }
-                    <Countdown date={Date.now() + (((Time * 1000)) - Date.now())} renderer={renderer} />
-
+                    {console.log("Timer", Time)}
+                    <Countdown
+                      date={Date.now() + (Time * 1000 - Date.now())}
+                      renderer={renderer}
+                    />
                   </div>
                 </div>
-
 
                 <div className="col-lg-10 bg-white mt-4">
                   <div className="text-start border-bottom py-3">
@@ -192,7 +188,6 @@ const Time = sessionStorage.getItem("Time");
                       <span className="left_txt">Token Address</span>
                       <span className="fnt_sz">
                         <a href="" className="adrs">
-
                           {data?._token}
                         </a>
                       </span>

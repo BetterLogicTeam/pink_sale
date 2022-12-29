@@ -22,13 +22,14 @@ import {
 } from "../../utilies/Contract";
 import { loadWeb3 } from "../../connectivity/connectivity";
 import { useSelector, useDispatch } from "react-redux";
-import { tokenData, userData } from "./userData.js";
+import { tokenData, userData, allTokensData } from "./userData.js";
 
 import {
   connectWallet,
   walletaddress,
   connect,
   userLockedData,
+  allLockedData,
 } from "../../features/pinksale/pinksaleSlice";
 
 const webSupply = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545");
@@ -69,6 +70,8 @@ function a11yProps(index) {
 export default function BasicTabs() {
   const [value, setValue] = useState(0);
   const [userTokens, setUserTokens] = useState([]);
+  const [allTokens, setAllTockens] = useState([]);
+
   const dispatch = useDispatch();
 
   let walletaddress = useSelector((state) => state.pinksale.walletaddress);
@@ -90,13 +93,15 @@ export default function BasicTabs() {
         let arr = [];
         let obj = {};
         // console.log("User Data", _data);
-        _data["tokens"].forEach( async(output) => {
-          let token_data= await tokenData(output?.token)
-        
-          
+        _data["tokens"].forEach(async (output) => {
+          let token_data = await tokenData(output?.token);
+
           obj = {
             _amount: web3.utils.fromWei(output.amount),
-            _description: output?.description==""?token_data["tokenName"]:output?.description,
+            _description:
+              output?.description == ""
+                ? token_data["tokenName"]
+                : output?.description,
             _id: output.id,
             _lockDate: output.lockDate,
             _owner: output.owner,
@@ -107,11 +112,73 @@ export default function BasicTabs() {
             _tokenName: token_data["tokenName"],
             _tokenDecimals: token_data["tokenDecimals"],
           };
-          arr=[...arr,obj]
+          arr = [...arr, obj];
           dispatch(userLockedData(arr));
           setUserTokens([...arr]);
         });
-   
+
+        // const web3 = window.web3;
+        // let pinkSaleContract = new webSupply.eth.Contract(
+        //   pinkSaleLockAbi,
+        //   pinkSaleLockContract
+        // );
+        // let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
+        // let tokenName, tokenSymbol, tokenDecimal, tokenBalance;
+        // tokenName = await pinkSaleToken.methods.name().call();
+        // tokenSymbol = await pinkSaleToken.methods.symbol().call();
+        // // console.log("ContractrOF", pinkSaleContract);
+        // let lockTokens = await pinkSaleContract.methods
+        //   .normalLocksForUser(acc)
+        //   .call();
+        // console.log("lockTokens", lockTokens);
+        // lockTokens.forEach((element) => {
+        //   console.log("Element", element);
+        // });
+      } catch (error) {
+        // console.log(error);
+      }
+    }
+  };
+
+  const allLocks = async () => {
+    let acc = await loadWeb3();
+    if (acc == "No Wallet") {
+      //   toast.error("No Wallet Connected")
+    } else if (acc == "Wrong Network") {
+      //   toast.error("Wrong Newtwork please connect to BSC MainNet ")
+    } else {
+      try {
+        const web3 = window.web3;
+        let _allTokensData = await allTokensData();
+        console.log("_allTokensData", _allTokensData["allTokensArray"]);
+        let arr = [];
+        let obj = {};
+        // console.log("User Data", _data);
+        _allTokensData["allTokensArray"].forEach(async (output) => {
+          // console.log("output", output);
+          let token_data = await tokenData(output?.token);
+
+          obj = {
+            _amount: web3.utils.fromWei(output.amount),
+            _description:
+              output?.description == ""
+                ? token_data["tokenName"]
+                : output?.description,
+            _id: output.id,
+            _lockDate: output.lockDate,
+            _owner: output.owner,
+            _token: output.token,
+            _unlockDate: output.unlockDate,
+            _unlockedAmount: output.unlockedAmount,
+            _symbol: token_data["tokenSymbol"],
+            _tokenName: token_data["tokenName"],
+            _tokenDecimals: token_data["tokenDecimals"],
+          };
+          console.log("obj", obj);
+          arr = [...arr, obj];
+          dispatch(allLockedData(arr));
+          setAllTockens([...arr]);
+        });
 
         // const web3 = window.web3;
         // let pinkSaleContract = new webSupply.eth.Contract(
@@ -139,8 +206,8 @@ export default function BasicTabs() {
   //   console.log("state", userTokens);
   useEffect(() => {
     myLocks();
+    allLocks();
   }, []);
-
   return (
     <div className="container">
       <div className="row">
@@ -181,8 +248,24 @@ export default function BasicTabs() {
                       <span className="mg_k"></span>
                     </div>
                     <div className="frnt_Main my-5">
-                      <div>
-                        {" "}
+                      {allTokens.map((tokendata, index) => {
+                        console.log("data", tokendata);
+                        return (
+                          <div className="mt-3">
+                            <Tokenli
+                              token_pic={thinken}
+                              text_one={tokendata._description}
+                              text_tow={tokendata._symbol}
+                              amount1={tokendata._amount}
+                              amount2={tokendata._symbol}
+                              tokenName={tokendata._tokenName}
+                              fullpage="View"
+                              index={index}
+                            />
+                          </div>
+                        );
+                      })}
+                      {/* <div className="mt-3">
                         <Tokenli
                           token_pic={thinken}
                           text_one="TaleCraft"
@@ -191,97 +274,7 @@ export default function BasicTabs() {
                           amount2="CRAFT"
                           fullpage="View"
                         />
-                      </div>
-                      <div className="mt-3">
-                        <Tokenli
-                          token_pic={thinken}
-                          text_one="TaleCraft"
-                          text_tow="CRAFT"
-                          amount1="200,000,000"
-                          amount2="CRAFT"
-                          fullpage="View"
-                        />
-                      </div>
-                      <div className="mt-3">
-                        <Tokenli
-                          token_pic={thinken}
-                          text_one="TaleCraft"
-                          text_tow="CRAFT"
-                          amount1="200,000,000"
-                          amount2="CRAFT"
-                          fullpage="View"
-                        />
-                      </div>
-                      <div className="mt-3">
-                        <Tokenli
-                          token_pic={thinken}
-                          text_one="TaleCraft"
-                          text_tow="CRAFT"
-                          amount1="200,000,000"
-                          amount2="CRAFT"
-                          fullpage="View"
-                        />
-                      </div>
-                      <div className="mt-3">
-                        <Tokenli
-                          token_pic={thinken}
-                          text_one="TaleCraft"
-                          text_tow="CRAFT"
-                          amount1="200,000,000"
-                          amount2="CRAFT"
-                          fullpage="View"
-                        />
-                      </div>
-                      <div className="mt-3">
-                        <Tokenli
-                          token_pic={thinken}
-                          text_one="TaleCraft"
-                          text_tow="CRAFT"
-                          amount1="200,000,000"
-                          amount2="CRAFT"
-                          fullpage="View"
-                        />
-                      </div>
-                      <div className="mt-3">
-                        <Tokenli
-                          token_pic={thinken}
-                          text_one="TaleCraft"
-                          text_tow="CRAFT"
-                          amount1="200,000,000"
-                          amount2="CRAFT"
-                          fullpage="View"
-                        />
-                      </div>
-                      <div className="mt-3">
-                        <Tokenli
-                          token_pic={thinken}
-                          text_one="TaleCraft"
-                          text_tow="CRAFT"
-                          amount1="200,000,000"
-                          amount2="CRAFT"
-                          fullpage="View"
-                        />
-                      </div>
-                      <div className="mt-3">
-                        <Tokenli
-                          token_pic={thinken}
-                          text_one="TaleCraft"
-                          text_tow="CRAFT"
-                          amount1="200,000,000"
-                          amount2="CRAFT"
-                          fullpage="View"
-                        />
-                      </div>
-                      <div className="mt-3">
-                        <Tokenli
-                          token_pic={thinken}
-                          text_one="TaleCraft"
-                          text_tow="CRAFT"
-                          amount1="200,000,000"
-                          amount2="CRAFT"
-                          fullpage="View"
-                        />
-                      </div>
+                      </div> */}
                     </div>
 
                     <div className="pgnation d-flex justify-content-center">
