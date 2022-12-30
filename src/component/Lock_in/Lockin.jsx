@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import "./Lockin.css";
+import Countdown from "react-countdown";
 
 function Lockin() {
   const { id } = useParams();
@@ -19,6 +20,8 @@ function Lockin() {
   const [tokenSymbol, setTokenSymbol] = useState("");
   const [tokenDecimal, setTokenDecimal] = useState("");
   const [tokenName, setTokenName] = useState("");
+  const [lockDate, setLockDate] = useState("");
+  const [unLockDate, setUnLockDate] = useState("");
 
   const [unlockseconds, setunlockseconds] = useState(0);
   const [lockedAmount, setlockedAmount] = useState("");
@@ -34,9 +37,14 @@ function Lockin() {
     const tokenDecimal = lockForToken[id]?.tokenDecimals;
     const lockedamount = lockForToken[id]?.lockedamount;
     const ownerAddress = lockForToken[id]?.walletAdress;
-    const lockeDate = lockForToken[id]?.lockDate;
-    const unlockDate = lockForToken[id]?.unlockDate;
+    let lockeDate = lockForToken[id]?.lockDate;
+    lockeDate = String(new Date(lockeDate * 1000));
+    // console.log("lock date", lockeDate);
 
+    let unlockDate = lockForToken[id]?.unlockDate;
+    unlockDate = String(new Date(unlockDate * 1000));
+    setUnLockDate(unlockDate);
+    setLockDate(lockeDate);
     console.log("lockin lockedamount", lockedamount);
     setOwnerAddress(ownerAddress);
     setTokenAddress(tokenAddress);
@@ -132,13 +140,11 @@ function Lockin() {
                 </div>
                 <div className="d-flex justify-content-between border-bottom py-2">
                   <span className="left_txt">Lock Date</span>
-                  <span className="fnt_sz">2022.12.19 04:38 UTC</span>
+                  <span className="fnt_sz">{lockDate}</span>
                 </div>
                 <div className="d-flex justify-content-between border-bottom py-2">
                   <span className="left_txt">Unlock Date</span>
-                  <span className="fnt_sz">
-                    2023.12.19 04:38 UTC (in a year)
-                  </span>
+                  <span className="fnt_sz">{unLockDate}</span>
                 </div>
               </div>
             </div>
