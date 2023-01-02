@@ -13,7 +13,11 @@ import Countdown from "react-countdown";
 import { userData } from "../Token_pink/userData";
 
 function Lockin() {
-  const { id } = useParams();
+  let { id } = useParams();
+  var flag = false;
+  if (id == "00") {
+    flag = true;
+  }
   const [show, setShow] = useState(false);
   const [showUpdates, setShowUpdate] = useState(false);
   const [trasenctionId, settrasenctionId] = useState("");
@@ -23,7 +27,7 @@ function Lockin() {
   const [lockdate, setlockDate] = useState("");
   const [unlockdate, setunlockDate] = useState("");
   const [transferOwnership, settransferOwnership] = useState("");
-  const [unlockseconds, setunlockseconds] = useState(0);
+  const [unlockseconds, setunlockseconds] = useState("");
   const [lockedAmount, setlockedAmount] = useState("");
   const [description, setdescription] = useState("");
   const [Timer, setTimer] = useState(null);
@@ -71,22 +75,43 @@ function Lockin() {
 
   useEffect(() => {
     get_All_data();
-    setData(userLockedData[id]);
-    const lockseconds = userLockedData[id]?._lockDate;
-    const unlockSeconds = userLockedData[id]?._unlockDate;
-    setunlockseconds(Number(unlockSeconds));
-    const ownerAddress = userLockedData[id]?._owner;
-    const transictionid = userLockedData[id]?._id;
-    const lockedamount = userLockedData[id]?._amount;
-    const description = userLockedData[id]?._description;
-    // alert(description);
+    if (flag) {
+      setData(userLockedData[0]);
+      let lockseconds = userLockedData[0]?._lockDate;
+      lockseconds = new Date(lockseconds).toUTCString();
+      const unlockSeconds = userLockedData[0]?._unlockDate;
+      const ownerAddress = userLockedData[0]?._owner;
+      const transictionid = userLockedData[0]?._id;
+      const lockedamount = userLockedData[0]?._amount;
+      const description = userLockedData[0]?._description;
+      // alert(description);
 
-    setdescription(description);
-    setlockedAmount(lockedamount);
-    settrasenctionId(transictionid);
-    settransferOwnership(ownerAddress);
-    setlockDate(new Date(lockseconds * 1000).toUTCString());
-    setunlockDate(new Date(unlockSeconds * 1000).toUTCString());
+      setdescription(description);
+      setlockedAmount(lockedamount);
+      settrasenctionId(transictionid);
+      settransferOwnership(ownerAddress);
+      setlockDate(lockseconds);
+
+      setunlockDate(new Date(unlockSeconds * 1000).toUTCString());
+      setunlockseconds(Number(unlockSeconds));
+    } else {
+      setData(userLockedData[id]);
+      const lockseconds = userLockedData[id]?._lockDate;
+      const unlockSeconds = userLockedData[id]?._unlockDate;
+      setunlockseconds(Number(unlockSeconds));
+      const ownerAddress = userLockedData[id]?._owner;
+      const transictionid = userLockedData[id]?._id;
+      const lockedamount = userLockedData[id]?._amount;
+      const description = userLockedData[id]?._description;
+      // alert(description);
+
+      setdescription(description);
+      setlockedAmount(lockedamount);
+      settrasenctionId(transictionid);
+      settransferOwnership(ownerAddress);
+      setlockDate(new Date(lockseconds * 1000).toUTCString());
+      setunlockDate(new Date(unlockSeconds * 1000).toUTCString());
+    }
   });
   const renounceLockOwnership = async () => {
     // setSpinner(true);
@@ -100,7 +125,6 @@ function Lockin() {
     } else {
       try {
         const web3 = window.web3;
-        alert(id);
         let pinkSaleContract = new web3.eth.Contract(
           pinkSaleLockAbi,
           pinkSaleLockContract

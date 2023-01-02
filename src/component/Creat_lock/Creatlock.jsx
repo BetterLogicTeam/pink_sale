@@ -94,10 +94,10 @@ function Creatlock() {
       // action.resetForm();
     },
   });
-
+  let myOwner;
   const callAPI = async (values) => {
     setSpinner(true);
-    // console.log("values", values);
+
     let acc = await loadWeb3();
     // console.log("acc", acc);
     if (acc == "No Wallet") {
@@ -113,8 +113,10 @@ function Creatlock() {
         let owner;
         if (values.useAnotherOwner) {
           owner = ownerAddress;
+          myOwner = owner;
         } else {
           owner = acc;
+          myOwner = owner;
         }
         const dates = new Date(date);
         const seconds = Math.floor(dates.getTime() / 1000);
@@ -134,6 +136,7 @@ function Creatlock() {
 
         if (flag) {
           let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
+
           let approve = await pinkSaleToken.methods
             .approve(pinkSaleLockContract, _amount)
             .send({
@@ -150,10 +153,10 @@ function Creatlock() {
             });
           setFlag(true);
           setSpinner(false);
-          // await myLocks();
           setbtnText("Approve");
+          await myLocks(_amount, seconds, tokenAddress);
 
-          navigate(`/my_lockin/${get_length}`);
+          navigate(`/my_lockin/00`);
         }
       } catch (e) {
         setSpinner(false);
@@ -178,7 +181,9 @@ function Creatlock() {
     // }
   };
 
-  const myLocks = async () => {
+  const myLocks = async (amount, seconds, tokenAddress) => {
+    let arr = [];
+    let obj = {};
     let acc = await loadWeb3();
     if (acc == "No Wallet") {
       //   toast.error("No Wallet Connected")
@@ -187,52 +192,33 @@ function Creatlock() {
     } else {
       try {
         const web3 = window.web3;
-        let _data = await userData(acc);
-        console.log("_Data", _data["tokens"]);
-        let arr = [];
-        let obj = {};
-        // console.log("User Data", _data);
-        _data["tokens"].forEach(async (output) => {
-          let token_data = await tokenData(output?.token);
 
-          obj = {
-            _amount: web3.utils.fromWei(output.amount),
-            _description:
-              output?.description == ""
-                ? token_data["tokenName"]
-                : output?.description,
-            _id: output.id,
-            _lockDate: output.lockDate,
-            _owner: output.owner,
-            _token: output.token,
-            _unlockDate: output.unlockDate,
-            _unlockedAmount: output.unlockedAmount,
-            _symbol: token_data["tokenSymbol"],
-            _tokenName: token_data["tokenName"],
-            _tokenDecimals: token_data["tokenDecimals"],
-          };
-          arr = [...arr, obj];
-          dispatch(userLockedData(arr));
-          // setUserTokens([...arr]);
-        });
+        let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
 
-        // const web3 = window.web3;
-        // let pinkSaleContract = new webSupply.eth.Contract(
-        //   pinkSaleLockAbi,
-        //   pinkSaleLockContract
-        // );
-        // let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
-        // let tokenName, tokenSymbol, tokenDecimal, tokenBalance;
-        // tokenName = await pinkSaleToken.methods.name().call();
-        // tokenSymbol = await pinkSaleToken.methods.symbol().call();
-        // // console.log("ContractrOF", pinkSaleContract);
-        // let lockTokens = await pinkSaleContract.methods
-        //   .normalLocksForUser(acc)
-        //   .call();
-        // console.log("lockTokens", lockTokens);
-        // lockTokens.forEach((element) => {
-        //   console.log("Element", element);
-        // });
+        let tokenName, tokenSymbol, tokenDecimal, tokenBalance;
+        tokenName = await pinkSaleToken.methods.name().call();
+
+        tokenSymbol = await pinkSaleToken.methods.symbol().call();
+
+        tokenDecimal = await pinkSaleToken.methods.decimals().call();
+
+        tokenBalance = await pinkSaleToken.methods.balanceOf(acc).call();
+
+        // tokenBalance = web3.utils.fromWei(tokenBalance);
+        obj = {
+          _token: tokenAddress,
+          _tokenName: tokenName,
+          _symbol: tokenSymbol,
+          _tokenDecimals: tokenDecimal,
+          _amount: web3.utils.fromWei(String(amount)),
+          _owner: myOwner,
+          _lockdate: String(+new Date()),
+          _unlockdate: seconds,
+        };
+
+        arr = [...arr, obj];
+
+        dispatch(userLockedData(arr));
       } catch (error) {
         // console.log(error);
       }
