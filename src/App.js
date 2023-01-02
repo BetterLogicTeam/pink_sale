@@ -4,7 +4,7 @@ import './App.css';
 import { useSelector, useDispatch } from 'react-redux'
 import { connectWallet, walletaddress, connect } from './features/pinksale/pinksaleSlice'
 import { loadWeb3 } from './connectivity/connectivity';
-import Creatlock from './component/Creat_lock/Creatlock';
+import Modal_connect from './component/Modal_connect/Modal_connect';
 import Token from './component/Token_pink/Token';
 import { useEffect } from 'react';
 // import { ToastContainer, toast } from 'react-toastify';
@@ -32,6 +32,7 @@ function App() {
     <div className="App">
         <BrowserRouter>
         <Head/>
+        {/* <Modal_connect/> */}
         {/* <Canvas/> */}
       {/* <Routes>
         <Route path="/Creatlock" element={<Creatlock/>}> </Route>

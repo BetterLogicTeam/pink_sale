@@ -9,3 +9,8 @@
         padding: 10px !important;
     }
 }
+
+.css-1aquho2-MuiTabs-indicator {
+    background-color: #f95192 !important;
+    /* border-bottom: 1px dotted #f95192 !important; */
+  }

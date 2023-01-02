@@ -46,9 +46,12 @@ import Lockinfo from "../Lock_detail/Lockinfo"
 import Lockin from "../Lock_in/Lockin"
 import { AiOutlineMenu } from 'react-icons/ai';
 import Model_resp from "../Model_resp/Model_resp";
+
+
+
 function ResponsiveExample() {
     const [show, setShow] = useState(false);
-
+    const [visible, setVisible] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(!show);
     const [expanded, setExpanded] = React.useState(false);
@@ -57,19 +60,19 @@ function ResponsiveExample() {
         setExpanded(isExpanded ? panel : false);
     };
     return (
-        <div className="d-block d-md-none py-3">
-            <span className=" d-flex align-items-center justify-content-around" >
+        <div className="d-block d-md-none py-3 px-0 ">
+            <div className=" d-flex align-items-center justify-content-around index_canva" >
                 <AiOutlineMenu className="text-dark size_of_pink" onClick={handleShow} />
                 <img src={pink1} width="25" alt="" />
                 <Model_resp />
-            </span>
+            </div>
 
 
             <Offcanvas show={show} onHide={handleClose} responsive="" className="width_canvas ">
                 <Offcanvas.Header closeButton>
 
                 </Offcanvas.Header>
-                <Offcanvas.Body>
+                <Offcanvas.Body className="px-0">
 
                     <div>
                         <div className="HOVER text-start ps-3 pt-3 d-flex align ">
@@ -123,7 +126,7 @@ function ResponsiveExample() {
                                 <Typography>
                                     <ul className="text-start">
                                         <li className="list-style-none">
-                                            <a href="#" className="HOVER text-decoration-none">
+                                            <a href="#" className="HOVER text-decoration-none" >
                                                 Create launchpad
                                             </a>
                                         </li>
@@ -203,7 +206,7 @@ function ResponsiveExample() {
                                 </Typography>
                             </AccordionDetails>
                         </Accordion>
-                        <Accordion disableGutters expanded={expanded === 'panel3'} onChange={handleChange('panel3')} className="accordian_shadow">
+                        <Accordion disableGutters expanded={expanded === 'panel3'} onChange={handleChange('panel3')} className="accordian_shadow"  >
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon className="expand_icon" />}
                                 aria-controls="panel3a-content"
@@ -236,13 +239,13 @@ function ResponsiveExample() {
                             >
                                 <Typography>
                                     <ul className="text-start">
-                                        <li className="list-style-none">
-                                            <Link to="/Createlock" className="HOVER text-decoration-none">
+                                        <li className="list-style-none ">
+                                            <Link to="/Createlock" className="HOVER text-decoration-none "  onClick={handleShow} >
                                                 Create Lock
                                             </Link>
                                         </li>
                                         <li className="list-style-none bg-tokan">
-                                            <Link to="/Token" className="HOVER text-decoration-none" >
+                                            <Link to="/Token" className="HOVER text-decoration-none"  onClick={handleShow} >
                                                 Token
                                             </Link>
                                         </li>
