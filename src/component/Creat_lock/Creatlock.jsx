@@ -10,6 +10,7 @@ import {
   connectWallet,
   walletaddress,
   connect,
+  userLockedData,
 } from "../../features/pinksale/pinksaleSlice";
 
 import axios from "axios";
@@ -26,9 +27,11 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { DotLoader } from "react-spinners";
 import MoonLoader from "react-spinners/MoonLoader";
 import PulseLoader from "react-spinners/PulseLoader";
-import { userData } from "../Token_pink/userData.js";
+import { tokenData, userData } from "../Token_pink/userData.js";
 
 function Creatlock() {
+  const dispatch = useDispatch();
+
   const [btntext, setbtnText] = useState("Approve");
 
   const [show, setShow] = useState(false);
@@ -47,7 +50,6 @@ function Creatlock() {
     // borderColor: "red",
   };
 
-  
   const navigate = useNavigate();
   let walletaddress = useSelector((state) => state.pinksale.walletaddress);
 
@@ -88,7 +90,6 @@ function Creatlock() {
     validationSchema: createLockScheme,
 
     onSubmit: async (values, action) => {
-    
       await callAPI(values);
       // action.resetForm();
     },
@@ -126,24 +127,32 @@ function Creatlock() {
           pinkSaleLockAbi,
           pinkSaleLockContract
         );
-        let get_length= await pinkSaleContract.methods.normalLockCountForUser(acc).call();
-        console.log("get_length",get_length);
+        let get_length = await pinkSaleContract.methods
+          .normalLockCountForUser(acc)
+          .call();
+        console.log("get_length", get_length);
 
         if (flag) {
           let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
-          let approve = await pinkSaleToken.methods.approve(pinkSaleLockContract, _amount).send({
-             from: acc
-             });
+          let approve = await pinkSaleToken.methods
+            .approve(pinkSaleLockContract, _amount)
+            .send({
+              from: acc,
+            });
           setFlag(false);
           setSpinner(false);
           setbtnText("Lock");
         } else {
-          let lockHash = await pinkSaleContract.methods.lock(owner, tokenAdress, _amount, seconds, title).send({ 
-            from: acc
-           });
+          let lockHash = await pinkSaleContract.methods
+            .lock(owner, tokenAdress, _amount, seconds, title)
+            .send({
+              from: acc,
+            });
           setFlag(true);
           setSpinner(false);
+          // await myLocks();
           setbtnText("Approve");
+
           navigate(`/my_lockin/${get_length}`);
         }
       } catch (e) {
@@ -168,6 +177,68 @@ function Creatlock() {
     // formik.setErrors({ tokenAddress: "Invalid Address" });
     // }
   };
+
+  const myLocks = async () => {
+    let acc = await loadWeb3();
+    if (acc == "No Wallet") {
+      //   toast.error("No Wallet Connected")
+    } else if (acc == "Wrong Network") {
+      //   toast.error("Wrong Newtwork please connect to BSC MainNet ")
+    } else {
+      try {
+        const web3 = window.web3;
+        let _data = await userData(acc);
+        console.log("_Data", _data["tokens"]);
+        let arr = [];
+        let obj = {};
+        // console.log("User Data", _data);
+        _data["tokens"].forEach(async (output) => {
+          let token_data = await tokenData(output?.token);
+
+          obj = {
+            _amount: web3.utils.fromWei(output.amount),
+            _description:
+              output?.description == ""
+                ? token_data["tokenName"]
+                : output?.description,
+            _id: output.id,
+            _lockDate: output.lockDate,
+            _owner: output.owner,
+            _token: output.token,
+            _unlockDate: output.unlockDate,
+            _unlockedAmount: output.unlockedAmount,
+            _symbol: token_data["tokenSymbol"],
+            _tokenName: token_data["tokenName"],
+            _tokenDecimals: token_data["tokenDecimals"],
+          };
+          arr = [...arr, obj];
+          dispatch(userLockedData(arr));
+          // setUserTokens([...arr]);
+        });
+
+        // const web3 = window.web3;
+        // let pinkSaleContract = new webSupply.eth.Contract(
+        //   pinkSaleLockAbi,
+        //   pinkSaleLockContract
+        // );
+        // let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
+        // let tokenName, tokenSymbol, tokenDecimal, tokenBalance;
+        // tokenName = await pinkSaleToken.methods.name().call();
+        // tokenSymbol = await pinkSaleToken.methods.symbol().call();
+        // // console.log("ContractrOF", pinkSaleContract);
+        // let lockTokens = await pinkSaleContract.methods
+        //   .normalLocksForUser(acc)
+        //   .call();
+        // console.log("lockTokens", lockTokens);
+        // lockTokens.forEach((element) => {
+        //   console.log("Element", element);
+        // });
+      } catch (error) {
+        // console.log(error);
+      }
+    }
+  };
+
   const valid = async (e) => {
     let acc = await loadWeb3();
     const web3 = window.web3;
@@ -185,11 +256,10 @@ function Creatlock() {
           tokenAddress: "Invalid Address",
         });
       } else {
-      
-        setgetInputdata(e.target.value)
+        setgetInputdata(e.target.value);
         sessionStorage.setItem("token_Address", e.target.value);
-       
-        let pinkSaleToken = new web3.eth.Contract(tokenAbi,tokenAdress);
+
+        let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
         let tokenName, tokenSymbol, tokenDecimal, tokenBalance;
         tokenName = await pinkSaleToken.methods.name().call();
         tokenSymbol = await pinkSaleToken.methods.symbol().call();
@@ -204,7 +274,6 @@ function Creatlock() {
         setshowtokeninfo(true);
       }
       setTokenInfo({ ...obj });
-     
 
       // console.log("obj", obj);
     } else {
@@ -241,7 +310,7 @@ function Creatlock() {
                       placeholder="Enter token or PL token address"
                       value={formik.values.tokenAddress}
                       onChange={(e) => {
-                        formik.handleChange(e)
+                        formik.handleChange(e);
                         valid(e);
                       }}
                       className="hovr_clr"
@@ -321,8 +390,6 @@ function Creatlock() {
                   ) : (
                     ""
                   )}
-
-
 
                   <div className="mt-3">
                     <div className="text-start aFtr_sty">
@@ -501,9 +568,8 @@ function Creatlock() {
                       tokens.
                     </span>
                   </div>
-                 
+
                   <div className="mt-4 d-flex justify-content-center align-items-center">
-                   
                     <button
                       type="submit"
                       className="btn btn-small loc_buttn "
@@ -516,10 +582,9 @@ function Creatlock() {
                           size={20}
                           className=""
                         />
-                      ) : 
-                       ""
-
-                      }
+                      ) : (
+                        ""
+                      )}
                       {btntext}
                     </button>
                   </div>
