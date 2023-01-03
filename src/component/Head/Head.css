@@ -72,6 +72,7 @@
   cursor: pointer !important;
   /* z-index: 100000 !important; */
   border: none !important;
+  font-size: 14px !important;
 }
 .HOVER:hover {
   color: #f95997 !important;
@@ -84,8 +85,17 @@
 .name :hover {
   color: #f95997 !important;
 }
+.model_tital_bnb{
+  font-size: 18px !important;
+  font-weight: 500 !important;
+}
 .bg-color-lonch {
   background-color: #f7f7f7;
+  padding: 0 !important;
+}
+::selection{
+  background-color: #f95997 !important;
+  color: white !important;
 }
 .button_nav {
   background-color: #e6e6e6;

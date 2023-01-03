@@ -48,7 +48,7 @@ function Modal_bnb() {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title> Connect to a wallet</Modal.Title>
+          <Modal.Title className='model_tital_bnb'>Choose network</Modal.Title>
         </Modal.Header>
         <Modal.Body>
                  <div className="container text-center">
