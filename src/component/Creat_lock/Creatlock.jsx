@@ -27,6 +27,8 @@ import ClipLoader from "react-spinners/ClipLoader";
 import { DotLoader } from "react-spinners";
 import MoonLoader from "react-spinners/MoonLoader";
 import PulseLoader from "react-spinners/PulseLoader";
+import moment from "moment";
+
 import { tokenData, userData } from "../Token_pink/userData.js";
 
 function Creatlock() {
@@ -121,8 +123,6 @@ function Creatlock() {
         const dates = new Date(date);
         const seconds = Math.floor(dates.getTime() / 1000);
 
-        console.log(seconds);
-
         let _amount = web3.utils.toWei(amount.toString());
         console.log("_amount", _amount);
         let pinkSaleContract = new web3.eth.Contract(
@@ -212,7 +212,7 @@ function Creatlock() {
           _tokenDecimals: tokenDecimal,
           _amount: web3.utils.fromWei(String(amount)),
           _owner: myOwner,
-          _lockdate: String(+new Date()),
+          _lockDate: +new Date(),
           _unlockdate: seconds,
         };
 

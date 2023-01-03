@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./Mylockin.css";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router";
-import * as moment from "moment";
+import moment from "moment";
+
 import { loadWeb3 } from "../../connectivity/connectivity";
 import { pinkSaleLockAbi, pinkSaleLockContract } from "../../utilies/Contract";
 import Button from "react-bootstrap/Button";
@@ -28,6 +29,8 @@ function Lockin() {
   const [unlockdate, setunlockDate] = useState("");
   const [transferOwnership, settransferOwnership] = useState("");
   const [unlockseconds, setunlockseconds] = useState("");
+  const [unlocksecondsdummy, setunlocksecondsdummy] = useState(0);
+
   const [lockedAmount, setlockedAmount] = useState("");
   const [description, setdescription] = useState("");
   const [Timer, setTimer] = useState(null);
@@ -66,6 +69,7 @@ function Lockin() {
     let acc = await loadWeb3();
 
     let data_timer = await userData(acc);
+    console.log("data_timer", data_timer);
     data_timer = data_timer["tokens"];
     console.log("data_timer", data_timer[id].unlockDate);
     sessionStorage.setItem("Time", data_timer[id].unlockDate);
@@ -78,39 +82,40 @@ function Lockin() {
     if (flag) {
       setData(userLockedData[0]);
       let lockseconds = userLockedData[0]?._lockDate;
-      lockseconds = new Date(lockseconds).toUTCString();
-      const unlockSeconds = userLockedData[0]?._unlockDate;
+
+      const unlockSeconds = userLockedData[0]?._unlockdate;
       const ownerAddress = userLockedData[0]?._owner;
       const transictionid = userLockedData[0]?._id;
       const lockedamount = userLockedData[0]?._amount;
       const description = userLockedData[0]?._description;
-      // alert(description);
 
       setdescription(description);
       setlockedAmount(lockedamount);
       settrasenctionId(transictionid);
       settransferOwnership(ownerAddress);
       setlockDate(lockseconds);
-
-      setunlockDate(new Date(unlockSeconds * 1000).toUTCString());
+      setunlockDate(unlockSeconds);
       setunlockseconds(Number(unlockSeconds));
     } else {
       setData(userLockedData[id]);
       const lockseconds = userLockedData[id]?._lockDate;
-      const unlockSeconds = userLockedData[id]?._unlockDate;
+      let unlockSeconds = userLockedData[id]?._unlockDate;
+      unlockSeconds = Number(unlockSeconds);
+      setunlocksecondsdummy(unlockSeconds);
+      console.log("typeof", typeof unlockSeconds);
+
       setunlockseconds(Number(unlockSeconds));
       const ownerAddress = userLockedData[id]?._owner;
       const transictionid = userLockedData[id]?._id;
       const lockedamount = userLockedData[id]?._amount;
       const description = userLockedData[id]?._description;
-      // alert(description);
 
       setdescription(description);
       setlockedAmount(lockedamount);
       settrasenctionId(transictionid);
       settransferOwnership(ownerAddress);
       setlockDate(new Date(lockseconds * 1000).toUTCString());
-      setunlockDate(new Date(unlockSeconds * 1000).toUTCString());
+      setunlockDate(unlockSeconds);
     }
   });
   const renounceLockOwnership = async () => {
@@ -195,9 +200,11 @@ function Lockin() {
                     <div>
                       <span>Unlock in</span>
                     </div>
-                    {console.log("Timer", Time)}
+                    {console.log("Timer", typeof String(unlocksecondsdummy))}
                     <Countdown
-                      date={Date.now() + (Time * 1000 - Date.now())}
+                      date={
+                        Date.now() + (String("1673439780") * 1000 - Date.now())
+                      }
                       renderer={renderer}
                     />
                   </div>
@@ -255,11 +262,17 @@ function Lockin() {
                     </div>
                     <div className="d-flex justify-content-between border-bottom py-2">
                       <span className="left_txt">Lock Date</span>
-                      <span className="fnt_sz">{lockdate}</span>
+                      <span className="fnt_sz">{`${moment(lockdate).format(
+                        "YYYY-MM-DD HH:mm:ss a"
+                      )}`}</span>
                     </div>
                     <div className="d-flex justify-content-between border-bottom py-2">
                       <span className="left_txt">Unlock Date</span>
-                      <span className="fnt_sz">{unlockdate}</span>
+                      <span className="fnt_sz">
+                        {moment(unlockdate * 1000).format(
+                          "YYYY-MM-DD HH:mm:ss a"
+                        )}
+                      </span>
                     </div>
 
                     <div className="last_butn_main py-2 mt-3 ">
