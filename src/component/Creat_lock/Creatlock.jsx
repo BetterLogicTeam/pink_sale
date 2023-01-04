@@ -227,9 +227,9 @@ function Creatlock() {
 
   const valid = async (e) => {
     let acc = await loadWeb3();
+
     const web3 = window.web3;
     const _address = e.target.value;
-    // console.log("event", e.target.value);
     if (web3.utils.isAddress(_address)) {
       let _addressStatus = await web3.eth.getCode(_address);
       let obj = {};

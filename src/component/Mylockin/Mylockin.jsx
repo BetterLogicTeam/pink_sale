@@ -65,22 +65,10 @@ function Lockin() {
     }
   };
 
-  const get_All_data = async () => {
-    let acc = await loadWeb3();
-
-    let data_timer = await userData(acc);
-    console.log("data_timer", data_timer);
-    data_timer = data_timer["tokens"];
-    console.log("data_timer", data_timer[id].unlockDate);
-    sessionStorage.setItem("Time", data_timer[id].unlockDate);
-
-    setTimer(data_timer[id].unlockDate);
-  };
-
   useEffect(() => {
-    get_All_data();
     if (flag) {
       setData(userLockedData[0]);
+      
       let lockseconds = userLockedData[0]?._lockDate;
 
       const unlockSeconds = userLockedData[0]?._unlockdate;
@@ -88,6 +76,7 @@ function Lockin() {
       const transictionid = userLockedData[0]?._id;
       const lockedamount = userLockedData[0]?._amount;
       const description = userLockedData[0]?._description;
+      setunlocksecondsdummy(unlockSeconds);
 
       setdescription(description);
       setlockedAmount(lockedamount);
@@ -102,14 +91,12 @@ function Lockin() {
       let unlockSeconds = userLockedData[id]?._unlockDate;
       unlockSeconds = Number(unlockSeconds);
       setunlocksecondsdummy(unlockSeconds);
-      console.log("typeof", typeof unlockSeconds);
 
       setunlockseconds(Number(unlockSeconds));
       const ownerAddress = userLockedData[id]?._owner;
       const transictionid = userLockedData[id]?._id;
       const lockedamount = userLockedData[id]?._amount;
       const description = userLockedData[id]?._description;
-
       setdescription(description);
       setlockedAmount(lockedamount);
       settrasenctionId(transictionid);
@@ -187,9 +174,10 @@ function Lockin() {
               <UpdateLock
                 transferOwnership={transferOwnership}
                 trasenctionId={trasenctionId}
-                unlockseconds={unlockseconds}
+                unlockseconds={unlockdate}
                 lockedAmount={lockedAmount}
                 description={description}
+                data={data}
               />
             </>
           ) : (
@@ -201,12 +189,15 @@ function Lockin() {
                       <span>Unlock in</span>
                     </div>
                     {console.log("Timer", typeof String(unlocksecondsdummy))}
-                    <Countdown
-                      date={
-                        Date.now() + (String("1673439780") * 1000 - Date.now())
-                      }
-                      renderer={renderer}
-                    />
+                    {unlocksecondsdummy && (
+                      <Countdown
+                        date={
+                          Date.now() +
+                          (String(unlocksecondsdummy * 1000) - Date.now())
+                        }
+                        renderer={renderer}
+                      />
+                    )}
                   </div>
                 </div>
 
@@ -254,7 +245,7 @@ function Lockin() {
                     </div>
                     <div className="d-flex justify-content-between border-bottom py-2">
                       <span className="left_txt">Total Values Locked</span>
-                      <span className="fnt_sz">$5,834</span>
+                      <span className="fnt_sz">$0</span>
                     </div>
                     <div className="d-flex justify-content-between border-bottom py-2">
                       <span className="left_txt">Owner</span>

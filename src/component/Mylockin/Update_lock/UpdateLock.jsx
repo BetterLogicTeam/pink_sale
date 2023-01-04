@@ -1,4 +1,4 @@
-import React, { useState, CSSProperties } from "react";
+import React, { useState, CSSProperties, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./UpdateLock.css";
 import Form from "react-bootstrap/Form";
@@ -27,18 +27,22 @@ import { DotLoader } from "react-spinners";
 import MoonLoader from "react-spinners/MoonLoader";
 import PulseLoader from "react-spinners/PulseLoader";
 import { userData } from "../../Token_pink/userData.js";
-
+import moment from "moment";
 function UpdateLock({
   transferOwnership,
   trasenctionId,
   unlockseconds,
   description,
   lockedAmount,
+  data,
 }) {
-  const [btntext, setbtnText] = useState("Update");
-
+  const [btntext, setbtnText] = useState("Update Your Lock");
+  console.log("data", data);
   const [show, setShow] = useState(false);
   const [showtokeninfo, setshowtokeninfo] = useState(false);
+  const [dateError, setDateError] = useState("");
+
+  const [userBalance, setuserBalance] = useState("");
 
   const [tokenInfo, setTokenInfo] = useState("");
 
@@ -60,7 +64,9 @@ function UpdateLock({
     // ownerAddress: Yup.string().required("Required"),
     // title: Yup.string().required("Required"),
     amount: Yup.string().required("amount is a required field"),
-    // date: Yup.string()
+    // .min(Number(lockedAmount), `Amount must be at least ${lockedAmount}`),
+    // .max(500),
+    date: Yup.date().required("Unlock time need to be after now"),
     //   .required("Unlock time need to be after now")
     //   .min(new Date(), "date must be greater then current date"),
     // date1: Yup.string().required("TGE Date needs to be after now"),
@@ -78,9 +84,7 @@ function UpdateLock({
       ownerAddress: "",
       title: description,
       amount: lockedAmount,
-      date: new Date(unlockseconds),
-      useAnotherOwner: false,
-      tokenerror: "",
+      date: moment(unlockseconds * 1000).format("YYYY-MM-DD HH:mm:ss a"),
 
       //   date1: "",
       //   tgePercent: "",
@@ -95,7 +99,6 @@ function UpdateLock({
       // action.resetForm();
     },
   });
-
   const callAPI = async (values) => {
     setSpinner(true);
     // console.log("values", values);
@@ -111,40 +114,47 @@ function UpdateLock({
 
         let { tokenAddress, ownerAddress, amount, title, date } = values;
 
-        let owner;
-        if (values.useAnotherOwner) {
-          owner = ownerAddress;
-        } else {
-          owner = acc;
-        }
+        // let owner;
+        // if (values.useAnotherOwner) {
+        //   owner = ownerAddress;
+        // } else {
+        //   owner = acc;
+        // }
         const dates = new Date(date);
         const seconds = Math.floor(dates.getTime() / 1000);
 
-        console.log(seconds);
-
         let _amount = web3.utils.toWei(amount.toString());
-        console.log("_amount", _amount);
         let pinkSaleContract = new web3.eth.Contract(
           pinkSaleLockAbi,
           pinkSaleLockContract
         );
-        if (flag) {
-          let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
-          let approve = await pinkSaleToken.methods
-            .approve(pinkSaleLockContract, _amount)
-            .send({ from: acc });
-          setFlag(false);
-          setSpinner(false);
-          setbtnText("Lock");
-        } else {
-          let lockHash = await pinkSaleContract.methods
-            .lock(owner, tokenAddress, _amount, seconds, title)
-            .send({ from: acc });
-          setFlag(true);
-          setSpinner(false);
-          setbtnText("Approve");
-          navigate("/my_lockin");
-        }
+        let pinkSaleToken = new web3.eth.Contract(tokenAbi, data._token);
+        // let approve_amount = amount - data._amount;
+        let approve = await pinkSaleToken.methods
+          .approve(pinkSaleLockContract, _amount)
+          .send({ from: acc });
+        let UpdatelockHash = await pinkSaleContract.methods
+          .editLock(data._id, _amount, seconds)
+          .send({ from: acc });
+        setSpinner(false);
+
+        // if (flag) {
+        //   let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
+        //   let approve = await pinkSaleToken.methods
+        //     .approve(pinkSaleLockContract, _amount)
+        //     .send({ from: acc });
+        //   setFlag(false);
+        //   setSpinner(false);
+        //   setbtnText("Lock");
+        // } else {
+        //   let lockHash = await pinkSaleContract.methods
+        //     .lock(owner, tokenAddress, _amount, seconds, title)
+        //     .send({ from: acc });
+        //   setFlag(true);
+        //   setSpinner(false);
+        //   setbtnText("Approve");
+        //   navigate("/my_lockin");
+        // }
       } catch (e) {
         setSpinner(false);
 
@@ -170,47 +180,42 @@ function UpdateLock({
   const valid = async (e) => {
     let acc = await loadWeb3();
     const web3 = window.web3;
-    const _address = e.target.value;
-    // console.log("event", e.target.value);
-    if (web3.utils.isAddress(_address)) {
-      let _addressStatus = await web3.eth.getCode(_address);
-      let obj = {};
-      if (_addressStatus === "0x") {
-        setshowtokeninfo(false);
-
-        setValidate(false);
-
-        formik.setErrors({
-          tokenAddress: "Invalid Address",
-        });
-      } else {
-        let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
-        let tokenName, tokenSymbol, tokenDecimal, tokenBalance;
-        tokenName = await pinkSaleToken.methods.name().call();
-        tokenSymbol = await pinkSaleToken.methods.symbol().call();
-        tokenDecimal = await pinkSaleToken.methods.decimals().call();
-        tokenBalance = await pinkSaleToken.methods.balanceOf(acc).call();
-
-        tokenBalance = web3.utils.fromWei(tokenBalance);
-        obj.tokenName = tokenName;
-        obj.tokenSymbol = tokenSymbol;
-        obj.tokenDecimal = tokenDecimal;
-        obj.tokenBalance = tokenBalance;
-        setshowtokeninfo(true);
-      }
-      setTokenInfo({ ...obj });
-
-      // console.log("obj", obj);
-    } else {
-      setshowtokeninfo(false);
-
-      setValidate(false);
-
-      // formik.setErrors({
-      //   tokenAddress: "Invalid Address",
-      // });
+    const amount = e.target.value;
+    if (amount < lockedAmount) {
+      formik.setErrors({
+        amount: `amount must be greater or equal to ${lockedAmount}`,
+      });
     }
   };
+  const validDate = async (e) => {
+    let date = e.target.value;
+    console.log("formik.date", unlockseconds * 1000);
+    console.log("date.date", date);
+
+    let mydate = moment(date).isBefore(moment(unlockseconds * 1000));
+    console.log("isBefore", mydate);
+    if (mydate) {
+      setDateError("date must be greater");
+      // formik.setErrors({
+      //   date: `date must be greater`,
+      // });
+    } else {
+      setDateError("");
+    }
+  };
+  const getUserBalance = async () => {
+    let acc = await loadWeb3();
+    const web3 = window.web3;
+    let pinkSaleToken = new web3.eth.Contract(tokenAbi, data._token);
+    let balance = await pinkSaleToken.methods.balanceOf(acc).call();
+    balance = web3.utils.fromWei(balance);
+
+    setuserBalance(balance);
+  };
+  useEffect(() => {
+    getUserBalance();
+  }, []);
+
   return (
     <div className="container">
       <div className="row">
@@ -218,61 +223,11 @@ function UpdateLock({
           <div className="row d-flex justify-content-center">
             <div className="col-lg-10 bg-white">
               <div className="text-start fw-bold mt-4 border-bottom pb-4">
-                Create your lock
+                Edit your Lock
               </div>
               <div className="my-4">
                 <form onSubmit={formik.handleSubmit}>
-                  <Form.Group
-                    className="mb-3"
-                    controlId="formBasicEmail"
-                    disabled
-                  >
-                    <div className="text-start aFtr_sty">
-                      <Form.Label>
-                        Token or LP Token address{" "}
-                        <span className="text-danger">*</span>
-                      </Form.Label>
-                    </div>
-                    <Form.Control
-                      type="text"
-                      name="tokenAddress"
-                      placeholder="Enter token or PL token address"
-                      onChange={(e) => {
-                        console.log("here ");
-                        formik.handleChange(e);
-                        valid(e);
-                      }}
-                      value={formik.values.tokenAddress}
-                      className="hovr_clr"
-                      disabled
-                    />
-
-                    <div className="text-start">
-                      {formik.errors.tokenAddress && (
-                        <Form.Text className="text-danger">
-                          {formik.errors.tokenAddress}
-                        </Form.Text>
-                      )}
-                    </div>
-                    {/* {console.log} */}
-                    <Form.Group
-                      className="my-3"
-                      controlId="formBasicCheckbox"
-                      onClick={() => setShow(!show)}
-                    >
-                      <Form.Check
-                        type="checkbox"
-                        name="useAnotherOwner"
-                        onChange={formik.handleChange}
-                        label={
-                          <span className="apna ">use another owner?</span>
-                        }
-                        className="text-start hovr_clr"
-                      />
-                    </Form.Group>
-                  </Form.Group>
-
-                  <div className={`${show ? "d-block" : "d-none"}`}>
+                  {/* <div className={`${show ? "d-block" : "d-none"}`}>
                     <div className="text-start aFtr_sty">
                       <Form.Label>Owner</Form.Label>
                     </div>
@@ -290,51 +245,40 @@ function UpdateLock({
                         once they are unlocked
                       </Form.Text>
                     </div>
-                  </div>
-                  {showtokeninfo ? (
-                    <>
-                      <ul class="list-group list-group-flush ">
-                        <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
-                          Name
-                          <span className="text-primary fs_14">
-                            {tokenInfo.tokenName}
-                          </span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
-                          Symbol
-                          <span className="fs_14">{tokenInfo.tokenSymbol}</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
-                          Deimals
-                          <span className="fs_14">
-                            {tokenInfo.tokenDecimal}
-                          </span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
-                          Balance
-                          <span className="text-primary fs_14">
-                            {tokenInfo.tokenBalance}
-                          </span>
-                        </li>
-                      </ul>
-                    </>
-                  ) : (
-                    ""
-                  )}
+                  </div> */}
+
+                  <>
+                    <ul class="list-group list-group-flush ">
+                      <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                        Token Adress
+                        <span className=" fs_14" style={{ color: "#f95192" }}>
+                          {data._token}
+                        </span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                        Name
+                        <span className="text-primary fs_14">
+                          {data._tokenName}
+                        </span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                        Symbol
+                        <span className="fs_14">{data._symbol}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                        Deimals
+                        <span className="fs_14">{data._tokenDecimals}</span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                        Balance
+                        <span className="text-primary fs_14">
+                          {userBalance}
+                        </span>
+                      </li>
+                    </ul>
+                  </>
 
                   <div className="mt-3">
-                    <div className="text-start aFtr_sty">
-                      <Form.Label>Title</Form.Label>
-                    </div>
-                    <Form.Control
-                      type="text"
-                      name="title"
-                      placeholder="Ex:My Lock"
-                      className="hovr_clr"
-                      onChange={formik.handleChange}
-                      value={formik.values.title}
-                    />
-
                     <div className="text-start mt-3 aFtr_sty">
                       <Form.Label>
                         Amount <span className="text-danger">*</span>
@@ -345,7 +289,10 @@ function UpdateLock({
                       name="amount"
                       placeholder="Enter amount"
                       className="hovr_clr"
-                      onChange={formik.handleChange}
+                      onChange={(e) => {
+                        formik.handleChange(e);
+                        valid(e);
+                      }}
                       value={formik.values.amount}
                     />
                     <div className="text-start">
@@ -355,6 +302,9 @@ function UpdateLock({
                         </Form.Text>
                       )}
                     </div>
+                    <Form.Text className="text-primary">
+                      New amount must be not less than current amount
+                    </Form.Text>
                   </div>
 
                   <Form.Group
@@ -379,13 +329,20 @@ function UpdateLock({
                       </Form.Label>
                     </div>
                     <Form.Control
-                      type="date"
+                      type="datetime-local"
                       name="date"
                       placeholder="Select date"
+                      defaultValue={formik?.values?.date?.toString()}
                       className="hovr_clr"
-                      onChange={formik.handleChange}
-                      Value={formik?.values?.date}
+                      onChange={(e) => {
+                        formik.handleChange(e);
+                        validDate(e);
+                      }}
+                      Value={formik?.values?.date?.toString()}
                     />
+                    {dateError.length > 5 && (
+                      <Form.Text className="text-danger">{dateError}</Form.Text>
+                    )}
                     {console.log("LOg+Date", formik.values.date)}
                     <div className="text-start">
                       {formik.errors.date && (
@@ -502,11 +459,11 @@ function UpdateLock({
                   </div>
                   {console.log("formik", formik)}
                   <div className="mt-4 d-flex justify-content-center align-items-center">
-                    {console.log("formikformik", formik)}
+                    {console.log("!formik.isValid", !formik.isValid)}
                     <button
                       type="submit"
                       className="btn btn-small loc_buttn "
-                      disabled={!(formik.isValid && validate)}
+                      disabled={!formik.isValid || dateError.length > 5}
                     >
                       {spinner ? (
                         <ClipLoader
