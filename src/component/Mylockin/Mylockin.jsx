@@ -12,6 +12,7 @@ import Form from "react-bootstrap/Form";
 import UpdateLock from "./Update_lock/UpdateLock";
 import Countdown from "react-countdown";
 import { userData } from "../Token_pink/userData";
+import ExtendsLocks from "./Extend_Locks/ExtendsLocks";
 
 function Lockin() {
   let { id } = useParams();
@@ -20,7 +21,11 @@ function Lockin() {
     flag = true;
   }
   const [show, setShow] = useState(false);
+  const [unlockDisable, setUnlockDisable] = useState(true);
+
   const [showUpdates, setShowUpdate] = useState(false);
+  const [showExtendsLocks, setShowExtendsLocks] = useState(false);
+
   const [trasenctionId, settrasenctionId] = useState("");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -49,6 +54,7 @@ function Lockin() {
 
     if (completed) {
       // Render a completed state
+      setUnlockDisable(false);
       return <Completionist />;
     } else {
       return (
@@ -68,7 +74,7 @@ function Lockin() {
   useEffect(() => {
     if (flag) {
       setData(userLockedData[0]);
-      
+
       let lockseconds = userLockedData[0]?._lockDate;
 
       const unlockSeconds = userLockedData[0]?._unlockdate;
@@ -158,10 +164,37 @@ function Lockin() {
       }
     }
   };
-  console.log("datatata", data);
+  const unLock = async () => {
+    // setSpinner(true);
+    // console.log("values", values);
+    let acc = await loadWeb3();
+    // console.log("acc", acc);
+    if (acc == "No Wallet") {
+      //   toast.error("No Wallet Connected")
+    } else if (acc == "Wrong Network") {
+      //   toast.error("Wrong Newtwork please connect to BSC MainNet ")
+    } else {
+      try {
+        const web3 = window.web3;
+        let pinkSaleContract = new web3.eth.Contract(
+          pinkSaleLockAbi,
+          pinkSaleLockContract
+        );
+        alert(data._id);
+        let unLock = await pinkSaleContract.methods
+          .unlock(data._id)
+          .send({ from: acc });
+      } catch (e) {
+        // setSpinner(false);
+
+        console.log(e);
+      }
+    }
+  };
   const showUpdate = async () => {
     setShowUpdate(!showUpdates);
   };
+  useEffect(() => {}, [unlockDisable]);
 
   const Time = sessionStorage.getItem("Time");
 
@@ -172,6 +205,17 @@ function Lockin() {
           {showUpdates ? (
             <>
               <UpdateLock
+                transferOwnership={transferOwnership}
+                trasenctionId={trasenctionId}
+                unlockseconds={unlockdate}
+                lockedAmount={lockedAmount}
+                description={description}
+                data={data}
+              />
+            </>
+          ) : showExtendsLocks ? (
+            <>
+              <ExtendsLocks
                 transferOwnership={transferOwnership}
                 trasenctionId={trasenctionId}
                 unlockseconds={unlockdate}
@@ -282,17 +326,36 @@ function Lockin() {
                         >
                           Renounce Lock Ownership
                         </button>
+                        {unlockDisable ? (
+                          <>
+                            {" "}
+                            <button
+                              type="button"
+                              className="btn btn-sm fst_bB"
+                              onClick={showUpdate}
+                            >
+                              Update
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              type="button"
+                              className="btn btn-sm fst_bB"
+                              onClick={() => {
+                                setShowExtendsLocks(!showExtendsLocks);
+                              }}
+                            >
+                              Extend Lock
+                            </button>
+                          </>
+                        )}
+
                         <button
                           type="button"
                           className="btn btn-sm fst_bB"
-                          onClick={showUpdate}
-                        >
-                          Update
-                        </button>
-                        <button
-                          type="button"
-                          className="btn btn-sm fst_bB"
-                          disabled
+                          disabled={unlockDisable}
+                          onClick={unLock}
                         >
                           Unlock
                         </button>

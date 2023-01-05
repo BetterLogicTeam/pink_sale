@@ -1,6 +1,6 @@
 import React, { useState, CSSProperties, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./UpdateLock.css";
+import "./ExtendsLocks.css";
 import Form from "react-bootstrap/Form";
 // import { Formik, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
@@ -28,7 +28,7 @@ import MoonLoader from "react-spinners/MoonLoader";
 import PulseLoader from "react-spinners/PulseLoader";
 import { userData } from "../../Token_pink/userData.js";
 import moment from "moment";
-function UpdateLock({
+function ExtendsLocks({
   transferOwnership,
   trasenctionId,
   unlockseconds,
@@ -37,7 +37,7 @@ function UpdateLock({
   data,
 }) {
   const [btntext, setbtnText] = useState("Update Your Lock");
-  
+
   const [show, setShow] = useState(false);
   const [showtokeninfo, setshowtokeninfo] = useState(false);
   const [dateError, setDateError] = useState("");
@@ -195,7 +195,7 @@ function UpdateLock({
           <div className="row d-flex justify-content-center">
             <div className="col-lg-10 bg-white">
               <div className="text-start fw-bold mt-4 border-bottom pb-4">
-                Edit your Lock
+                Extends your Lock
               </div>
               <div className="my-4">
                 <form onSubmit={formik.handleSubmit}>
@@ -307,7 +307,7 @@ function UpdateLock({
                       defaultValue={formik?.values?.date?.toString()}
                       className="hovr_clr"
                       onChange={async (e) => {
-                        validDate(e);
+                        formik.handleChange(e);
                       }}
                       Value={formik?.values?.date?.toString()}
                     />
@@ -434,7 +434,9 @@ function UpdateLock({
                     <button
                       type="submit"
                       className="btn btn-small loc_buttn "
-                      disabled={!formik.isValid || dateError.length > 5}
+                      disabled={moment(formik.date).isAfter(
+                        new Date().toString()
+                      )}
                     >
                       {spinner ? (
                         <ClipLoader
@@ -470,4 +472,4 @@ function UpdateLock({
   );
 }
 
-export default UpdateLock;
+export default ExtendsLocks;

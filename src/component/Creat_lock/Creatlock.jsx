@@ -154,7 +154,13 @@ function Creatlock() {
           setFlag(true);
           setSpinner(false);
           setbtnText("Approve");
-          await myLocks(_amount, seconds, tokenAddress);
+          let totalLockCountLenght = await pinkSaleContract.methods
+            .getTotalLockCount()
+            .call();
+
+          let _id = --totalLockCountLenght;
+
+          await myLocks(_amount, seconds, tokenAddress, _id);
 
           navigate(`/my_lockin/00`);
         }
@@ -181,7 +187,7 @@ function Creatlock() {
     // }
   };
 
-  const myLocks = async (amount, seconds, tokenAddress) => {
+  const myLocks = async (amount, seconds, tokenAddress, _id) => {
     let arr = [];
     let obj = {};
     let acc = await loadWeb3();
@@ -206,6 +212,7 @@ function Creatlock() {
 
         // tokenBalance = web3.utils.fromWei(tokenBalance);
         obj = {
+          _id: _id,
           _token: tokenAddress,
           _tokenName: tokenName,
           _symbol: tokenSymbol,
