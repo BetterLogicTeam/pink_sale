@@ -28,6 +28,7 @@ import MoonLoader from "react-spinners/MoonLoader";
 import PulseLoader from "react-spinners/PulseLoader";
 import { userData } from "../../Token_pink/userData.js";
 import moment from "moment";
+import { toast } from "react-toastify";
 function UpdateLock({
   transferOwnership,
   trasenctionId,
@@ -37,7 +38,7 @@ function UpdateLock({
   data,
 }) {
   const [btntext, setbtnText] = useState("Update Your Lock");
-  
+
   const [show, setShow] = useState(false);
   const [showtokeninfo, setshowtokeninfo] = useState(false);
   const [dateError, setDateError] = useState("");
@@ -116,10 +117,13 @@ function UpdateLock({
         let approve = await pinkSaleToken.methods
           .approve(pinkSaleLockContract, _amount)
           .send({ from: acc });
+        toast.success("your token approved");
+
         let UpdatelockHash = await pinkSaleContract.methods
           .editLock(data._id, _amount, seconds)
           .send({ from: acc });
         setSpinner(false);
+        toast.success("Your lock was updated");
 
         // if (flag) {
         //   let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
@@ -430,7 +434,6 @@ function UpdateLock({
                   </div>
                   {console.log("formik", formik)}
                   <div className="mt-4 d-flex justify-content-center align-items-center">
-                    {console.log("!formik.isValid", !formik.isValid)}
                     <button
                       type="submit"
                       className="btn btn-small loc_buttn "

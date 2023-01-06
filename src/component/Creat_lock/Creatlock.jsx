@@ -30,6 +30,8 @@ import PulseLoader from "react-spinners/PulseLoader";
 import moment from "moment";
 
 import { tokenData, userData } from "../Token_pink/userData.js";
+import { Button, InputGroup } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 function Creatlock() {
   const dispatch = useDispatch();
@@ -142,6 +144,8 @@ function Creatlock() {
             .send({
               from: acc,
             });
+          toast.success("your token approved");
+
           setFlag(false);
           setSpinner(false);
           setbtnText("Lock");
@@ -161,10 +165,11 @@ function Creatlock() {
           let _id = --totalLockCountLenght;
 
           await myLocks(_amount, seconds, tokenAddress, _id);
-
+          toast.success("your token locked");
           navigate(`/my_lockin/00`);
         }
       } catch (e) {
+        toast.error(e.message);
         setSpinner(false);
 
         console.log(e);
@@ -227,18 +232,20 @@ function Creatlock() {
 
         dispatch(userLockedData(arr));
       } catch (error) {
-        // console.log(error);
+        toast.error(error.message);
       }
     }
   };
 
   const valid = async (e) => {
     let acc = await loadWeb3();
-
     const web3 = window.web3;
+
     const _address = e.target.value;
+
     if (web3.utils.isAddress(_address)) {
       let _addressStatus = await web3.eth.getCode(_address);
+
       let obj = {};
       if (_addressStatus === "0x") {
         setshowtokeninfo(false);
@@ -251,8 +258,7 @@ function Creatlock() {
       } else {
         setgetInputdata(e.target.value);
         sessionStorage.setItem("token_Address", e.target.value);
-
-        let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
+        let pinkSaleToken = new web3.eth.Contract(tokenAbi, _address);
         let tokenName, tokenSymbol, tokenDecimal, tokenBalance;
         tokenName = await pinkSaleToken.methods.name().call();
         tokenSymbol = await pinkSaleToken.methods.symbol().call();
@@ -264,6 +270,8 @@ function Creatlock() {
         obj.tokenSymbol = tokenSymbol;
         obj.tokenDecimal = tokenDecimal;
         obj.tokenBalance = tokenBalance;
+        console.log("_addressStatus", obj);
+
         setshowtokeninfo(true);
       }
       setTokenInfo({ ...obj });
@@ -402,14 +410,25 @@ function Creatlock() {
                         Amount <span className="text-danger">*</span>
                       </Form.Label>
                     </div>
-                    <Form.Control
-                      type="number"
-                      name="amount"
-                      placeholder="Enter amount"
-                      className="hovr_clr"
-                      onChange={formik.handleChange}
-                      value={formik.values.amount}
-                    />
+                    <InputGroup className="mb-3">
+                      <Form.Control
+                        type="number"
+                        name="amount"
+                        placeholder="Enter amount"
+                        className="hovr_clr"
+                        onChange={formik.handleChange}
+                        value={formik.values.amount}
+                      />
+                      <Button
+                        variant="outline-secondary"
+                        id="button-addon2"
+                        onClick={() => {
+                          formik.setValues({ amount: tokenInfo.tokenBalance });
+                        }}
+                      >
+                        Max
+                      </Button>
+                    </InputGroup>
                     <div className="text-start">
                       {formik.errors.amount && (
                         <Form.Text className="text-danger">

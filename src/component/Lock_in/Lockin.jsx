@@ -27,9 +27,42 @@ function Lockin() {
   const [lockedAmount, setlockedAmount] = useState("");
   const [description, setdescription] = useState("");
   const [Timer, setTimer] = useState(null);
+  const [unlocksecondsdummy, setunlocksecondsdummy] = useState(0);
 
   const lockForToken = useSelector((state) => state.pinksale.locksForTokens);
-  //   console.log("lockForToken", lockForToken);
+
+  const Completionist = () => (
+    <div class="featured-card-clock" data-countdown="2021/10/10">
+      <div className="main_time mt-3 d-flex justify-content-center">
+        <div className="pik_clr py-1 px-2 arounded">00</div>
+        <div className="pik_clr py-1 px-2 arounded">00</div>
+        <div className="pik_clr py-1 px-2 arounded">00</div>
+        <div className="pik_clr py-1 px-2 arounded">00</div>
+      </div>
+    </div>
+  );
+
+  const renderer = ({ days, hours, minutes, seconds, completed }) => {
+    // setTimeEnded(completed)
+
+    if (completed) {
+      // Render a completed state
+      // setUnlockDisable(false);
+      return <Completionist />;
+    } else {
+      return (
+        <div className="countdown">
+          {/* <div class="timer-text" data-countdown="2021/11/11">{`${days} : ${hours} : ${minutes} : ${seconds} `}</div> */}
+          <div className="main_time mt-3 d-flex justify-content-center">
+            <div className="pik_clr p-2 arounded">{days}</div>
+            <div className="pik_clr p-2 arounded">{hours}</div>
+            <div className="pik_clr p-2 arounded">{minutes}</div>
+            <div className="pik_clr p-2 arounded">{seconds}</div>
+          </div>
+        </div>
+      );
+    }
+  };
   useEffect(() => {
     const tokenAddress = lockForToken[id]?.tokenAddress;
     const tokenName = lockForToken[id]?.tokenName;
@@ -38,11 +71,15 @@ function Lockin() {
     const lockedamount = lockForToken[id]?.lockedamount;
     const ownerAddress = lockForToken[id]?.walletAdress;
     let lockeDate = lockForToken[id]?.lockDate;
+
     lockeDate = String(new Date(lockeDate * 1000));
     // console.log("lock date", lockeDate);
 
     let unlockDate = lockForToken[id]?.unlockDate;
+    setunlocksecondsdummy(unlockDate);
+
     unlockDate = String(new Date(unlockDate * 1000));
+
     setUnLockDate(unlockDate);
     setLockDate(lockeDate);
     console.log("lockin lockedamount", lockedamount);
@@ -79,10 +116,15 @@ function Lockin() {
                   <span>Unlock in</span>
                 </div>
                 <div className="main_time mt-3 d-flex justify-content-center">
-                  <div className="pik_clr p-2 arounded">364</div>
-                  <div className="pik_clr p-2 arounded">15</div>
-                  <div className="pik_clr p-2 arounded">50</div>
-                  <div className="pik_clr p-2 arounded">22</div>
+                  {unlocksecondsdummy && (
+                    <Countdown
+                      date={
+                        Date.now() +
+                        (String(unlocksecondsdummy * 1000) - Date.now())
+                      }
+                      renderer={renderer}
+                    />
+                  )}
                 </div>
               </div>
             </div>
@@ -95,7 +137,11 @@ function Lockin() {
                 <div className="d-flex justify-content-between border-bottom py-2">
                   <span className="left_txt">Token Address</span>
                   <span className="fnt_sz">
-                    <a href="" className="adrs">
+                    <a
+                      href={`https://testnet.bscscan.com/token/${tokenAddress}`}
+                      target="_blank"
+                      className="adrs"
+                    >
                       {" "}
                       {tokenAddress}
                     </a>
@@ -124,19 +170,24 @@ function Lockin() {
                 <div className="d-flex justify-content-between border-bottom py-2">
                   <span className="left_txt">Total Amount Locked</span>
                   <span className="fnt_sz">
-                    <a href="" className="adrs">
-                      {" "}
-                      {lockedAmount}
-                    </a>
+                    <span className="adrs"> {lockedAmount}</span>
                   </span>
                 </div>
                 <div className="d-flex justify-content-between border-bottom py-2">
                   <span className="left_txt">Total Values Locked</span>
-                  <span className="fnt_sz">$5,834</span>
+                  <span className="fnt_sz">$0</span>
                 </div>
                 <div className="d-flex justify-content-between border-bottom py-2">
                   <span className="left_txt">Owner</span>
-                  <span className="fnt_sz">{ownerAddress}</span>
+                  <span className="fnt_sz">
+                    <a
+                      href={`https://testnet.bscscan.com/address/${ownerAddress}`}
+                      target="_blank"
+                      className="adrs"
+                    >
+                      {ownerAddress}
+                    </a>
+                  </span>
                 </div>
                 <div className="d-flex justify-content-between border-bottom py-2">
                   <span className="left_txt">Lock Date</span>

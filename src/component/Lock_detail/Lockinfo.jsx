@@ -108,7 +108,11 @@ function Lockinfo() {
                 <div className="d-flex justify-content-between border-bottom py-2">
                   <span className="left_txt">Token Address</span>
                   <span className="fnt_sz">
-                    <a href="" className="adrs">
+                    <a
+                      href={`https://testnet.bscscan.com/token/${tokenAddress}`}
+                      target="_blank"
+                      className="adrs"
+                    >
                       {tokenAddress}
                     </a>
                   </span>
@@ -146,16 +150,22 @@ function Lockinfo() {
                       </tr>
                     </thead>
                     <tbody>
-                      {allLockedTokenForUser.map((tokenInfo,index) => {
+                      {allLockedTokenForUser.map((tokenInfo, index) => {
                         return (
                           <tr>
                             <td>
-                              <a className="adrs">{`${tokenInfo.owner.slice(
-                                0,
-                                6
-                              )}...${tokenInfo.owner.slice(
-                                tokenInfo.owner.length - 4
-                              )}`}</a>
+                              <a
+                                className="adrs"
+                                href={`https://testnet.bscscan.com/address/${tokenInfo.owner}`}
+                                target="_blank"
+                              >
+                                {`${tokenInfo.owner.slice(
+                                  0,
+                                  6
+                                )}...${tokenInfo.owner.slice(
+                                  tokenInfo.owner.length - 4
+                                )}`}
+                              </a>
                             </td>
                             <td>{tokenInfo.amount}</td>
                             <td>-</td>
@@ -167,8 +177,11 @@ function Lockinfo() {
                                 .slice(0, 19)}
                             </td>
                             <td>
-                              
-                              <div to="/Lockin" className="adrs" onClick={() => history(`/Lockin/${index}`)}>
+                              <div
+                                to="/Lockin"
+                                className="adrs"
+                                onClick={() => history(`/Lockin/${index}`)}
+                              >
                                 View
                               </div>
                             </td>

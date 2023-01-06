@@ -28,6 +28,7 @@ import MoonLoader from "react-spinners/MoonLoader";
 import PulseLoader from "react-spinners/PulseLoader";
 import { userData } from "../../Token_pink/userData.js";
 import moment from "moment";
+import { toast } from "react-toastify";
 function ExtendsLocks({
   transferOwnership,
   trasenctionId,
@@ -48,6 +49,8 @@ function ExtendsLocks({
 
   const [flag, setFlag] = useState(true);
   const [validate, setValidate] = useState(true);
+  const [extendsLockDisable, setExtendsLockDisable] = useState(true);
+  const [amountDisable, setAmountDisable] = useState(false);
 
   const [spinner, setSpinner] = useState(false);
   const override = {
@@ -106,20 +109,25 @@ function ExtendsLocks({
         // }
         const dates = new Date(date);
         const seconds = Math.floor(dates.getTime() / 1000);
-
+        console.log("amount", amount, "lockedAmount", lockedAmount);
         let _amount = web3.utils.toWei(amount.toString());
         let pinkSaleContract = new web3.eth.Contract(
           pinkSaleLockAbi,
           pinkSaleLockContract
         );
         let pinkSaleToken = new web3.eth.Contract(tokenAbi, data._token);
-        let approve = await pinkSaleToken.methods
-          .approve(pinkSaleLockContract, _amount)
-          .send({ from: acc });
+        if (amount > lockedAmount) {
+          let approve = await pinkSaleToken.methods
+            .approve(pinkSaleLockContract, _amount)
+            .send({ from: acc });
+          toast.success("your lock approved");
+        }
+
         let UpdatelockHash = await pinkSaleContract.methods
           .editLock(data._id, _amount, seconds)
           .send({ from: acc });
         setSpinner(false);
+        toast.success("your lock was updated");
 
         // if (flag) {
         //   let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
@@ -150,19 +158,24 @@ function ExtendsLocks({
     const web3 = window.web3;
     const amount = e.target.value;
     if (amount < lockedAmount) {
+      setAmountDisable(true);
       formik.setErrors({
         amount: `amount must be greater or equal to ${lockedAmount}`,
       });
+    } else {
+      setAmountDisable(false);
     }
   };
   const validDate = async (e) => {
     let date = e.target.value;
-    console.log("formik.date", unlockseconds * 1000);
+    let currentDate = new Date();
+    console.log("currentDate", currentDate);
     console.log("date.date", date);
 
-    let mydate = moment(date).isBefore(moment(unlockseconds * 1000));
-    console.log("isBefore", mydate);
+    let mydate = moment(date).isAfter(moment(currentDate));
+    console.log("isAfter", mydate);
     if (mydate) {
+      setExtendsLockDisable(false);
       // setDateError("date must be greater");
       setTimeout(() => {
         formik.setErrors({
@@ -171,6 +184,8 @@ function ExtendsLocks({
       }, 1000);
       formik.handleChange(e);
     } else {
+      setExtendsLockDisable(true);
+
       formik.handleChange(e);
       setDateError("");
     }
@@ -307,7 +322,7 @@ function ExtendsLocks({
                       defaultValue={formik?.values?.date?.toString()}
                       className="hovr_clr"
                       onChange={async (e) => {
-                        formik.handleChange(e);
+                        validDate(e);
                       }}
                       Value={formik?.values?.date?.toString()}
                     />
@@ -430,13 +445,10 @@ function ExtendsLocks({
                   </div>
                   {console.log("formik", formik)}
                   <div className="mt-4 d-flex justify-content-center align-items-center">
-                    {console.log("!formik.isValid", !formik.isValid)}
                     <button
                       type="submit"
                       className="btn btn-small loc_buttn "
-                      disabled={moment(formik.date).isAfter(
-                        new Date().toString()
-                      )}
+                      disabled={extendsLockDisable || amountDisable}
                     >
                       {spinner ? (
                         <ClipLoader

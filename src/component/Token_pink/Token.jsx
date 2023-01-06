@@ -153,9 +153,7 @@ export default function BasicTabs() {
         console.log("_allTokensData", _allTokensData["allTokensArray"]);
         let arr = [];
         let obj = {};
-        // console.log("User Data", _data);
         _allTokensData["allTokensArray"].forEach(async (output) => {
-          // console.log("output", output);
           let token_data = await tokenData(output?.token);
 
           obj = {

@@ -13,6 +13,7 @@ import UpdateLock from "./Update_lock/UpdateLock";
 import Countdown from "react-countdown";
 import { userData } from "../Token_pink/userData";
 import ExtendsLocks from "./Extend_Locks/ExtendsLocks";
+import { toast } from "react-toastify";
 
 function Lockin() {
   let { id } = useParams();
@@ -41,11 +42,15 @@ function Lockin() {
   const [Timer, setTimer] = useState(null);
 
   const userLockedData = useSelector((state) => state.pinksale.userLockedData);
-  console.log("userLockedData", userLockedData);
 
   const Completionist = () => (
     <div class="featured-card-clock" data-countdown="2021/10/10">
-      Time Ended
+      <div className="main_time mt-3 d-flex justify-content-center">
+        <div className="pik_clr py-1 px-2 arounded">00</div>
+        <div className="pik_clr py-1 px-2 arounded">00</div>
+        <div className="pik_clr py-1 px-2 arounded">00</div>
+        <div className="pik_clr py-1 px-2 arounded">00</div>
+      </div>
     </div>
   );
 
@@ -130,7 +135,9 @@ function Lockin() {
         let renounceLockOwnership = await pinkSaleContract.methods
           .renounceLockOwnership(trasenctionId)
           .send({ from: acc });
+        toast.success("Success");
       } catch (e) {
+        toast.error(e.message);
         // setSpinner(false);
 
         console.log(e);
@@ -157,10 +164,10 @@ function Lockin() {
         let transferOwnerShip = await pinkSaleContract.methods
           .transferLockOwnership(trasenctionId, transferOwnership)
           .send({ from: acc });
+        toast.success("success");
       } catch (e) {
         // setSpinner(false);
-
-        console.log(e);
+        toast.error(e.message);
       }
     }
   };
@@ -170,9 +177,9 @@ function Lockin() {
     let acc = await loadWeb3();
     // console.log("acc", acc);
     if (acc == "No Wallet") {
-      //   toast.error("No Wallet Connected")
+      toast.error("No Wallet Connected");
     } else if (acc == "Wrong Network") {
-      //   toast.error("Wrong Newtwork please connect to BSC MainNet ")
+      toast.error("Wrong Newtwork please connect to BSC MainNet ");
     } else {
       try {
         const web3 = window.web3;
@@ -180,12 +187,14 @@ function Lockin() {
           pinkSaleLockAbi,
           pinkSaleLockContract
         );
-        alert(data._id);
+
         let unLock = await pinkSaleContract.methods
           .unlock(data._id)
           .send({ from: acc });
+        toast.success("Unlocked");
       } catch (e) {
         // setSpinner(false);
+        toast.error(e.message);
 
         console.log(e);
       }
@@ -229,10 +238,9 @@ function Lockin() {
               <div className="row d-flex justify-content-center">
                 <div className="col-lg-10 bg-white">
                   <div className="my-4">
-                    <div>
+                    <div className="text-center">
                       <span>Unlock in</span>
                     </div>
-                    {console.log("Timer", typeof String(unlocksecondsdummy))}
                     {unlocksecondsdummy && (
                       <Countdown
                         date={
@@ -253,7 +261,11 @@ function Lockin() {
                     <div className="d-flex justify-content-between border-bottom py-2">
                       <span className="left_txt">Token Address</span>
                       <span className="fnt_sz">
-                        <a href="" className="adrs">
+                        <a
+                          href={`https://testnet.bscscan.com/token/${data?._token}`}
+                          target="_blank"
+                          className="adrs"
+                        >
                           {data?._token}
                         </a>
                       </span>
@@ -281,10 +293,10 @@ function Lockin() {
                     <div className="d-flex justify-content-between border-bottom py-2">
                       <span className="left_txt">Total Amount Locked</span>
                       <span className="fnt_sz">
-                        <a href="" className="adrs">
+                        <span className="">
                           {" "}
                           {data?._amount} {data?._tokenName}
-                        </a>
+                        </span>
                       </span>
                     </div>
                     <div className="d-flex justify-content-between border-bottom py-2">
@@ -293,7 +305,15 @@ function Lockin() {
                     </div>
                     <div className="d-flex justify-content-between border-bottom py-2">
                       <span className="left_txt">Owner</span>
-                      <span className="fnt_sz">{data?._owner}</span>
+                      <span className="fnt_sz">
+                        <a
+                          href={`https://testnet.bscscan.com/address/${data?._owner}`}
+                          target="_blank"
+                          className="adrs"
+                        >
+                          {data?._owner}
+                        </a>
+                      </span>
                     </div>
                     <div className="d-flex justify-content-between border-bottom py-2">
                       <span className="left_txt">Lock Date</span>
@@ -354,6 +374,12 @@ function Lockin() {
                         <button
                           type="button"
                           className="btn btn-sm fst_bB"
+                          style={{
+                            backgroundColor: !unlockDisable
+                              ? "#f95192"
+                              : "#0000001A",
+                            color: !unlockDisable ? "white" : "black",
+                          }}
                           disabled={unlockDisable}
                           onClick={unLock}
                         >
