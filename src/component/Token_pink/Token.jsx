@@ -8,8 +8,10 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Form from "react-bootstrap/Form";
 import Web3 from "web3";
-
+import "./Token.css";
 import Pagination from "@mui/material/Pagination";
+// import Pagination from "../../component/Pagination/Pagination";
+import { BallTriangle } from "react-loader-spinner";
 import Stack from "@mui/material/Stack";
 import Tokenli from "../Token_list/Tokenli";
 import thinken from "../Assets/think.png";
@@ -71,7 +73,15 @@ export default function BasicTabs() {
   const [value, setValue] = useState(0);
   const [userTokens, setUserTokens] = useState([]);
   const [allTokens, setAllTockens] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(10);
+  const [search, setsearch] = useState("");
+  const [showLoader, setShowLoader] = useState(true);
+  const [showLoader2, setShowLoader2] = useState(true);
 
+  const handleSearch = async (event) => {
+    setsearch(event.target.value);
+  };
   const dispatch = useDispatch();
 
   let walletaddress = useSelector((state) => state.pinksale.walletaddress);
@@ -81,6 +91,7 @@ export default function BasicTabs() {
   };
   const myLocks = async () => {
     let acc = await loadWeb3();
+
     if (acc == "No Wallet") {
       //   toast.error("No Wallet Connected")
     } else if (acc == "Wrong Network") {
@@ -88,34 +99,39 @@ export default function BasicTabs() {
     } else {
       try {
         const web3 = window.web3;
+
         let _data = await userData(acc);
         console.log("_Data", _data["tokens"]);
         let arr = [];
         let obj = {};
-        // console.log("User Data", _data);
-        _data["tokens"].forEach(async (output) => {
-          let token_data = await tokenData(output?.token);
+        if (_data["tokens"].length == 0) {
+          setShowLoader2(false);
+        } else {
+          _data["tokens"].forEach(async (output) => {
+            let token_data = await tokenData(output?.token);
 
-          obj = {
-            _amount: web3.utils.fromWei(output.amount),
-            _description:
-              output?.description == ""
-                ? token_data["tokenName"]
-                : output?.description,
-            _id: output.id,
-            _lockDate: output.lockDate,
-            _owner: output.owner,
-            _token: output.token,
-            _unlockDate: output.unlockDate,
-            _unlockedAmount: output.unlockedAmount,
-            _symbol: token_data["tokenSymbol"],
-            _tokenName: token_data["tokenName"],
-            _tokenDecimals: token_data["tokenDecimals"],
-          };
-          arr = [...arr, obj];
-          dispatch(userLockedData(arr));
-          setUserTokens([...arr]);
-        });
+            obj = {
+              _amount: web3.utils.fromWei(output.amount),
+              _description:
+                output?.description == ""
+                  ? token_data["tokenName"]
+                  : output?.description,
+              _id: output.id,
+              _lockDate: output.lockDate,
+              _owner: output.owner,
+              _token: output.token,
+              _unlockDate: output.unlockDate,
+              _unlockedAmount: output.unlockedAmount,
+              _symbol: token_data["tokenSymbol"],
+              _tokenName: token_data["tokenName"],
+              _tokenDecimals: token_data["tokenDecimals"],
+            };
+            arr = [...arr, obj];
+            dispatch(userLockedData(arr));
+            setUserTokens([...arr]);
+            setShowLoader2(false);
+          });
+        }
 
         // const web3 = window.web3;
         // let pinkSaleContract = new webSupply.eth.Contract(
@@ -172,10 +188,11 @@ export default function BasicTabs() {
             _tokenName: token_data["tokenName"],
             _tokenDecimals: token_data["tokenDecimals"],
           };
-          console.log("obj", obj);
+          console.log("objobj", obj);
           arr = [...arr, obj];
           dispatch(allLockedData(arr));
           setAllTockens([...arr]);
+          setShowLoader(false);
         });
 
         // const web3 = window.web3;
@@ -206,6 +223,17 @@ export default function BasicTabs() {
     myLocks();
     allLocks();
   }, []);
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentTokens = allTokens.slice(indexOfFirstPost, indexOfLastPost);
+
+  // Change page
+  // const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const setPageNumber = (event, value) => {
+    // setPage(value);
+    setCurrentPage(value);
+  };
+
   return (
     <div className="container">
       <div className="row">
@@ -216,6 +244,7 @@ export default function BasicTabs() {
                 <Form.Control
                   type="search"
                   placeholder="Search by token address ..."
+                  onChange={handleSearch}
                 />
               </div>
               <div className="mt-2">
@@ -246,23 +275,47 @@ export default function BasicTabs() {
                       <span className="mg_k"></span>
                     </div>
                     <div className="frnt_Main my-5">
-                      {allTokens.map((tokendata, index) => {
-                        console.log("data", tokendata);
-                        return (
-                          <div className="mt-3">
-                            <Tokenli
-                              token_pic={thinken}
-                              text_one={tokendata._description}
-                              text_tow={tokendata._symbol}
-                              amount1={tokendata._amount}
-                              amount2={tokendata._symbol}
-                              tokenName={tokendata._tokenName}
-                              fullpage="View"
-                              index={index}
-                            />
-                          </div>
-                        );
-                      })}
+                      {showLoader ? (
+                        <div className="d-flex justify-content-center">
+                          <BallTriangle
+                            height={40}
+                            width={40}
+                            radius={5}
+                            color="#f95192"
+                            ariaLabel="ball-triangle-loading"
+                            wrapperClass={{}}
+                            wrapperStyle=""
+                            visible={true}
+                          />
+                        </div>
+                      ) : (
+                        <>
+                          {currentTokens
+                            .filter((item, index) => {
+                              return search === ""
+                                ? item
+                                : item._token.includes(search);
+                            })
+                            .map((tokendata, index) => {
+                              console.log("data", tokendata);
+                              return (
+                                <div className="mt-3">
+                                  <Tokenli
+                                    token_pic={thinken}
+                                    text_one={tokendata._description}
+                                    text_tow={tokendata._symbol}
+                                    amount1={tokendata._amount}
+                                    amount2={tokendata._symbol}
+                                    tokenName={tokendata._tokenName}
+                                    fullpage="View"
+                                    index={index}
+                                  />
+                                </div>
+                              );
+                            })}
+                        </>
+                      )}
+
                       {/* <div className="mt-3">
                         <Tokenli
                           token_pic={thinken}
@@ -278,9 +331,12 @@ export default function BasicTabs() {
                     <div className="pgnation d-flex justify-content-center">
                       <Stack spacing={2}>
                         <Pagination
-                          count={10}
+                          className="pag_color"
+                          count={Math.ceil(allTokens.length / postsPerPage)}
                           variant="outlined"
                           shape="rounded"
+                          page={currentPage}
+                          onChange={setPageNumber}
                         />
                       </Stack>
                     </div>
@@ -294,21 +350,46 @@ export default function BasicTabs() {
 
                     <div className="frnt_Main my-5">
                       <div>
-                        {userTokens.map((tokendata, index) => {
-                          return (
-                            <div className="mt-3">
-                              <Mylock
-                                token_pic={thinken}
-                                text_one={tokendata._description}
-                                text_tow={tokendata._symbol}
-                                amount1={tokendata._amount}
-                                amount2={tokendata._symbol}
-                                fullpage="View"
-                                index={index}
-                              />
-                            </div>
-                          );
-                        })}
+                        {console.log("loader2", showLoader2)}
+
+                        {showLoader2 ? (
+                          <div className="d-flex justify-content-center">
+                            <BallTriangle
+                              height={40}
+                              width={40}
+                              radius={5}
+                              color="#f95192"
+                              ariaLabel="ball-triangle-loading"
+                              wrapperClass={{}}
+                              wrapperStyle=""
+                              visible={true}
+                            />
+                          </div>
+                        ) : (
+                          <>
+                            {userTokens.length == "0" ? (
+                              <>No Data</>
+                            ) : (
+                              <>
+                                {userTokens.map((tokendata, index) => {
+                                  return (
+                                    <div className="mt-3">
+                                      <Mylock
+                                        token_pic={thinken}
+                                        text_one={tokendata._description}
+                                        text_tow={tokendata._symbol}
+                                        amount1={tokendata._amount}
+                                        amount2={tokendata._symbol}
+                                        fullpage="View"
+                                        index={index}
+                                      />
+                                    </div>
+                                  );
+                                })}
+                              </>
+                            )}
+                          </>
+                        )}
                       </div>
                     </div>
                   </TabPanel>

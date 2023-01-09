@@ -8,7 +8,6 @@ import {
 
 
 export const userData = async (_userAddress) => {
-    console.log("User address", _userAddress);
     const web3 = window.web3;
 
     let pinkSaleContract = new web3.eth.Contract(
@@ -17,7 +16,6 @@ export const userData = async (_userAddress) => {
     );
 
     let _userTokens = await pinkSaleContract.methods.normalLocksForUser(_userAddress).call();
-    console.log("_userTokens", _userTokens[0].unlockDate);
 
 
 
@@ -34,13 +32,7 @@ export const allDataForToken = async (_tokenAddress) => {
     );
 
     let _totalLockCountForToken = await pinkSaleContract.methods.totalLockCountForToken(_tokenAddress).call();
-    // console.log(_totalLockCountForToken)
     let _allDataForToken = await pinkSaleContract.methods.getLocksForToken(_tokenAddress, 0, _totalLockCountForToken).call();
-    // console.log('_allDataForToken', _allDataForToken)
-
-
-
-
     return _allDataForToken
 
 }

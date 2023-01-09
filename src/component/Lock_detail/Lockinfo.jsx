@@ -9,6 +9,7 @@ import { allDataForToken, userData } from "../Token_pink/userData";
 import { useParams } from "react-router";
 import { locksForToken } from "../../features/pinksale/pinksaleSlice";
 import { useNavigate } from "react-router-dom";
+import Pagination from "@mui/material/Pagination";
 
 function Lockinfo() {
   const [data, setData] = useState({});
@@ -19,6 +20,8 @@ function Lockinfo() {
   const [tokenDecimals, setTokenDecimals] = useState("");
   const [tokenName, setTokenName] = useState("");
   const [allLockedTokenForUser, setallLockedTokenForUser] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(10);
   let history = useNavigate();
 
   //   const [trasenctionId, settrasenctionId] = useState("");
@@ -86,7 +89,19 @@ function Lockinfo() {
     fatchdata();
     // settrasenctionId(transictionid);
   }, []);
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentTokens = allLockedTokenForUser.slice(
+    indexOfFirstPost,
+    indexOfLastPost
+  );
 
+  // Change page
+  // const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const setPageNumber = (event, value) => {
+    // setPage(value);
+    setCurrentPage(value);
+  };
   return (
     <div className="container">
       <div className="row">
@@ -132,7 +147,7 @@ function Lockinfo() {
               </div>
             </div>
             <div className="row justify-content-center mt-4 p-0">
-              <div className="col-lg-10 bg-white">
+              <div className="col-lg-10 bg-white pb-3">
                 <div className="text-start border-bottom py-3">
                   <span className="fw-bold">Lock records</span>
                 </div>
@@ -150,7 +165,7 @@ function Lockinfo() {
                       </tr>
                     </thead>
                     <tbody>
-                      {allLockedTokenForUser.map((tokenInfo, index) => {
+                      {currentTokens.map((tokenInfo, index) => {
                         return (
                           <tr>
                             <td>
@@ -190,6 +205,18 @@ function Lockinfo() {
                       })}
                     </tbody>
                   </table>
+                </div>
+                <div className="d-flex justify-content-center">
+                  <Pagination
+                    className="pag_color"
+                    count={Math.ceil(
+                      allLockedTokenForUser.length / postsPerPage
+                    )}
+                    variant="outlined"
+                    shape="rounded"
+                    page={currentPage}
+                    onChange={setPageNumber}
+                  />
                 </div>
               </div>
             </div>

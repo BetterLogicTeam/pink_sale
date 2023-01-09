@@ -1,4 +1,14 @@
 
+ .pag_color .css-19xm0h7-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected {
+    color: black;
+    border-color: #f95192 !important;
+    background-color: #fff !important;
+}
+.css-19xm0h7-MuiButtonBase-root-MuiPaginationItem-root:hover {
+    color: black;
+    border-color: #f95192 !important;
+    background-color: #fff !important;
+}
 
 @media screen and (max-width:600px) {
     .mg_k{
