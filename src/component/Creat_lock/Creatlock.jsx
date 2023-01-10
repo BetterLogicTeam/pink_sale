@@ -126,7 +126,6 @@ function Creatlock() {
         const seconds = Math.floor(dates.getTime() / 1000);
 
         let _amount = web3.utils.toWei(amount.toString());
-        console.log("_amount", _amount);
         let pinkSaleContract = new web3.eth.Contract(
           pinkSaleLockAbi,
           pinkSaleLockContract
@@ -134,7 +133,6 @@ function Creatlock() {
         let get_length = await pinkSaleContract.methods
           .normalLockCountForUser(acc)
           .call();
-        console.log("get_length", get_length);
 
         if (flag) {
           let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
@@ -171,25 +169,8 @@ function Creatlock() {
       } catch (e) {
         toast.error(e.message);
         setSpinner(false);
-
-        console.log(e);
       }
     }
-
-    // console.log("values", values);
-    // let data = JSON.stringify({ ...values });
-    // axios
-    //   .post("http://localhost:3344/postuser", data, {
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //   })
-    //   .then((e) => console.log("axois resp", e))
-    //   .catch((e) => console.log("e::", e));
-    // if (values.tokenAddress.length > 3) {
-    //call web3
-    // formik.setErrors({ tokenAddress: "Invalid Address" });
-    // }
   };
 
   const myLocks = async (amount, seconds, tokenAddress, _id) => {
@@ -466,7 +447,6 @@ function Creatlock() {
                       className="hovr_clr"
                       onChange={formik.handleChange}
                       value={formik.values.date}
-                      
                     />
                     <div className="text-start">
                       {formik.errors.date && (
