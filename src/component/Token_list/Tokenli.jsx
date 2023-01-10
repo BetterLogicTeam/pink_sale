@@ -32,12 +32,12 @@ function Tokenli(props) {
           </span>
         </div>
         <div className="col-lg-4 d-flex col-sm-5 fr_wdh justify-content-end align-items-center res_coll">
-          <div
-            className="text-decoration-none tx_styL"
+          <a
+            className="text-decoration-none tx_styL adrs"
             onClick={() => history(`/Lockinfo/${props.index}`)}
           >
             {props.fullpage}
-          </div>
+          </a>
         </div>
       </div>
     </div>

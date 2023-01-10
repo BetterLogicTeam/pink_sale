@@ -101,7 +101,7 @@ export default function BasicTabs() {
         const web3 = window.web3;
 
         let _data = await userData(acc);
-        console.log("_Data", _data["tokens"]);
+        // console.log("_Data", _data["tokens"]);
         let arr = [];
         let obj = {};
         if (_data["tokens"].length == 0) {
@@ -166,7 +166,7 @@ export default function BasicTabs() {
       try {
         const web3 = window.web3;
         let _allTokensData = await allTokensData();
-        console.log("_allTokensData", _allTokensData["allTokensArray"]);
+        // console.log("_allTokensData", _allTokensData["allTokensArray"]);
         let arr = [];
         let obj = {};
         _allTokensData["allTokensArray"].forEach(async (output) => {

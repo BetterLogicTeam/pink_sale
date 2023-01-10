@@ -466,6 +466,7 @@ function Creatlock() {
                       className="hovr_clr"
                       onChange={formik.handleChange}
                       value={formik.values.date}
+                      
                     />
                     <div className="text-start">
                       {formik.errors.date && (

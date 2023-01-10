@@ -10,6 +10,7 @@ import { useParams } from "react-router";
 import { locksForToken } from "../../features/pinksale/pinksaleSlice";
 import { useNavigate } from "react-router-dom";
 import Pagination from "@mui/material/Pagination";
+import { BallTriangle } from "react-loader-spinner";
 
 function Lockinfo() {
   const [data, setData] = useState({});
@@ -22,6 +23,8 @@ function Lockinfo() {
   const [allLockedTokenForUser, setallLockedTokenForUser] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(10);
+  const [showLoader, setShowLoader] = useState(true);
+
   let history = useNavigate();
 
   //   const [trasenctionId, settrasenctionId] = useState("");
@@ -80,10 +83,9 @@ function Lockinfo() {
 
         dispatch(locksForToken(arr));
       });
+      setShowLoader(false);
 
       setallLockedTokenForUser(data);
-
-      console.log("datadata", arr);
     };
 
     fatchdata();
@@ -151,73 +153,90 @@ function Lockinfo() {
                 <div className="text-start border-bottom py-3">
                   <span className="fw-bold">Lock records</span>
                 </div>
-                <div className="table-responsive">
-                  <table class="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">Wallet</th>
-                        <th scope="col">Amount</th>
-                        <th scope="col">Cycle(Id)</th>
-                        <th scope="col">Cycle Release(%)</th>
-                        <th scope="col">TGE(%)</th>
-                        <th scope="col">Unlock time(UTC)</th>
-                        <th scope="col"></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentTokens.map((tokenInfo, index) => {
-                        return (
+                {showLoader ? (
+                  <div className="d-flex justify-content-center mt-3">
+                    <BallTriangle
+                      height={40}
+                      width={40}
+                      radius={5}
+                      color="#f95192"
+                      ariaLabel="ball-triangle-loading"
+                      wrapperClass={{}}
+                      wrapperStyle=""
+                      visible={true}
+                    />
+                  </div>
+                ) : (
+                  <>
+                    <div className="table-responsive">
+                      <table class="table">
+                        <thead>
                           <tr>
-                            <td>
-                              <a
-                                className="adrs"
-                                href={`https://testnet.bscscan.com/address/${tokenInfo.owner}`}
-                                target="_blank"
-                              >
-                                {`${tokenInfo.owner.slice(
-                                  0,
-                                  6
-                                )}...${tokenInfo.owner.slice(
-                                  tokenInfo.owner.length - 4
-                                )}`}
-                              </a>
-                            </td>
-                            <td>{tokenInfo.amount}</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>
-                              {new Date(tokenInfo.lockDate * 1000)
-                                .toISOString()
-                                .slice(0, 19)}
-                            </td>
-                            <td>
-                              <div
-                                to="/Lockin"
-                                className="adrs"
-                                onClick={() => history(`/Lockin/${index}`)}
-                              >
-                                View
-                              </div>
-                            </td>
+                            <th scope="col">Wallet</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Cycle(Id)</th>
+                            <th scope="col">Cycle Release(%)</th>
+                            <th scope="col">TGE(%)</th>
+                            <th scope="col">Unlock time(UTC)</th>
+                            <th scope="col"></th>
                           </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-                <div className="d-flex justify-content-center">
-                  <Pagination
-                    className="pag_color"
-                    count={Math.ceil(
-                      allLockedTokenForUser.length / postsPerPage
-                    )}
-                    variant="outlined"
-                    shape="rounded"
-                    page={currentPage}
-                    onChange={setPageNumber}
-                  />
-                </div>
+                        </thead>
+                        <tbody>
+                          {currentTokens.map((tokenInfo, index) => {
+                            return (
+                              <tr>
+                                <td>
+                                  <a
+                                    className="adrs"
+                                    href={`https://testnet.bscscan.com/address/${tokenInfo.owner}`}
+                                    target="_blank"
+                                  >
+                                    {`${tokenInfo.owner.slice(
+                                      0,
+                                      6
+                                    )}...${tokenInfo.owner.slice(
+                                      tokenInfo.owner.length - 4
+                                    )}`}
+                                  </a>
+                                </td>
+                                <td>{tokenInfo.amount}</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>
+                                  {new Date(tokenInfo.lockDate * 1000)
+                                    .toISOString()
+                                    .slice(0, 19)}
+                                </td>
+                                <td>
+                                  <div
+                                    to="/Lockin"
+                                    className="adrs"
+                                    onClick={() => history(`/Lockin/${index}`)}
+                                  >
+                                    View
+                                  </div>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                    <div className="d-flex justify-content-center">
+                      <Pagination
+                        className="pag_color"
+                        count={Math.ceil(
+                          allLockedTokenForUser.length / postsPerPage
+                        )}
+                        variant="outlined"
+                        shape="rounded"
+                        page={currentPage}
+                        onChange={setPageNumber}
+                      />
+                    </div>
+                  </>
+                )}
               </div>
             </div>
             {/* <div className="row d-flex justify-content-center mt-4 p-0">

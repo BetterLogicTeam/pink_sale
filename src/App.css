@@ -38,4 +38,5 @@
 }
 .adrs:hover{
   color:black !important;
+  cursor: pointer !important;
 }
