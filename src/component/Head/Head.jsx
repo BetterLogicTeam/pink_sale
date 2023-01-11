@@ -31,7 +31,7 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { GrLaunch } from "react-icons/gr";
 import HomeIcon from "@mui/icons-material/Home";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import { Tooltip } from "@mui/material";
 import Modal_connect from "../Modal_connect/Modal_connect";
 import { useNavigate } from "react-router";
@@ -42,6 +42,7 @@ import Lockinfo from "../Lock_detail/Lockinfo";
 import Lockin from "../Lock_in/Lockin";
 import Canvas from "../Canvas/Canvas";
 import Modal_bnb from "../Model_bnb/Model_bnb";
+import Create_private_sale from "../Create_private_sale/Create_private_sale";
 const drawerWidth = 200;
 
 const openedMixin = (theme) => ({
@@ -351,9 +352,9 @@ export default function MiniDrawer() {
                 <Typography>
                   <ul className="text-start">
                     <li className="list-style-none">
-                      <a href="#" className="HOVER text-decoration-none">
+                      <Link to="/Create_private_sale" className="HOVER text-decoration-none">
                         Create Private Sale
-                      </a>
+                      </Link>
                     </li>
                     <li className="list-style-none">
                       <a href="#" className="HOVER text-decoration-none">
@@ -921,6 +922,7 @@ export default function MiniDrawer() {
           {/* <Route exact path="/" element={<Mylockin/>}/> */}
           <Route exact path="/lockinfo/:id" element={<Lockinfo />} />
           <Route exact path="/lockin/:id" element={<Lockin />} />
+          <Route exact path="/Create_private_sale" element={<Create_private_sale />} />
         </Routes>
       </Box>
     </Box>
