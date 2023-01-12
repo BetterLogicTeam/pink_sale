@@ -193,9 +193,9 @@ function ResponsiveExample() {
                                 <Typography>
                                     <ul className="text-start">
                                         <li className="list-style-none">
-                                            <a href="#" className="HOVER text-decoration-none">
+                                            <Link to="/Create_private_sale" className="HOVER text-decoration-none" onClick={handleShow}>
                                                 Create Private Sale
-                                            </a>
+                                            </Link>
                                         </li>
                                         <li className="list-style-none">
                                             <a href="#" className="HOVER text-decoration-none">

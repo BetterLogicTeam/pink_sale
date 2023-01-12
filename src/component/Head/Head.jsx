@@ -134,7 +134,7 @@ export default function MiniDrawer() {
 
       <AppBar position="fixed" open={open} className="appbar_color ">
         <Canvas />
-        <Toolbar className="d-none d-md-flex  ">
+        <Toolbar className="d-none d-md-flex gradent ">
           <IconButton
             onClick={handleDrawerOpen}
             edge="start"
@@ -154,7 +154,7 @@ export default function MiniDrawer() {
             aria-label="open drawer"
             edge="start"
           >
-            {theme.direction === "" ? <MenuIcon /> : <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"></path></svg>}
+            {theme.direction === "" ? <MenuIcon /> : <svg className="open_menu" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"></path></svg>}
           </IconButton>
           {/* </DrawerHeader> */}
           <Typography
@@ -186,7 +186,7 @@ export default function MiniDrawer() {
         <Drawer variant="permanent" open={open}>
           <Divider />
 
-          <div className="border mt-5">
+          <div className=" mt-5">
             <div className="HOVER text-start home_icon_launch pt-3 d-flex align color_home mt-2 ">
               <Tooltip title="Home" arrow placement="right">
                 <svg
@@ -215,7 +215,7 @@ export default function MiniDrawer() {
               <AccordionSummary
                 expandIcon={
                   <ExpandMoreIcon
-                    className=""
+                    className="color-expant"
                     style={{ display: !open ? "none" : "block" }}
                   />
                 }
@@ -309,7 +309,7 @@ export default function MiniDrawer() {
               <AccordionSummary
                 expandIcon={
                   <ExpandMoreIcon
-                    className=""
+                    className="color-expant"
                     style={{ display: !open ? "none" : "block" }}
                   />
                 }
@@ -374,7 +374,7 @@ export default function MiniDrawer() {
               <AccordionSummary
                 expandIcon={
                   <ExpandMoreIcon
-                    className=""
+                    className="color-expant"
                     style={{ display: !open ? "none" : "block" }}
                   />
                 }
@@ -456,7 +456,7 @@ export default function MiniDrawer() {
               <AccordionSummary
                 expandIcon={
                   <ExpandMoreIcon
-                    className=""
+                    className="color-expant"
                     style={{ display: !open ? "none" : "block" }}
                   />
                 }
@@ -678,7 +678,7 @@ export default function MiniDrawer() {
               <AccordionSummary
                 expandIcon={
                   <ExpandMoreIcon
-                    className=""
+                    className="color-expant"
                     style={{ display: !open ? "none" : "block" }}
                   />
                 }
@@ -829,7 +829,7 @@ export default function MiniDrawer() {
           </div>
         </div>
         {/* <div style="height: 4px;"></div> */}
-        <div class="d-flex items-center justify-content-around pb-1 d-none d-md-flex">
+        <div class="d-flex items-center justify-content-around pb-1 d-none d-md-flex color_of_dark">
           <div class="flex-1" style={{ display: !open ? "none" : "block" }}>
             <div class="ant-dropdown-trigger Language_root__131TC d-flex align-items-center">
               <img
@@ -911,7 +911,7 @@ export default function MiniDrawer() {
           </div>
         </div>
       </div>
-      <Box component="" sx={{ flexGrow: 1, p: 1 }}>
+      <Box component="" sx={{ flexGrow: 1, p: 1 }} className="color_of_back_ground">
         <DrawerHeader />
 
         <Routes>

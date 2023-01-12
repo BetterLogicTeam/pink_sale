@@ -269,11 +269,11 @@ function Creatlock() {
     }
   };
   return (
-    <div className="container">
+    <div className="container color_of_back_ground">
       <div className="row">
-        <div className="col-lg-12 col-md-12 bg-light py-5">
-          <div className="row d-flex justify-content-center">
-            <div className="col-lg-10 bg-white">
+        <div className="col-lg-12 col-md-12  py-5">
+          <div className="row d-flex justify-content-center box_shadow">
+            <div className="col-lg-10 ">
               <div className="text-start fw-bold mt-4 border-bottom pb-4">
                 Create your lock
               </div>
@@ -290,12 +290,13 @@ function Creatlock() {
                       type="text"
                       name="tokenAddress"
                       placeholder="Enter token or PL token address"
+                      
                       value={formik.values.tokenAddress}
                       onChange={(e) => {
                         formik.handleChange(e);
                         valid(e);
                       }}
-                      className="hovr_clr"
+                      className="hovr_clr input_flied_of_pink"
                     />
 
                     <div className="text-start">
@@ -318,7 +319,7 @@ function Creatlock() {
                         label={
                           <span className="apna ">use another owner?</span>
                         }
-                        className="text-start hovr_clr"
+                        className="text-start hovr_clr "
                       />
                     </Form.Group>
                   </Form.Group>
@@ -331,12 +332,12 @@ function Creatlock() {
                       type="text"
                       name="ownerAddress"
                       placeholder="Enter your address "
-                      className="hovr_clr"
+                      className="hovr_clr input_flied_of_pink"
                       onChange={formik.handleChange}
                       value={formik.values.ownerAddress}
                     />
                     <div className="text-start">
-                      <Form.Text className="text-primary">
+                      <Form.Text className="text-primary ">
                         the address you input here will be receive the tokens
                         once they are unlocked
                       </Form.Text>
@@ -381,7 +382,7 @@ function Creatlock() {
                       type="text"
                       name="title"
                       placeholder="Ex:My Lock"
-                      className="hovr_clr"
+                      className="hovr_clr input_flied_of_pink"
                       onChange={formik.handleChange}
                       value={formik.values.title}
                     />
@@ -396,13 +397,14 @@ function Creatlock() {
                         type="number"
                         name="amount"
                         placeholder="Enter amount"
-                        className="hovr_clr"
+                        className="hovr_clr input_flied_of_pink"
                         onChange={formik.handleChange}
                         value={formik.values.amount}
                       />
                       <Button
                         variant="outline-secondary"
                         id="button-addon2"
+                        className="text-white max_btn_color"
                         onClick={() => {
                           formik.setValues({ amount: tokenInfo.tokenBalance });
                         }}
@@ -429,7 +431,7 @@ function Creatlock() {
                       onChange={formik.handleChange}
                       name="useVesting"
                       label={<span className="apna">use vesting?</span>}
-                      className="text-start"
+                      className="text-start "
                     />
                   </Form.Group>
 
@@ -444,7 +446,7 @@ function Creatlock() {
                       type="datetime-local"
                       name="date"
                       placeholder="Select date"
-                      className="hovr_clr"
+                      className="hovr_clr input_flied_of_pink"
                       onChange={formik.handleChange}
                       value={formik.values.date}
                     />
@@ -565,7 +567,7 @@ function Creatlock() {
                   <div className="mt-4 d-flex justify-content-center align-items-center">
                     <button
                       type="submit"
-                      className="btn btn-small loc_buttn "
+                      className="btn btn-small loc_buttn  "
                       disabled={!(formik.isValid && validate)}
                     >
                       {spinner ? (

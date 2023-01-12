@@ -7,29 +7,48 @@
 }
 
 .loc_buttn{
-    color: #fff !important;
-    background: #f95192 !important;
-    border-color: #f95192;
+    /* color: #fff !important; */
+    /* background: linear-gradient(98.76deg, rgb(56, 195, 207) 0%, rgb(135, 103, 211) 100%) !important; */
+    /* background: #f95192 !important;
+    border-color: #f95192; */
+    color: #ffffff;
+    font-weight: 700 !important;
+    font-size: 18px !important;
+font-style: italic !important;
+    /* background: linear-gradient(#181652,#181652) padding-box,linear-gradient(45deg,#89d2f3,#a67cff) border-box!important; */
+    /* border: 2px solid transparent!important; */
     text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
     box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
+    background: linear-gradient(98.76deg, rgb(56, 195, 207) 0%, rgb(135, 103, 211) 100%);
 }
-
+.max_btn_color{
+    background: linear-gradient(98.76deg, rgb(56, 195, 207) 0%, rgb(135, 103, 211) 100%);
+    font-style: italic !important;
+    color: #ffffff !important;
+}
+.input_flied_of_pink{
+    background: radial-gradient(100.93% 100.93% at 90.83% .66%,rgba(77,0,138,.85) 0,#001355 100.08%) !important;
+  color: white !important;
+  }
 .aFtr_sty{
     font-size: 14px;
     font-weight:600;
 }
 
 .hovr_clr:hover {
-    border-color: #f14668;
+    border-color: #1e7dc0;
+}
+.hovr_clr{
+    border-color: #1e7dc0 !important; 
 }
 
-.form-control:focus {
+/* .form-control:focus {
     color: #212529;
-    background-color: #fff;
+    background-color: rgb(104, 65, 65);
     border-color: #f14668;
     outline: 0;
     box-shadow: 0 0 0 2px #f6cfde !important;
-}
+} */
 
 .loc_buttn{
     justify-content:center  !important;
@@ -40,23 +59,25 @@
     box-shadow: none !important;
 }
 .form-check-input:hover{
-    border-color:#f14668;
+    /* border-color:#f14668; */
 }
-/* .loc_buttn:hover{
+.loc_buttn:hover{
     cursor: no-drop !important;
-} */
+    color: white !important;
+   
+}
 
-.form-check-input:checked{
+/* .form-check-input:checked{
     background-color:#f14668;
     border-color:#f14668;
-}
+} */
 
-.form-check-input:focus {
+/* .form-check-input:focus {
     border-color:#f14668 ;
     outline: 0;
     box-shadow: 0 0 0 2px  #f6cfde;
-    /* background-color: #f14668 !important; */
-}
+    background-color: #3f7f9c !important;
+} */
 .fs_14{
     font-size: 14px !important;
 }

@@ -351,7 +351,7 @@ function Modal_connect() {
 
   return (
     <div className="model_flex">
-      <Button variant="" className="font_size_connect" onClick={handleShow}>
+      <Button variant="" className="font_size_connect max_btn_color" onClick={handleShow}>
         {showconnect ? (
           <div>{`${walletaddress.slice(0, 6)} ...${walletaddress.slice(
             walletaddress.length - 6

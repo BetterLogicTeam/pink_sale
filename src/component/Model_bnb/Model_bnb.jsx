@@ -25,7 +25,7 @@ function Modal_bnb() {
 
   return (
     <div className="model_flex">
-      <button className="btn button_nav text-dark me-2 d-flex align-items-center ">
+      <button className="btn button_nav text-dark me-2 d-flex align-items-center max_btn_color">
         {" "}
         <svg
           stroke="currentColor"
@@ -43,10 +43,10 @@ function Modal_bnb() {
       </button>
       <Button
         variant=""
-        className="button_nav text-dark me-2 d-flex align-items-center"
+        className="button_nav text-dark me-2 d-flex align-items-center max_btn_color"
         onClick={handleShow}
       >
-        <img src={bnc1} className="pe-0 pe-md-1 img_width" alt="" />
+        <img src={bnc1} className="pe-0 pe-md-1 img_width " alt="" />
         <span className="font_size_eth d-none d-md-flex text-uppercase">
           bsc testnet
         </span>

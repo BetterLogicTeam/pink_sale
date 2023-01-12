@@ -264,7 +264,7 @@ export default function HorizontalLinearStepper() {
                                 className="input"
                                 placeholder="Ex:10"
                                 autoComplete="on"
-                                value=""
+                               
                               />
                               <div className="text-start ">
                                 <Form.Text className="pool_edt">
@@ -287,7 +287,7 @@ export default function HorizontalLinearStepper() {
                                 className="input"
                                 placeholder="Ex:10"
                                 autoComplete="on"
-                                value=""
+                               
                               />
                             </Form.Group>
                           </div>
@@ -305,7 +305,7 @@ export default function HorizontalLinearStepper() {
                                 className="input"
                                 placeholder="0.1 ETH"
                                 autoComplete="on"
-                                value=""
+                               
                               />
                             </Form.Group>
                           </div>
@@ -323,7 +323,7 @@ export default function HorizontalLinearStepper() {
                                 className="input"
                                 placeholder="0.2 ETH"
                                 autoComplete="on"
-                                value=""
+                               
                               />
                             </Form.Group>
                           </div>
@@ -348,7 +348,7 @@ export default function HorizontalLinearStepper() {
                                 className="input"
                                 placeholder="Select date"
                                 autoComplete="on"
-                                value=""
+                               
                               />
                             </Form.Group>
                           </div>
@@ -366,7 +366,7 @@ export default function HorizontalLinearStepper() {
                                 className="input"
                                 placeholder="Select date"
                                 autoComplete="on"
-                                value=""
+                               
                               />
                             </Form.Group>
                           </div>
@@ -388,7 +388,7 @@ export default function HorizontalLinearStepper() {
                                 className="input"
                                 placeholder="Ex: 40%"
                                 autoComplete="on"
-                                value=""
+                               
                               />
                             </Form.Group>
                           </div>
@@ -410,7 +410,7 @@ export default function HorizontalLinearStepper() {
                                 className="input"
                                 placeholder="Enter (days). Ex: 3"
                                 autoComplete="on"
-                                value=""
+                               
                               />
                             </Form.Group>
                           </div>
@@ -430,7 +430,7 @@ export default function HorizontalLinearStepper() {
                                 className="input"
                                 placeholder="Ex: 20%"
                                 autoComplete="on"
-                                value=""
+                               
                               />
                             </Form.Group>
                           </div>
@@ -480,7 +480,7 @@ export default function HorizontalLinearStepper() {
                                 className="url_input"
                                 placeholder="Ex: https://..."
                                 autoComplete="on"
-                                value=""
+                               
                               />
                               <div className="text-start ">
                                 <Form.Text className="pool_edt">
@@ -513,7 +513,7 @@ export default function HorizontalLinearStepper() {
                                 className="url_input"
                                 placeholder="Ex: https://..."
                                 autoComplete="on"
-                                value=""
+                               
                               />
                             </Form.Group>
                           </div>
@@ -532,7 +532,7 @@ export default function HorizontalLinearStepper() {
                                 className="url_input"
                                 placeholder="Ex: https://facebook.com/..."
                                 autoComplete="on"
-                                value=""
+                               
                               />
                             </Form.Group>
                           </div>
@@ -551,7 +551,7 @@ export default function HorizontalLinearStepper() {
                                 className="url_input"
                                 placeholder="Ex: https://twitter.com/..."
                                 autoComplete="on"
-                                value=""
+                               
                               />
                             </Form.Group>
                           </div>
@@ -570,7 +570,7 @@ export default function HorizontalLinearStepper() {
                                 className="url_input"
                                 placeholder="Ex: https://github.com/..."
                                 autoComplete="on"
-                                value=""
+                               
                               />
                             </Form.Group>
                           </div>
@@ -589,7 +589,7 @@ export default function HorizontalLinearStepper() {
                                 className="url_input"
                                 placeholder="Ex: https://t.me/..."
                                 autoComplete="on"
-                                value=""
+                               
                               />
                             </Form.Group>
                           </div>
@@ -608,7 +608,7 @@ export default function HorizontalLinearStepper() {
                                 className="url_input"
                                 placeholder="Ex: https://instagram.com/..."
                                 autoComplete="on"
-                                value=""
+                               
                               />
                             </Form.Group>
                           </div>
@@ -627,7 +627,7 @@ export default function HorizontalLinearStepper() {
                                 className="url_input"
                                 placeholder="Ex: https://t.me/..."
                                 autoComplete="on"
-                                value=""
+                               
                               />
                             </Form.Group>
                           </div>
@@ -648,7 +648,7 @@ export default function HorizontalLinearStepper() {
                                 className="url_input"
                                 placeholder="Ex: https://Reddit.com/..."
                                 autoComplete="on"
-                                value=""
+                               
                               />
                             </Form.Group>
                           </div>
@@ -666,7 +666,7 @@ export default function HorizontalLinearStepper() {
                                 className="input"
                                 placeholder="Ex: https://www.youtube.com/watch?v=xxxxxxxxx"
                                 autoComplete="on"
-                                value=""
+                               
                               />
                             </Form.Group>
                           </div>

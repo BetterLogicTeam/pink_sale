@@ -127,3 +127,12 @@
 .frr_brk a{
     word-break: break-word !important;
 }
+.css-1hv8oq8-MuiStepLabel-label.Mui-active {
+    color: rgba(0, 0, 0, 0.87);
+    font-weight: 500;
+    width: 120% !important;
+} 
+.css-1hv8oq8-MuiStepLabel-label {
+   
+    width: 120% !important;
+}
