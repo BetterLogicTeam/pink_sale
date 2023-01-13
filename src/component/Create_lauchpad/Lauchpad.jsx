@@ -5,7 +5,8 @@ import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import "./Create_private_sale.css";
+// import "./Create_private_sale.css";
+import "./Lauchpad.css"
 import Form from "react-bootstrap/Form";
 import { BiImage } from "react-icons/bi";
 import { TbWorld } from "react-icons/tb";

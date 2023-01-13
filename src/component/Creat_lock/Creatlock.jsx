@@ -269,7 +269,7 @@ function Creatlock() {
     }
   };
   return (
-    <div className="container color_of_back_ground">
+    <div className="container ">
       <div className="row">
         <div className="col-lg-12 col-md-12  py-5">
           <div className="row d-flex justify-content-center box_shadow">

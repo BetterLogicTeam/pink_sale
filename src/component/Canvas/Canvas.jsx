@@ -62,14 +62,14 @@ function ResponsiveExample() {
     return (
         <div className="d-block d-md-none py-3 px-0 ">
             <div className=" d-flex align-items-center justify-content-around index_canva" >
-                <AiOutlineMenu className="text-dark size_of_pink" onClick={handleShow} />
+                <AiOutlineMenu className="color-expant size_of_pink " onClick={handleShow} />
                 <img src={pink1} width="25" alt="" />
                 <Model_resp />
             </div>
 
 
             <Offcanvas show={show} onHide={handleClose} responsive="" className="width_canvas ">
-                <Offcanvas.Header closeButton>
+                <Offcanvas.Header closeButton >
 
                 </Offcanvas.Header>
                 <Offcanvas.Body className="px-0">
@@ -92,9 +92,9 @@ function ResponsiveExample() {
                                 Home
                             </p>{" "}
                         </div>
-                        <Accordion className="border-none p-0 shadow_launch" disableGutters expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+                        <Accordion className="border-none p-0 shadow_launch accordian_color_blue" disableGutters expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                             <AccordionSummary
-                                expandIcon={<ExpandMoreIcon className="expand_icon" />}
+                                expandIcon={<ExpandMoreIcon className="expand_icon color-expant" />}
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                                 className=""
@@ -159,9 +159,9 @@ function ResponsiveExample() {
                                 </Typography>
                             </AccordionDetails>
                         </Accordion>
-                        <Accordion className="border-none" disableGutters expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+                        <Accordion className="border-none accordian_color_blue" disableGutters expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
                             <AccordionSummary
-                                expandIcon={<ExpandMoreIcon className="expand_icon" />}
+                                expandIcon={<ExpandMoreIcon className="expand_icon color-expant" />}
                                 aria-controls="panel2a-content"
                                 id="panel2a-header"
                             >
@@ -206,9 +206,9 @@ function ResponsiveExample() {
                                 </Typography>
                             </AccordionDetails>
                         </Accordion>
-                        <Accordion disableGutters expanded={expanded === 'panel3'} onChange={handleChange('panel3')} className="accordian_shadow"  >
+                        <Accordion disableGutters expanded={expanded === 'panel3'} onChange={handleChange('panel3')} className="accordian_shadow accordian_color_blue"  >
                             <AccordionSummary
-                                expandIcon={<ExpandMoreIcon className="expand_icon" />}
+                                expandIcon={<ExpandMoreIcon className="expand_icon color-expant" />}
                                 aria-controls="panel3a-content"
                                 id="panel3a-header"
                             >
@@ -259,9 +259,9 @@ function ResponsiveExample() {
                             </AccordionDetails>
                         </Accordion>
 
-                        <Accordion className="accordian_shadow" disableGutters expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
+                        <Accordion className="accordian_shadow accordian_color_blue" disableGutters expanded={expanded === 'panel4'} onChange={handleChange('panel4')}>
                             <AccordionSummary
-                                expandIcon={<ExpandMoreIcon className="expand_icon" />}
+                                expandIcon={<ExpandMoreIcon className="expand_icon color-expant" />}
                                 aria-controls="panel3a-content"
                                 id="panel3a-header"
                                 className="new_no"
@@ -463,9 +463,9 @@ function ResponsiveExample() {
                             </p>{" "}
                         </div>
 
-                        <Accordion disableGutters expanded={expanded === 'panel5'} onChange={handleChange('panel5')} className="accordian_shadow">
+                        <Accordion disableGutters expanded={expanded === 'panel5'} onChange={handleChange('panel5')} className="accordian_shadow accordian_color_blue">
                             <AccordionSummary
-                                expandIcon={<ExpandMoreIcon className="expand_icon" />}
+                                expandIcon={<ExpandMoreIcon className="expand_icon color-expant" />}
                                 aria-controls="panel3a-content"
                                 id="panel3a-header"
                             >

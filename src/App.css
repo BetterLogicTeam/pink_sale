@@ -1,6 +1,7 @@
-/* .App {
-  text-align: center;
-} */
+.App {
+  background: radial-gradient(100.93% 100.93% at 50.83% .66%,rgb(76, 0, 138) 0,#001355 49.08%,#000535 100%) !important;
+
+}
 
 .App-logo {
   height: 40vmin;

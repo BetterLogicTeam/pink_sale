@@ -43,6 +43,8 @@ import Lockin from "../Lock_in/Lockin";
 import Canvas from "../Canvas/Canvas";
 import Modal_bnb from "../Model_bnb/Model_bnb";
 import Create_private_sale from "../Create_private_sale/Create_private_sale";
+import Lauchpad from "../Lauchpad/Lauchpad";
+
 const drawerWidth = 200;
 
 const openedMixin = (theme) => ({
@@ -182,10 +184,11 @@ export default function MiniDrawer() {
           </Typography>
         </Toolbar>
       </AppBar>
-      <div className="height_sidebar2 d-none d-md-block ">
-        <Drawer variant="permanent" open={open}>
-          <Divider />
-
+      <Divider />
+      <div className=" d-none d-md-block ">
+        <Drawer variant="permanent" open={open} className="" sx={{backgroundColor:" #001355 "}}>
+       
+<div className="height_sidebar2 pt-3">
           <div className=" mt-5">
             <div className="HOVER text-start home_icon_launch pt-3 d-flex align color_home mt-2 ">
               <Tooltip title="Home" arrow placement="right">
@@ -207,8 +210,9 @@ export default function MiniDrawer() {
               </p>{" "}
             </div>
             <Accordion
-              className="border-none "
+              className="border-none accordian_color_blue  "
               disableGutters
+              
               expanded={expanded === "panel1"}
               onChange={handleChange("panel1")}
             >
@@ -267,9 +271,12 @@ export default function MiniDrawer() {
                 <Typography>
                   <ul className="text-start">
                     <li className="list-style-none">
-                      <a href="#" className="HOVER text-decoration-none">
+                      {/* <a href="#" className="HOVER text-decoration-none">
                         Create launchpad
-                      </a>
+                      </a> */}
+                      <Link to="/Create_private_sale" className="HOVER text-decoration-none">
+                      Create launchpad
+                      </Link>
                     </li>
                     <li className="list-style-none">
                       <a href="#" className="HOVER text-decoration-none">
@@ -301,8 +308,9 @@ export default function MiniDrawer() {
               </AccordionDetails>
             </Accordion>
             <Accordion
-              className="border-none"
+              className="border-none accordian_color_blue"
               disableGutters
+              
               expanded={expanded === "panel2"}
               onChange={handleChange("panel2")}
             >
@@ -367,9 +375,10 @@ export default function MiniDrawer() {
             </Accordion>
             <Accordion
               disableGutters
+              
               expanded={expanded === "panel3"}
               onChange={handleChange("panel3")}
-              className="accordian_shadow"
+              className="accordian_shadow accordian_color_blue"
             >
               <AccordionSummary
                 expandIcon={
@@ -448,8 +457,9 @@ export default function MiniDrawer() {
             </Accordion>
 
             <Accordion
-              className="accordian_shadow"
+              className="accordian_shadow accordian_color_blue"
               disableGutters
+              
               expanded={expanded === "panel4"}
               onChange={handleChange("panel4")}
             >
@@ -671,9 +681,10 @@ export default function MiniDrawer() {
 
             <Accordion
               disableGutters
+              
               expanded={expanded === "panel5"}
               onChange={handleChange("panel5")}
-              className="accordian_shadow"
+              className="accordian_shadow accordian_color_blue"
             >
               <AccordionSummary
                 expandIcon={
@@ -803,6 +814,7 @@ export default function MiniDrawer() {
               Facebook
             </p>{" "}
           </div>
+          </div>
         </Drawer>
       </div>
       <div className="hello_pink d-none d-md-block">
@@ -923,6 +935,7 @@ export default function MiniDrawer() {
           <Route exact path="/lockinfo/:id" element={<Lockinfo />} />
           <Route exact path="/lockin/:id" element={<Lockin />} />
           <Route exact path="/Create_private_sale" element={<Create_private_sale />} />
+          <Route exact path="/Lauchpad" element={<Lauchpad />} />
         </Routes>
       </Box>
     </Box>

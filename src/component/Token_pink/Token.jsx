@@ -235,16 +235,17 @@ export default function BasicTabs() {
   };
 
   return (
-    <div className="container">
+    <div className="container color_of_back_ground">
       <div className="row">
-        <div className="col-lg-12 col-md-12 bg-light py-5">
+        <div className="col-lg-12 col-md-12 bg-light py-5 color_of_back_ground">
           <div className="row d-flex justify-content-center">
-            <div className="col-lg-10 bg-white">
+            <div className="col-lg-10 color_of_back_ground box_shadow">
               <div className="mt-4">
                 <Form.Control
                   type="search"
                   placeholder="Search by token address ..."
                   onChange={handleSearch}
+                  className="input_flied_of_pink"
                 />
               </div>
               <div className="mt-2">
@@ -299,7 +300,7 @@ export default function BasicTabs() {
                             .map((tokendata, index) => {
                               console.log("data", tokendata);
                               return (
-                                <div className="mt-3">
+                                <div className="mt-3 ">
                                   <Tokenli
                                     token_pic={thinken}
                                     text_one={tokendata._description}

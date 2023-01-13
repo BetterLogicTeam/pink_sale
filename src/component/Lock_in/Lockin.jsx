@@ -108,9 +108,9 @@ function Lockin() {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-lg-12 col-md-12 bg-light py-5">
+        <div className="col-lg-12 col-md-12 bg-light py-5  color_of_back_ground ">
           <div className="row d-flex justify-content-center">
-            <div className="col-lg-10 bg-white">
+            <div className="col-lg-10 bg-white  color_of_back_ground box_shadow">
               <div className="my-4">
                 <div>
                   <span>Unlock in</span>
@@ -129,7 +129,7 @@ function Lockin() {
               </div>
             </div>
 
-            <div className="col-lg-10 bg-white mt-4">
+            <div className="col-lg-10 bg-white mt-4  color_of_back_ground box_shadow">
               <div className="text-start border-bottom py-3">
                 <span className="fw-bold">Token Info</span>
               </div>
@@ -162,7 +162,7 @@ function Lockin() {
               </div>
             </div>
 
-            <div className="col-lg-10 bg-white mt-4">
+            <div className="col-lg-10 bg-white mt-4  color_of_back_ground box_shadow">
               <div className="text-start border-bottom py-3">
                 <span className="fw-bold">Lock Info</span>
               </div>

@@ -25,15 +25,15 @@ function Tokenli(props) {
           </div>
         </div>
 
-        <div className="col-lg-4 col-sm-6 fr_wdh  d-flex justify-content-center align-items-center rmov_p">
+        <div className="col-lg-4 col-sm-6 fr_wdh text-white  d-flex justify-content-center align-items-center rmov_p">
           <span className="amount">
             <span className="me-1">{props.amount1}</span>
             <span>{props.amount2}</span>
           </span>
         </div>
-        <div className="col-lg-4 d-flex col-sm-5 fr_wdh justify-content-end align-items-center res_coll">
+        <div className="col-lg-4 d-flex  col-sm-5 fr_wdh justify-content-end align-items-center res_coll">
           <a
-            className="text-decoration-none tx_styL adrs"
+            className="text-decoration-none text-white adrs"
             onClick={() => history(`/Lockinfo/${props.index}`)}
           >
             {props.fullpage}

@@ -107,9 +107,9 @@ function Lockinfo() {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-lg-12 col-md-12 bg-light py-5">
+        <div className="col-lg-12 col-md-12 bg-light py-5  color_of_back_ground">
           <div className="row d-flex justify-content-center">
-            <div className="col-lg-10 bg-white">
+            <div className="col-lg-10  color_of_back_ground box_shadow">
               <div className="text-start border-bottom py-3">
                 <span className="fw-bold">Lock info</span>
               </div>
@@ -149,7 +149,7 @@ function Lockinfo() {
               </div>
             </div>
             <div className="row justify-content-center mt-4 p-0">
-              <div className="col-lg-10 bg-white pb-3">
+              <div className="col-lg-10 text-white pb-3 box_shadow color_of_back_ground ">
                 <div className="text-start border-bottom py-3">
                   <span className="fw-bold">Lock records</span>
                 </div>
@@ -169,7 +169,7 @@ function Lockinfo() {
                 ) : (
                   <>
                     <div className="table-responsive">
-                      <table class="table">
+                      <table class="table  text-white">
                         <thead>
                           <tr>
                             <th scope="col">Wallet</th>
@@ -211,7 +211,7 @@ function Lockinfo() {
                                 <td>
                                   <div
                                     to="/Lockin"
-                                    className="adrs"
+                                    className="adrs  text-white"
                                     onClick={() => history(`/Lockin/${index}`)}
                                   >
                                     View
