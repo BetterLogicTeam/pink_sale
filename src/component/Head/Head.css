@@ -50,11 +50,11 @@
   z-index: 9999 !important;
 }
 .MuiTab-textColorPrimary {
-  color: #f95192 !important;
+  color: #ffffff !important;
 }
 
 .css-1aquho2-MuiTabs-indicator {
-  background-color: #f95192 !important;
+  background-color: #ffffff !important;
   /* border-bottom: 1px dotted #f95192 !important; */
 }
 .color_text_h6 {
@@ -89,7 +89,7 @@
 }
 .model_tital_bnb{
   font-size: 18px !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
 
 }
 .bg-color-lonch {
@@ -205,16 +205,18 @@
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px grey;
   border-radius: 10px;
-  overflow: visible !important;
+  overflow: hidden !important;
   z-index: -1 !important;
+  background: #001355 !important;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background-color: radial-gradient(100.93% 100.93% at 50.83% .66%,rgba(77,0,138,.85) 0,#001355 49.08%,#000535 100%) !important;
+  background: #010f42 !important;
   border-radius: 10px;
-  overflow: visible !important;
+  overflow: hidden !important;
   z-index: -1 !important;
+
 }
 
 /* Handle on hover */
@@ -227,11 +229,11 @@
   margin-top: 4px !important;
 }
 .mata_hover:hover {
-  color: #f95192 !important;
+  color: #c493ff !important;
 }
 .mata_hover {
   cursor: pointer !important;
-  color: rgba(0, 0, 0, 0.87) !important;
+  color: rgba(255, 255, 255, 0.87) !important;
 }
 .modal-title-1 {
   font-weight: 600 !important;
@@ -239,18 +241,18 @@
 }
 
 .border_main_ETH {
-  border: 1px solid #fdeaf1 !important;
+  border: 1px solid #ffffff !important;
   padding: 32px 0 12px 0 !important;
   width: 49% !important;
   cursor: pointer !important;
   background-color: radial-gradient(100.93% 100.93% at 50.83% .66%,rgba(77,0,138,.85) 0,#001355 49.08%,#000535 100%) !important;
-  color: #f95192 !important;
+  color: #ffffff !important;
   font-size: 16px !important;
   font-weight: 600 !important;
   border-radius: 5px;
 }
 .border_main_ETH:hover {
-  border: 1px solid #f95192 !important;
+  border: 1px solid #ba83f9 !important;
 }
 .color_testing {
   color: #807e7e !important;
@@ -348,7 +350,7 @@ color: white !important;
 .height_sidebar2 {
   height: 140% !important;
   background-color: #100052 !important;
-  overflow: scroll !important;
+  /* overflow: scroll !important; */
   /* background-color: radial-gradient(100.93% 100.93% at 50.83% .66%,rgba(77,0,138,.85) 0,#001355 49.08%,#000535 100%) !important; */
 
 }

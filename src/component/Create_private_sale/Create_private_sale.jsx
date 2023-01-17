@@ -467,7 +467,7 @@ export default function HorizontalLinearStepper() {
                     <Form className="my-3">
                       <div className="main_form_box mt-3">
                         <div className="row">
-                          <div className="col-lg-6">
+                          <div className="col-lg-6 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -478,7 +478,7 @@ export default function HorizontalLinearStepper() {
                               <BiImage className="icon_cls" />
                               <Form.Control
                                 type="url"
-                                className="url_input input_flied_of_pink"
+                                className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://..."
                                 autoComplete="on"
                                
@@ -500,7 +500,7 @@ export default function HorizontalLinearStepper() {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-6">
+                          <div className="col-lg-6 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -511,7 +511,7 @@ export default function HorizontalLinearStepper() {
                               <TbWorld className="icon_cls" />
                               <Form.Control
                                 type="url"
-                                className="url_input input_flied_of_pink"
+                                className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://..."
                                 autoComplete="on"
                                
@@ -519,7 +519,7 @@ export default function HorizontalLinearStepper() {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-6">
+                          <div className="col-lg-6 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -530,7 +530,7 @@ export default function HorizontalLinearStepper() {
                               <CiFacebook className="icon_cls" />
                               <Form.Control
                                 type="url"
-                                className="url_input input_flied_of_pink"
+                                className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://facebook.com/..."
                                 autoComplete="on"
                                
@@ -538,7 +538,7 @@ export default function HorizontalLinearStepper() {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-6">
+                          <div className="col-lg-6 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -549,7 +549,7 @@ export default function HorizontalLinearStepper() {
                               <RiTwitterLine className="icon_cls" />
                               <Form.Control
                                 type="url"
-                                className="url_input input_flied_of_pink"
+                                className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://twitter.com/..."
                                 autoComplete="on"
                                
@@ -557,7 +557,7 @@ export default function HorizontalLinearStepper() {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-6">
+                          <div className="col-lg-6 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -568,7 +568,7 @@ export default function HorizontalLinearStepper() {
                               <FiGithub className="icon_cls" />
                               <Form.Control
                                 type="url"
-                                className="url_input input_flied_of_pink"
+                                className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://github.com/..."
                                 autoComplete="on"
                                
@@ -576,7 +576,7 @@ export default function HorizontalLinearStepper() {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-6">
+                          <div className="col-lg-6 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -587,7 +587,7 @@ export default function HorizontalLinearStepper() {
                               <FaTelegramPlane className="icon_cls" />
                               <Form.Control
                                 type="url"
-                                className="url_input input_flied_of_pink"
+                                className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://t.me/..."
                                 autoComplete="on"
                                
@@ -595,7 +595,7 @@ export default function HorizontalLinearStepper() {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-6">
+                          <div className="col-lg-6 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -606,7 +606,7 @@ export default function HorizontalLinearStepper() {
                               <AiOutlineInstagram className="icon_cls" />
                               <Form.Control
                                 type="url"
-                                className="url_input input_flied_of_pink"
+                                className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://instagram.com/..."
                                 autoComplete="on"
                                
@@ -614,7 +614,7 @@ export default function HorizontalLinearStepper() {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-6">
+                          <div className="col-lg-6 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -625,7 +625,7 @@ export default function HorizontalLinearStepper() {
                               <BsDiscord className="icon_cls" />
                               <Form.Control
                                 type="url"
-                                className="url_input input_flied_of_pink"
+                                className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://t.me/..."
                                 autoComplete="on"
                                
@@ -635,7 +635,7 @@ export default function HorizontalLinearStepper() {
                         </div>
 
                         <div className="row">
-                          <div className="col-lg-12">
+                          <div className="col-lg-12 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -646,7 +646,7 @@ export default function HorizontalLinearStepper() {
                               <ImReddit className="icon_cls" />
                               <Form.Control
                                 type="url"
-                                className="url_input input_flied_of_pink"
+                                className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://Reddit.com/..."
                                 autoComplete="on"
                                
@@ -654,7 +654,7 @@ export default function HorizontalLinearStepper() {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-12">
+                          <div className="col-lg-12 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -672,7 +672,7 @@ export default function HorizontalLinearStepper() {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-12">
+                          <div className="col-lg-12 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"

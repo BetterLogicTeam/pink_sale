@@ -325,7 +325,7 @@ import mata2 from "../Assets/wallet.svg";
 import mata3 from "../Assets/coinbase.png";
 import mata4 from "../Assets/safepal.jpg";
 import mata5 from "../Assets/token.png";
-import mata6 from "../Assets/math.png";
+import mata6 from "../Assets/PinkSales Ellipes.png";
 import { useSelector, useDispatch } from "react-redux";
 
 import mata7 from "../Assets/install.png";
@@ -362,14 +362,14 @@ function Modal_connect() {
       </Button>
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title className="model_tital_bnb">
+        <Modal.Header closeButton className="color_of_back_ground">
+          <Modal.Title className="model_tital_bnb ">
             {" "}
             Connect to a wallet
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          <div className="container text-center">
+        <Modal.Body className="color_of_back_ground">
+          <div className="container text-center ">
             <div className="row pt-3">
               <div
                 className="col-6 mata_hover"

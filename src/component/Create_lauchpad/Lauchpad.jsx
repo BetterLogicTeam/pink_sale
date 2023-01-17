@@ -23,10 +23,7 @@ const steps = [
     title: "Before you start",
     dis: "Input your awesome title and choose the currency",
   },
-  {
-    title: "Private Sale",
-    dis: "Enter the launchpad information that you want to raise , that should be enter all details about your presale",
-  },
+
   {
     title: "Add Additional Info",
     dis: "Let people know who you are",
@@ -98,7 +95,7 @@ export default function HorizontalLinearStepper() {
           return (
             <Step key={label} {...stepProps}>
               <StepLabel {...labelProps}><span className="text-white">{label.title}</span></StepLabel>
-              <span className="text-white"> {label.dis}</span>
+              <span className="text-white "> {label.dis}</span>
             </Step>
           );
         })}
@@ -123,7 +120,7 @@ export default function HorizontalLinearStepper() {
                     <Form className="my-3">
                       <Form.Group className="mb-3" controlId="formBasicEmail">
                         <div className="text-start for_fnt">
-                          <Form.Label>Title</Form.Label>
+                          <Form.Label>Token address*</Form.Label>
                         </div>
                         <Form.Control
                           type="email"
@@ -132,14 +129,34 @@ export default function HorizontalLinearStepper() {
                         />
                         <div className="text-start ">
                           <Form.Text className="pool_edt ">
-                            Pool creation fee: 0.2 ETH
+                          Pool creation fee: 1 BNB
                           </Form.Text>
                         </div>
                       </Form.Group>
 
+<div className="name_symbal ">
+  <div className="d-flex justify-content-between border-bottom">
+    <p>Name</p>
+    <p>JWDToken</p>
+ 
+  </div>
+  <div className="d-flex justify-content-between border-bottom pt-3">
+    <p>Symbol</p>
+    <p>JWD</p>
+ 
+  </div>
+  <div className="d-flex justify-content-between border-bottom pt-3">
+    <p>Decimals</p>
+    <p>18</p>
+ 
+  </div>
+ 
+</div>
+
+
                       <div className="currency_box mt-2">
-                        <div className="text-start for_fnt">
-                          <Form.Label>Currency</Form.Label>
+                        <div className="text-start pt-4">
+                          <p className="fw-bold">Currency</p>
                         </div>
                         <div className="chek_box">
                           <div class="form-check">
@@ -153,7 +170,21 @@ export default function HorizontalLinearStepper() {
                               class="form-check-label crnc d-flex justify-content-start"
                               for="flexRadioDefault1"
                             >
-                              ETH
+                             BNB
+                            </label>
+                          </div>
+                          <div class="form-check">
+                            <input
+                              class="form-check-input"
+                              type="radio"
+                              name="flexRadioDefault"
+                              id="flexRadioDefault1"
+                            />
+                            <label
+                              class="form-check-label crnc d-flex justify-content-start"
+                              for="flexRadioDefault1"
+                            >
+                              BUSD
                             </label>
                           </div>
                           <div class="form-check">
@@ -167,7 +198,7 @@ export default function HorizontalLinearStepper() {
                               class="form-check-label crnc d-flex justify-content-start"
                               for="flexRadioDefault2"
                             >
-                              USDH
+                              USDT
                             </label>
                           </div>
                           <div class="form-check">
@@ -187,151 +218,53 @@ export default function HorizontalLinearStepper() {
                         </div>
                         <div className="text-start ">
                           <Form.Text className="pool_edt">
-                            Users will pay with ETH for your token
+                          Users will pay with BNB for your token
                           </Form.Text>
                         </div>
                       </div>
-                      <div className="d-flex justify-content-center">
-                        <button
-                          onClick={handleNext}
-                          type="button"
-                          className="btn btn-sm  m-auto loc_buttn_nex_back"
-                        >
-                          Next
-                        </button>
-                      </div>
-                    </Form>
-                  </div>
-                </div>
-              </div>
-            </>
-          ) : activeStep == 1 ? (
-            <>
-              <div className="container">
-                <div className="row justify-content-center">
-                  <div className="col-lg-10  border mt-5 color_of_back_ground box_shadow">
-                    <Form className="my-3">
-                      <div className="currency_box mt-2">
-                        <div className="text-start for_fnt">
-                          <Form.Label>Whitelist</Form.Label>
+                      <div>
+                        <div className="opentin pt-4">
+                          <p className="fw-bold">Fee options</p>
+                          <div class=" text-start">
+                          
+                          
+                              5% BNB raised only (Recommended)
+                         
+                          </div>
+                          
+                          
                         </div>
-                        <div className="chek_box_tow d-flex">
-                          <div class="form-check">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="flexRadioDefault"
-                              id="flexRadioDefault1"
-                            />
-                            <label
-                              class="form-check-label crnc d-flex justify-content-start"
+                      </div>
+
+<div className="mt-4 text-start">
+  <p className="text-danger">(*) it reruired fields</p>
+  <Form.Group
+                              className="mb-3"
+                              controlId="formBasicEmail"
+                            >
+                              <div className="text-start for_fnt">
+                                <Form.Label>Exchange rate *</Form.Label>
+                              </div>
+                              <Form.Control
+                                type="number"
+                                className="input input_flied_of_pink"
+                                placeholder="0"
+                                autoComplete="on"
+                               
+                              />
+                                 <label
+                              className="form-check-label pool_edt crnc d-flex justify-content-start"
                               for="flexRadioDefault1"
+                            
                             >
-                              Disable
+                              if i spend 1 USDC how many token will i receive ?
                             </label>
-                          </div>
-                          <div class="form-check">
-                            <input
-                              class="form-check-input"
-                              type="radio"
-                              name="flexRadioDefault"
-                              id="flexRadioDefault2"
-                            />
-                            <label
-                              class="form-check-label crnc d-flex justify-content-start"
-                              for="flexRadioDefault2"
-                            >
-                              Enable
-                            </label>
-                          </div>
-                        </div>
-                        <div className="text-start">
-                          <Form.Text className="pool_edt_tow ">
-                            You can enable/disable whitelist anytime
-                          </Form.Text>
-                        </div>
-                      </div>
-                      <div className="main_form_box mt-3">
-                        <div className="row">
-                          <div className="col-lg-6">
-                            <Form.Group
-                              className="mb-3"
-                              controlId="formBasicEmail"
-                            >
-                              <div className="text-start for_fnt">
-                                <Form.Label>Softcap (ETH)</Form.Label>
-                              </div>
-                              <Form.Control
-                                type="number"
-                                className="input input_flied_of_pink"
-                                placeholder="Ex:10"
-                                autoComplete="on"
-                               
-                              />
-                              <div className="text-start ">
-                                <Form.Text className="pool_edt">
-                                  Softcap must be = 50% of Hardcap!
-                                </Form.Text>
-                              </div>
                             </Form.Group>
-                          </div>
+                         
+</div>
 
-                          <div className="col-lg-6">
-                            <Form.Group
-                              className="mb-3"
-                              controlId="formBasicEmail"
-                            >
-                              <div className="text-start for_fnt">
-                                <Form.Label>HardCap (ETH)</Form.Label>
-                              </div>
-                              <Form.Control
-                                type="number"
-                                className="input input_flied_of_pink"
-                                placeholder="Ex:10"
-                                autoComplete="on"
-                               
-                              />
-                            </Form.Group>
-                          </div>
-
-                          <div className="col-lg-6">
-                            <Form.Group
-                              className="mb-3"
-                              controlId="formBasicEmail"
-                            >
-                              <div className="text-start for_fnt">
-                                <Form.Label>Minimum buy (ETH)</Form.Label>
-                              </div>
-                              <Form.Control
-                                type="number"
-                                className="input input_flied_of_pink"
-                                placeholder="0.1 ETH"
-                                autoComplete="on"
-                               
-                              />
-                            </Form.Group>
-                          </div>
-
-                          <div className="col-lg-6">
-                            <Form.Group
-                              className="mb-3"
-                              controlId="formBasicEmail"
-                            >
-                              <div className="text-start for_fnt">
-                                <Form.Label>Maximum buy (ETH)</Form.Label>
-                              </div>
-                              <Form.Control
-                                type="number"
-                                className="input input_flied_of_pink"
-                                placeholder="0.2 ETH"
-                                autoComplete="on"
-                               
-                              />
-                            </Form.Group>
-                          </div>
-                        </div>
-
-                        <div className="row mt-3">
+<div className="pb-3">
+<div className="row mt-3">
                           <div className="text-start for_fnt">
                             <Form.Label>
                               Select start time & end time (UTC)
@@ -373,94 +306,280 @@ export default function HorizontalLinearStepper() {
                             </Form.Group>
                           </div>
                         </div>
+</div>
 
-                        <div className="row">
-                          <div className="col-lg-12">
-                            <Form.Group
-                              className="mb-3"
-                              controlId="formBasicEmail"
-                            >
-                              <div className="text-start for_fnt">
-                                <Form.Label>
-                                  First Fund Release For Project (%)
-                                </Form.Label>
-                              </div>
-                              <Form.Control
-                                type="number"
-                                className="input input_flied_of_pink"
-                                placeholder="Ex: 40%"
-                                autoComplete="on"
-                               
-                              />
-                            </Form.Group>
-                          </div>
-                        </div>
 
-                        <div className="row mt-3">
-                          <div className="col-lg-6">
-                            <Form.Group
-                              className="mb-3"
-                              controlId="formBasicEmail"
-                            >
-                              <div className="text-start for_fnt">
-                                <Form.Label>
-                                  Fund Vesting Period Each Cycle (days)
-                                </Form.Label>
-                              </div>
-                              <Form.Control
-                                type="number"
-                                className="input input_flied_of_pink"
-                                placeholder="Enter (days). Ex: 3"
-                                autoComplete="on"
-                               
-                              />
-                            </Form.Group>
-                          </div>
 
-                          <div className="col-lg-6">
-                            <Form.Group
-                              className="mb-3"
-                              controlId="formBasicEmail"
-                            >
-                              <div className="text-start for_fnt">
-                                <Form.Label>
-                                  Fund Release Each Cycle (percent)
-                                </Form.Label>
-                              </div>
-                              <Form.Control
-                                type="number"
-                                className="input input_flied_of_pink"
-                                placeholder="Ex: 20%"
-                                autoComplete="on"
-                               
-                              />
-                            </Form.Group>
-                          </div>
-                        </div>
-
-                        <div className="main_tow_bbtn d-flex justify-content-center">
-                          <button
-                            type="button"
-                            className="btn btn-sm  mt-3 me-3 loc_buttn_nex_back"
-                            onClick={handleBack}
-                          >
-                            Back
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-sm  mt-3 loc_buttn_nex_back"
-                            onClick={handleNext}
-                          >
-                            Next
-                          </button>
-                        </div>
+                      <div className="d-flex justify-content-center">
+                        <button
+                          onClick={handleNext}
+                          type="button"
+                          className="btn btn-sm  m-auto loc_buttn_nex_back"
+                        >
+                          Next
+                        </button>
                       </div>
                     </Form>
                   </div>
                 </div>
               </div>
             </>
-          ) : activeStep == 2 ? (
+          // ) : activeStep == 1 ? (
+          //   <>
+          //     <div className="container">
+          //       <div className="row justify-content-center">
+          //         <div className="col-lg-10  border mt-5 color_of_back_ground box_shadow">
+          //           <Form className="my-3">
+          //             <div className="currency_box mt-2">
+          //               <div className="text-start for_fnt">
+          //                 <Form.Label>Whitelist</Form.Label>
+          //               </div>
+          //               <div className="chek_box_tow d-flex">
+          //                 <div class="form-check">
+          //                   <input
+          //                     class="form-check-input"
+          //                     type="radio"
+          //                     name="flexRadioDefault"
+          //                     id="flexRadioDefault1"
+          //                   />
+          //                   <label
+          //                     class="form-check-label crnc d-flex justify-content-start"
+          //                     for="flexRadioDefault1"
+          //                   >
+          //                     Disable
+          //                   </label>
+          //                 </div>
+          //                 <div class="form-check">
+          //                   <input
+          //                     class="form-check-input"
+          //                     type="radio"
+          //                     name="flexRadioDefault"
+          //                     id="flexRadioDefault2"
+          //                   />
+          //                   <label
+          //                     class="form-check-label crnc d-flex justify-content-start"
+          //                     for="flexRadioDefault2"
+          //                   >
+          //                     Enable
+          //                   </label>
+          //                 </div>
+          //               </div>
+          //               <div className="text-start">
+          //                 <Form.Text className="pool_edt_tow ">
+          //                   You can enable/disable whitelist anytime
+          //                 </Form.Text>
+          //               </div>
+          //             </div>
+          //             <div className="main_form_box mt-3">
+          //               <div className="row">
+          //                 <div className="col-lg-6">
+          //                   <Form.Group
+          //                     className="mb-3"
+          //                     controlId="formBasicEmail"
+          //                   >
+          //                     <div className="text-start for_fnt">
+          //                       <Form.Label>Softcap (ETH)</Form.Label>
+          //                     </div>
+          //                     <Form.Control
+          //                       type="number"
+          //                       className="input input_flied_of_pink"
+          //                       placeholder="Ex:10"
+          //                       autoComplete="on"
+                               
+          //                     />
+          //                     <div className="text-start ">
+          //                       <Form.Text className="pool_edt">
+          //                         Softcap must be = 50% of Hardcap!
+          //                       </Form.Text>
+          //                     </div>
+          //                   </Form.Group>
+          //                 </div>
+
+          //                 <div className="col-lg-6">
+          //                   <Form.Group
+          //                     className="mb-3"
+          //                     controlId="formBasicEmail"
+          //                   >
+          //                     <div className="text-start for_fnt">
+          //                       <Form.Label>HardCap (ETH)</Form.Label>
+          //                     </div>
+          //                     <Form.Control
+          //                       type="number"
+          //                       className="input input_flied_of_pink"
+          //                       placeholder="Ex:10"
+          //                       autoComplete="on"
+                               
+          //                     />
+          //                   </Form.Group>
+          //                 </div>
+
+          //                 <div className="col-lg-6">
+          //                   <Form.Group
+          //                     className="mb-3"
+          //                     controlId="formBasicEmail"
+          //                   >
+          //                     <div className="text-start for_fnt">
+          //                       <Form.Label>Minimum buy (ETH)</Form.Label>
+          //                     </div>
+          //                     <Form.Control
+          //                       type="number"
+          //                       className="input input_flied_of_pink"
+          //                       placeholder="0.1 ETH"
+          //                       autoComplete="on"
+                               
+          //                     />
+          //                   </Form.Group>
+          //                 </div>
+
+          //                 <div className="col-lg-6">
+          //                   <Form.Group
+          //                     className="mb-3"
+          //                     controlId="formBasicEmail"
+          //                   >
+          //                     <div className="text-start for_fnt">
+          //                       <Form.Label>Maximum buy (ETH)</Form.Label>
+          //                     </div>
+          //                     <Form.Control
+          //                       type="number"
+          //                       className="input input_flied_of_pink"
+          //                       placeholder="0.2 ETH"
+          //                       autoComplete="on"
+                               
+          //                     />
+          //                   </Form.Group>
+          //                 </div>
+          //               </div>
+
+          //               <div className="row mt-3">
+          //                 <div className="text-start for_fnt">
+          //                   <Form.Label>
+          //                     Select start time & end time (UTC)
+          //                   </Form.Label>
+          //                 </div>
+          //                 <div className="col-lg-6">
+          //                   <Form.Group
+          //                     className="mb-3"
+          //                     controlId="formBasicEmail"
+          //                   >
+          //                     <div className="text-start for_fnt">
+          //                       <Form.Label>Start time (UTC)</Form.Label>
+          //                     </div>
+          //                     <Form.Control
+          //                       type="datetime-local"
+          //                       className="input input_flied_of_pink"
+          //                       placeholder="Select date"
+          //                       autoComplete="on"
+                               
+          //                     />
+          //                   </Form.Group>
+          //                 </div>
+
+          //                 <div className="col-lg-6">
+          //                   <Form.Group
+          //                     className="mb-3"
+          //                     controlId="formBasicEmail"
+          //                   >
+          //                     <div className="text-start for_fnt">
+          //                       <Form.Label>End time (UTC)</Form.Label>
+          //                     </div>
+          //                     <Form.Control
+          //                       type="datetime-local"
+          //                       className="input input_flied_of_pink"
+          //                       placeholder="Select date"
+          //                       autoComplete="on"
+                               
+          //                     />
+          //                   </Form.Group>
+          //                 </div>
+          //               </div>
+
+          //               <div className="row">
+          //                 <div className="col-lg-12">
+          //                   <Form.Group
+          //                     className="mb-3"
+          //                     controlId="formBasicEmail"
+          //                   >
+          //                     <div className="text-start for_fnt">
+          //                       <Form.Label>
+          //                         First Fund Release For Project (%)
+          //                       </Form.Label>
+          //                     </div>
+          //                     <Form.Control
+          //                       type="number"
+          //                       className="input input_flied_of_pink"
+          //                       placeholder="Ex: 40%"
+          //                       autoComplete="on"
+                               
+          //                     />
+          //                   </Form.Group>
+          //                 </div>
+          //               </div>
+
+          //               <div className="row mt-3">
+          //                 <div className="col-lg-6">
+          //                   <Form.Group
+          //                     className="mb-3"
+          //                     controlId="formBasicEmail"
+          //                   >
+          //                     <div className="text-start for_fnt">
+          //                       <Form.Label>
+          //                         Fund Vesting Period Each Cycle (days)
+          //                       </Form.Label>
+          //                     </div>
+          //                     <Form.Control
+          //                       type="number"
+          //                       className="input input_flied_of_pink"
+          //                       placeholder="Enter (days). Ex: 3"
+          //                       autoComplete="on"
+                               
+          //                     />
+          //                   </Form.Group>
+          //                 </div>
+
+          //                 <div className="col-lg-6">
+          //                   <Form.Group
+          //                     className="mb-3"
+          //                     controlId="formBasicEmail"
+          //                   >
+          //                     <div className="text-start for_fnt">
+          //                       <Form.Label>
+          //                         Fund Release Each Cycle (percent)
+          //                       </Form.Label>
+          //                     </div>
+          //                     <Form.Control
+          //                       type="number"
+          //                       className="input input_flied_of_pink"
+          //                       placeholder="Ex: 20%"
+          //                       autoComplete="on"
+                               
+          //                     />
+          //                   </Form.Group>
+          //                 </div>
+          //               </div>
+
+          //               <div className="main_tow_bbtn d-flex justify-content-center">
+          //                 <button
+          //                   type="button"
+          //                   className="btn btn-sm  mt-3 me-3 loc_buttn_nex_back"
+          //                   onClick={handleBack}
+          //                 >
+          //                   Back
+          //                 </button>
+          //                 <button
+          //                   type="button"
+          //                   className="btn btn-sm  mt-3 loc_buttn_nex_back"
+          //                   onClick={handleNext}
+          //                 >
+          //                   Next
+          //                 </button>
+          //               </div>
+          //             </div>
+          //           </Form>
+          //         </div>
+          //       </div>
+          //     </div>
+          //   </>
+          ) : activeStep == 1 ? (
             <>
               <div className="container">
                 <div className="row justify-content-center">
@@ -468,7 +587,7 @@ export default function HorizontalLinearStepper() {
                     <Form className="my-3">
                       <div className="main_form_box mt-3">
                         <div className="row">
-                          <div className="col-lg-6">
+                          <div className="col-lg-6 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -479,7 +598,7 @@ export default function HorizontalLinearStepper() {
                               <BiImage className="icon_cls" />
                               <Form.Control
                                 type="url"
-                                className="url_input input_flied_of_pink"
+                                className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://..."
                                 autoComplete="on"
                                
@@ -501,7 +620,7 @@ export default function HorizontalLinearStepper() {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-6">
+                          <div className="col-lg-6 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -512,7 +631,7 @@ export default function HorizontalLinearStepper() {
                               <TbWorld className="icon_cls" />
                               <Form.Control
                                 type="url"
-                                className="url_input input_flied_of_pink"
+                                className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://..."
                                 autoComplete="on"
                                
@@ -520,7 +639,7 @@ export default function HorizontalLinearStepper() {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-6">
+                          <div className="col-lg-6 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -531,7 +650,7 @@ export default function HorizontalLinearStepper() {
                               <CiFacebook className="icon_cls" />
                               <Form.Control
                                 type="url"
-                                className="url_input input_flied_of_pink"
+                                className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://facebook.com/..."
                                 autoComplete="on"
                                
@@ -539,7 +658,7 @@ export default function HorizontalLinearStepper() {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-6">
+                          <div className="col-lg-6 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -550,7 +669,7 @@ export default function HorizontalLinearStepper() {
                               <RiTwitterLine className="icon_cls" />
                               <Form.Control
                                 type="url"
-                                className="url_input input_flied_of_pink"
+                                className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://twitter.com/..."
                                 autoComplete="on"
                                
@@ -558,7 +677,7 @@ export default function HorizontalLinearStepper() {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-6">
+                          <div className="col-lg-6 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -569,7 +688,7 @@ export default function HorizontalLinearStepper() {
                               <FiGithub className="icon_cls" />
                               <Form.Control
                                 type="url"
-                                className="url_input input_flied_of_pink"
+                                className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://github.com/..."
                                 autoComplete="on"
                                
@@ -577,7 +696,7 @@ export default function HorizontalLinearStepper() {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-6">
+                          <div className="col-lg-6 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -588,7 +707,7 @@ export default function HorizontalLinearStepper() {
                               <FaTelegramPlane className="icon_cls" />
                               <Form.Control
                                 type="url"
-                                className="url_input input_flied_of_pink"
+                                className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://t.me/..."
                                 autoComplete="on"
                                
@@ -596,7 +715,7 @@ export default function HorizontalLinearStepper() {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-6">
+                          <div className="col-lg-6 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -607,7 +726,7 @@ export default function HorizontalLinearStepper() {
                               <AiOutlineInstagram className="icon_cls" />
                               <Form.Control
                                 type="url"
-                                className="url_input input_flied_of_pink"
+                                className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://instagram.com/..."
                                 autoComplete="on"
                                
@@ -615,7 +734,7 @@ export default function HorizontalLinearStepper() {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-6">
+                          <div className="col-lg-6 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -626,7 +745,7 @@ export default function HorizontalLinearStepper() {
                               <BsDiscord className="icon_cls" />
                               <Form.Control
                                 type="url"
-                                className="url_input input_flied_of_pink"
+                                className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://t.me/..."
                                 autoComplete="on"
                                
@@ -636,7 +755,7 @@ export default function HorizontalLinearStepper() {
                         </div>
 
                         <div className="row">
-                          <div className="col-lg-12">
+                          <div className="col-lg-12 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -647,7 +766,7 @@ export default function HorizontalLinearStepper() {
                               <ImReddit className="icon_cls" />
                               <Form.Control
                                 type="url"
-                                className="url_input input_flied_of_pink"
+                                className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://Reddit.com/..."
                                 autoComplete="on"
                                
@@ -655,25 +774,8 @@ export default function HorizontalLinearStepper() {
                             </Form.Group>
                           </div>
 
-                          <div className="col-lg-12">
-                            <Form.Group
-                              className="mb-3"
-                              controlId="formBasicEmail"
-                            >
-                              <div className="text-start for_fnt">
-                                <Form.Label>Youtube Video</Form.Label>
-                              </div>
-                              <Form.Control
-                                type="url"
-                                className="input input_flied_of_pink"
-                                placeholder="Ex: https://www.youtube.com/watch?v=xxxxxxxxx"
-                                autoComplete="on"
-                               
-                              />
-                            </Form.Group>
-                          </div>
 
-                          <div className="col-lg-12">
+                          <div className="col-lg-12 pt-3">
                             <Form.Group
                               className="mb-3"
                               controlId="formBasicEmail"
@@ -715,106 +817,78 @@ export default function HorizontalLinearStepper() {
                 </div>
               </div>
             </>
-          ) : activeStep == 3 ? (
+          ) : activeStep == 2 ? (
             <>
               <div className="container">
                 <div className="row justify-content-center">
                   <div className="col-lg-10 color_of_back_ground box_shadow text-white border mt-5">
                     <table class="table">
                       <tbody>
+                        <tr className=""> 
+                          <td className="text-start clc_fr_size">Total</td>
+                          <td></td>
+                          <td></td>
+                          <td className="text-end clc_fr_color">122,75 JWD</td>
+                        </tr>
+                        <tr  className="">
+                          <td className="text-start clc_fr_size">
+                            Factory Address
+                          </td>
+                          <td></td>
+                          <td></td>
+                          <td className="text-end clc_fr_blu ">gdgdgghsdus665565</td>
+                        </tr>
                         <tr>
-                          <td className="text-start clc_fr_size">Title</td>
+                          <td className="text-start clc_fr_size">Token name</td>
                           <td></td>
                           <td></td>
-                          <td className="text-end clc_fr_color">Haider</td>
+                          <td className="text-end clc_fr_blu">JWDtoken</td>
+                        </tr>
+                        <tr>
+                          <td className="text-start clc_fr_size">Token symbol</td>
+                          <td></td>
+                          <td></td>
+                          <td className="text-end clc_fr_blu">JWD</td>
                         </tr>
                         <tr>
                           <td className="text-start clc_fr_size">
-                            Sale method
+                             Token decimals
                           </td>
                           <td></td>
                           <td></td>
-                          <td className="text-end clc_fr_blu ">Public</td>
-                        </tr>
-                        <tr>
-                          <td className="text-start clc_fr_size">Softcap</td>
-                          <td></td>
-                          <td></td>
-                          <td className="text-end clc_fr_blu">1 ETH</td>
-                        </tr>
-                        <tr>
-                          <td className="text-start clc_fr_size">Hardcap</td>
-                          <td></td>
-                          <td></td>
-                          <td className="text-end clc_fr_blu">2 ETH</td>
+                          <td className="text-end clc_fr_blu">18</td>
                         </tr>
                         <tr>
                           <td className="text-start clc_fr_size">
-                            Minimum buy
+                           Start time
                           </td>
                           <td></td>
                           <td></td>
-                          <td className="text-end clc_fr_blu">1 ETH</td>
+                          <td className="text-end clc_fr_blu">2023-01-177T05:40 (UTC)</td>
                         </tr>
                         <tr>
-                          <td className="text-start clc_fr_size">
-                            Maximum buy
-                          </td>
+                          <td className="text-start clc_fr_size">Time end</td>
                           <td></td>
                           <td></td>
-                          <td className="text-end clc_fr_blu">2 ETH</td>
-                        </tr>
-                        <tr>
-                          <td className="text-start clc_fr_size">Fund TGE</td>
-                          <td></td>
-                          <td></td>
-                          <td className="text-end clc_fr_blu">40%</td>
-                        </tr>
-                        <tr>
-                          <td className="text-start clc_fr_size">Fund Cycle</td>
-                          <td></td>
-                          <td></td>
-                          <td className="text-end clc_fr_blu">10 Days</td>
-                        </tr>
-                        <tr>
-                          <td className="text-start clc_fr_size">
-                            Fund Release Each Cycle
-                          </td>
-                          <td></td>
-                          <td></td>
-                          <td className="text-end clc_fr_blu">20%</td>
-                        </tr>
-                        <tr>
-                          <td className="text-start clc_fr_size">Start time</td>
-                          <td></td>
-                          <td></td>
-                          <td className="text-end clc_fr_blu">
-                            2023-01-12T10:41 (UTC)
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="text-start clc_fr_size">End time</td>
-                          <td></td>
-                          <td></td>
-                          <td className="text-end clc_fr_blu">
-                            2023-01-24T14:46 (UTC)
-                          </td>
+                          <td className="text-end clc_fr_blu">2023-01-177T05:40 (UTC)</td>
                         </tr>
                         <tr>
                           <td className="text-start clc_fr_size">Website</td>
                           <td></td>
                           <td></td>
-                          <td className="text-end frr_brk">
-                            <a
-                              href=""
-                              className="text-decoration-none clc_fr_color"
-                            >
-                              https://photos.pinksale.finance/file/pinksale-logo-upload/1673441258678-449fc65d8fb1ca37799fece99e750623.jpg
-                            </a>
+                          <td className="text-end clc_fr_blu">
+                           https://photos.pinksale.finance/file/pinksale-logo-upload/1673441258678-449fc65d8fb1ca37799fece99e750623.jpg
+                          
                           </td>
                         </tr>
+                       
+                             
                       </tbody>
                     </table>
+                    <div>
+    
+  
+                    </div>
                     <div className="main_tow_bbtn d-flex justify-content-center mb-4">
                           <button
                             type="button"
@@ -836,7 +910,7 @@ export default function HorizontalLinearStepper() {
               </div>
             </>
           ) : (
-            "step 04"
+            "step 03"
           )}
           {/* <Typography sx={{ mt: 2, mb: 1 }}>Stggep {activeStep}</Typography> */}
 

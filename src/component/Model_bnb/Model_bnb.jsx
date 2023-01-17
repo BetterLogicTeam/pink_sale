@@ -14,8 +14,8 @@ import bnc1 from "../Assets/bnc-1.svg";
 import bnc2 from "../Assets/bnb.png";
 import bnc3 from "../Assets/matic.png";
 import bnc4 from "../Assets/avalache.svg";
-import bnc5 from "../Assets/fantom.svg";
-import bnc6 from "../Assets/cornor.svg";
+import bnc5 from "../Assets/Pinksales (1).png";
+import bnc6 from "../Assets/PinkSales C (2).png";
 import bnc7 from "../Assets/doge.png";
 function Modal_bnb() {
   const [show, setShow] = useState(false);
@@ -53,10 +53,10 @@ function Modal_bnb() {
       </Button>
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton className="color_of_back_ground">
           <Modal.Title className="model_tital_bnb">Choose network</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="color_of_back_ground">
           <div className="container text-center">
             <div className="row pt-3 d-flex justify-content-between">
               <div className="col-6 border_main_ETH">

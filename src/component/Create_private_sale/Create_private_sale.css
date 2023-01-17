@@ -10,9 +10,7 @@
 }
 
 
-::selection{
-    background-color: pink;
-}
+
 .for_fnt{
     font-size: 14px;
     font-weight: 600;
@@ -28,8 +26,7 @@
 }
 .cp_fr_bttn{
     color: #fff;
-    background: #f95192;
-    border-color: #f95192;
+   
     text-shadow: 0 -1px 0 rgb(0 0 0 / 12%);
     box-shadow: 0 2px 0 rgb(0 0 0 / 5%);
     width: 7%;
@@ -67,22 +64,23 @@
 /* Scp css */
 
 
-.third_frm_lk{
-    color: #f95192 !important;
-}
+
 
 .icon_cls{
     position: absolute;
-    margin: 13px 0px 15px 10px;
+    margin: 8px 0px 15px 10px;
     padding: 0px;
     display: flex;
     justify-content: start;
-    font-size: 17px;
+    font-size: 20px;
 }
 
 .url_input::placeholder{
-    padding-left: 22px !important;
+    padding-left:1px !important;
     font-size: 15px !important;
+}
+.input_flied_of_pinks{
+padding-left: 32px !important;
 }
 
 .text_ara{
@@ -100,7 +98,7 @@
 
 
 .clc_fr_color{
-    color: #f95192 !important;
+    color:  #3298dc !important;
     font-size: 14px;
 }
 
@@ -120,9 +118,9 @@
 .css-1hv8oq8-MuiStepLabel-label.Mui-active {
     color: rgba(0, 0, 0, 0.87);
     font-weight: 500;
-    width: 120% !important;
+    width: 100% !important;
 } 
 .css-1hv8oq8-MuiStepLabel-label {
    
-    width: 117% !important;
+    width: 100% !important;
 }

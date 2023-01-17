@@ -42,9 +42,9 @@ import Lockinfo from "../Lock_detail/Lockinfo";
 import Lockin from "../Lock_in/Lockin";
 import Canvas from "../Canvas/Canvas";
 import Modal_bnb from "../Model_bnb/Model_bnb";
+import Lauchpad from "../Create_lauchpad/Lauchpad"
 import Create_private_sale from "../Create_private_sale/Create_private_sale";
-import Lauchpad from "../Lauchpad/Lauchpad";
-
+import Launchpad_list from "../Launchpad_list/Launchpad_list";
 const drawerWidth = 200;
 
 const openedMixin = (theme) => ({
@@ -255,7 +255,7 @@ export default function MiniDrawer() {
                         <a href="#"> Create dutch auct...</a>
                         <a href="#"> Create subscription...</a>
                         <a href="#"> Create token</a>
-                        <a href="#"> Launchpad list</a>
+                        <Link to="/Launchpad_list"> Launchpad list</Link>
                       </div>
                     </div>
                   </div>
@@ -271,11 +271,8 @@ export default function MiniDrawer() {
                 <Typography>
                   <ul className="text-start">
                     <li className="list-style-none">
-                      {/* <a href="#" className="HOVER text-decoration-none">
+                      <Link to="/lauchpad" className="HOVER text-decoration-none">
                         Create launchpad
-                      </a> */}
-                      <Link to="/Create_private_sale" className="HOVER text-decoration-none">
-                      Create launchpad
                       </Link>
                     </li>
                     <li className="list-style-none">
@@ -299,9 +296,9 @@ export default function MiniDrawer() {
                       </a>
                     </li>
                     <li className="list-style-none">
-                      <a href="#" className="HOVER text-decoration-none">
+                    <Link to="/Launchpad_list" className="HOVER text-decoration-none">
                         Launchpad list
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </Typography>
@@ -931,11 +928,12 @@ export default function MiniDrawer() {
           <Route exact path="/my_lockin/:id" element={<Mylockin />} />
           <Route exact path="/token" element={<Token />} />
           <Route exact path="/Createlock" element={<Createlock />} />
+          <Route exact path="/Lauchpad" element={<Lauchpad />} />
+          <Route exact path="/Launchpad_list" element={<Launchpad_list />} />
           {/* <Route exact path="/" element={<Mylockin/>}/> */}
           <Route exact path="/lockinfo/:id" element={<Lockinfo />} />
           <Route exact path="/lockin/:id" element={<Lockin />} />
           <Route exact path="/Create_private_sale" element={<Create_private_sale />} />
-          <Route exact path="/Lauchpad" element={<Lauchpad />} />
         </Routes>
       </Box>
     </Box>

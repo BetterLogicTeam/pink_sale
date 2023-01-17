@@ -151,9 +151,9 @@ function ResponsiveExample() {
                                             </a>
                                         </li>
                                         <li className="list-style-none">
-                                            <a href="#" className="HOVER text-decoration-none">
+                                        <Link to="/Launchpad_list"  onClick={handleShow} className="HOVER text-decoration-none">
                                                 Launchpad list
-                                            </a>
+                                            </Link>
                                         </li>
                                     </ul>
                                 </Typography>

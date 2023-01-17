@@ -37,24 +37,14 @@
 .loc_buttn:focus{
     box-shadow: none !important;
 }
-.form-check-input:hover{
-    border-color:#f14668;
-}
+
 /* .loc_buttn:hover{
     cursor: no-drop !important;
 } */
 
-.form-check-input:checked{
-    background-color:#f14668;
-    border-color:#f14668;
-}
 
-.form-check-input:focus {
-    border-color:#f14668 ;
-    outline: 0;
-    box-shadow: 0 0 0 2px  #f6cfde;
-    /* background-color: #f14668 !important; */
-}
+
+
 .fs_14{
     font-size: 14px !important;
 }
