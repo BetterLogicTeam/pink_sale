@@ -11,21 +11,31 @@
 .toolbar_flex {
   display: flex !important;
 }
-
+.css-12i7wg6-MuiPaper-root-MuiDrawer-paper{
+  border-right: 1px solid #89d2f3 !important;
+  box-shadow: 0 0 31px rgb(149 100 211 / 50%) !important;
+}
 .appbar_color {
-  background: radial-gradient(100.93% 100.93% at 50.83% .66%,rgba(77,0,138,.85) 0,#001355 49.08%,#000535 100%) !important;
+  background: radial-gradient(
+    100.93% 100.93% at 50.83% 0.66%,
+    rgba(77, 0, 138, 0.85) 0,
+    #001355 49.08%,
+    #000535 100%
+  ) !important;
+  border-bottom: 1px solid #89d2f3 !important;
+  box-shadow: 0 0 31px rgb(149 100 211 / 50%) !important;
 
   box-shadow: none !important;
-  border-bottom: 1px solid #eaeaea;
+ 
   /* z-index: 999 !important; */
   margin-left: 220px !important;
   width: calc(100% - 50px) !important;
 
- 
   color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms !important;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms !important;
-  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%),
+    0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
   display: -webkit-box !important;
   display: -webkit-flex !important;
   display: -ms-flexbox !important;
@@ -67,7 +77,6 @@
 } */
 .size_of_pink {
   font-size: 23px !important;
-
 }
 .HOVER {
   color: rgb(255, 255, 255) !important;
@@ -87,16 +96,15 @@
 .name :hover {
   color: #f95997 !important;
 }
-.model_tital_bnb{
+.model_tital_bnb {
   font-size: 18px !important;
   font-weight: 600 !important;
-
 }
 .bg-color-lonch {
   background: transparent !important;
   padding: 0 !important;
 }
-::selection{
+::selection {
   background-color: #8b65fd !important;
   color: white !important;
 }
@@ -108,7 +116,6 @@
 
 .border-none {
   border: none !important;
-
 }
 .css-1elwnq4-MuiPaper-root-MuiAccordion-root:before {
   position: relative !important;
@@ -117,7 +124,12 @@
   box-shadow: none !important;
 }
 .css-1elwnq4-MuiPaper-root-MuiAccordion-root {
-  background-color: radial-gradient(100.93% 100.93% at 50.83% .66%,rgba(77,0,138,.85) 0,#001355 49.08%,#000535 100%) !important;
+  background-color: radial-gradient(
+    100.93% 100.93% at 50.83% 0.66%,
+    rgba(77, 0, 138, 0.85) 0,
+    #001355 49.08%,
+    #000535 100%
+  ) !important;
   color: rgba(0, 0, 0, 0.87);
   -webkit-transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
   transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
@@ -134,7 +146,12 @@
   display: none !important;
 }
 .font_size_connect {
-  background-color: radial-gradient(100.93% 100.93% at 50.83% .66%,rgba(77,0,138,.85) 0,#001355 49.08%,#000535 100%) !important;
+  background-color: radial-gradient(
+    100.93% 100.93% at 50.83% 0.66%,
+    rgba(77, 0, 138, 0.85) 0,
+    #001355 49.08%,
+    #000535 100%
+  ) !important;
   border-radius: 16px !important;
   font-size: 14px !important;
   font-weight: 600 !important;
@@ -178,18 +195,23 @@
   }
 
   .appbar_color {
-    background-color: radial-gradient(100.93% 100.93% at 50.83% .66%,rgba(77,0,138,.85) 0,#001355 49.08%,#000535 100%) !important;
+    background-color: radial-gradient(
+      100.93% 100.93% at 50.83% 0.66%,
+      rgba(77, 0, 138, 0.85) 0,
+      #001355 49.08%,
+      #000535 100%
+    ) !important;
     box-shadow: none !important;
-    border-bottom: 1px solid #eaeaea;
+   
     z-index: 999 !important;
     margin-left: 220px !important;
-    width:100% !important;
+    width: 100% !important;
     z-index: 1201;
-  -webkit-transition: width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms,margin 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
-  transition: width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms,margin 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms !important;
-  
+    -webkit-transition: width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms,
+      margin 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms;
+    transition: width 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms,
+      margin 225ms cubic-bezier(0.4, 0, 0.6, 1) 0ms !important;
   }
- 
 }
 
 /* width */
@@ -216,7 +238,6 @@
   border-radius: 10px;
   overflow: hidden !important;
   z-index: -1 !important;
-
 }
 
 /* Handle on hover */
@@ -245,7 +266,12 @@
   padding: 32px 0 12px 0 !important;
   width: 49% !important;
   cursor: pointer !important;
-  background-color: radial-gradient(100.93% 100.93% at 50.83% .66%,rgba(77,0,138,.85) 0,#001355 49.08%,#000535 100%) !important;
+  background-color: radial-gradient(
+    100.93% 100.93% at 50.83% 0.66%,
+    rgba(77, 0, 138, 0.85) 0,
+    #001355 49.08%,
+    #000535 100%
+  ) !important;
   color: #ffffff !important;
   font-size: 16px !important;
   font-weight: 600 !important;
@@ -274,7 +300,6 @@
 .dropdown {
   position: relative;
 
-
   /* display: inline-block; */
 }
 
@@ -300,8 +325,6 @@
 
 .dropdown-content a:hover {
   background-color: #ddd;
-
-
 }
 
 .dropdown:hover .dropdown-content {
@@ -322,7 +345,7 @@
 .hello_pink {
   position: fixed !important;
   bottom: 1px !important;
-  background-color:#001355 !important;
+  background-color: #001355 !important;
   z-index: 1 !important;
   color: white !important;
 }
@@ -337,12 +360,16 @@
   background-color: none !important;
   opacity: 0px !important;
 }
-.color_of_back_ground{
-  background: radial-gradient(100.93% 100.93% at 50.83% .66%,rgb(76, 0, 138) 0,#001355 49.08%,#000535 100%) !important;
-color: white !important;
-
+.color_of_back_ground {
+  background: radial-gradient(
+    100.93% 100.93% at 50.83% 0.66%,
+    rgb(76, 0, 138) 0,
+    #001355 49.08%,
+    #000535 100%
+  ) !important;
+  color: white !important;
 }
-.box_shadow{
+.box_shadow {
   border: 1px solid #89d2f3 !important;
   box-shadow: 0 0 31px rgb(149 100 211 / 50%) !important;
   border-radius: 23px !important;
@@ -352,14 +379,15 @@ color: white !important;
   background-color: #100052 !important;
   /* overflow: scroll !important; */
   /* background-color: radial-gradient(100.93% 100.93% at 50.83% .66%,rgba(77,0,138,.85) 0,#001355 49.08%,#000535 100%) !important; */
-
 }
-
+.css-1u4zpwo-MuiSvgIcon-root-MuiStepIcon-root.Mui-completed {
+  color: white !important;
+}
 .accordian_color_blue {
   box-shadow: none !important;
   background-color: transparent !important;
 }
-.color-expant{
+.color-expant {
   color: white !important;
 }
 
@@ -375,11 +403,11 @@ color: white !important;
   font-weight: 500;
   color: #ffffff !important;
 }
- .css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
+.css-12i7wg6-MuiPaper-root-MuiDrawer-paper {
   z-index: 0 !important;
   position: relative;
-/* background: #001355 !important; */
-color: white !important;
+  /* background: #001355 !important; */
+  color: white !important;
 }
 
 .width_canvas {
@@ -400,9 +428,8 @@ color: white !important;
   bottom: 0px;
   width: 100%;
   transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-  background-color: #f07ba8bd !important;
+ 
 }
-
 
 .css-1l8j5k8 {
   background-color: rgb(255, 255, 255);
@@ -420,7 +447,7 @@ color: white !important;
   outline: 0px;
   left: 0px;
   border-right: 1px solid rgba(0, 0, 0, 0.12);
-  overflow: visible  !important;
+  overflow: visible !important;
 }
 /* .css-118zgj2-MuiPaper-root-MuiAppBar-root {
   background-color: #fff;
@@ -454,10 +481,6 @@ color: white !important;
   width: calc(100% - 220px) !important;
 } */
 
-
 .appbar_color {
-
   width: calc(100% - 0px) !important;
-
-
 }

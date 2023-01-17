@@ -17,6 +17,8 @@ import bnc4 from "../Assets/avalache.svg";
 import bnc5 from "../Assets/Pinksales (1).png";
 import bnc6 from "../Assets/PinkSales C (2).png";
 import bnc7 from "../Assets/doge.png";
+import { AiOutlineClose } from 'react-icons/ai';
+
 function Modal_bnb() {
   const [show, setShow] = useState(false);
 
@@ -53,8 +55,9 @@ function Modal_bnb() {
       </Button>
 
       <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton className="color_of_back_ground">
+        <Modal.Header  className="color_of_back_ground">
           <Modal.Title className="model_tital_bnb">Choose network</Modal.Title>
+          <AiOutlineClose className="fs-4 pointer_click" onClick={handleClose}/>
         </Modal.Header>
         <Modal.Body className="color_of_back_ground">
           <div className="container text-center">

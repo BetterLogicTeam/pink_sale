@@ -290,7 +290,6 @@ function Creatlock() {
                       type="text"
                       name="tokenAddress"
                       placeholder="Enter token or PL token address"
-                      
                       value={formik.values.tokenAddress}
                       onChange={(e) => {
                         formik.handleChange(e);

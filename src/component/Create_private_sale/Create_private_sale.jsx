@@ -83,7 +83,7 @@ export default function HorizontalLinearStepper() {
   };
 
   return (
-    <Box sx={{ width: "100%",mt: 5 }} className="box_back_color pt-1 ">
+    <Box sx={{ width: "100%", mt: 5 }} className="box_back_color pt-1 ">
       <Stepper activeStep={activeStep} className="d-none d-md-flex my-5">
         {steps.map((label, index) => {
           const stepProps = {};
@@ -96,7 +96,9 @@ export default function HorizontalLinearStepper() {
           }
           return (
             <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}><span className="text-white">{label.title}</span></StepLabel>
+              <StepLabel {...labelProps}>
+                <span className="text-white">{label.title}</span>
+              </StepLabel>
               <span className="text-white"> {label.dis}</span>
             </Step>
           );
@@ -265,7 +267,6 @@ export default function HorizontalLinearStepper() {
                                 className="input input_flied_of_pink"
                                 placeholder="Ex:10"
                                 autoComplete="on"
-                               
                               />
                               <div className="text-start ">
                                 <Form.Text className="pool_edt">
@@ -288,7 +289,6 @@ export default function HorizontalLinearStepper() {
                                 className="input input_flied_of_pink"
                                 placeholder="Ex:10"
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -306,7 +306,6 @@ export default function HorizontalLinearStepper() {
                                 className="input input_flied_of_pink"
                                 placeholder="0.1 ETH"
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -324,7 +323,6 @@ export default function HorizontalLinearStepper() {
                                 className="input input_flied_of_pink"
                                 placeholder="0.2 ETH"
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -349,7 +347,6 @@ export default function HorizontalLinearStepper() {
                                 className="input input_flied_of_pink"
                                 placeholder="Select date"
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -367,7 +364,6 @@ export default function HorizontalLinearStepper() {
                                 className="input input_flied_of_pink"
                                 placeholder="Select date"
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -389,7 +385,6 @@ export default function HorizontalLinearStepper() {
                                 className="input input_flied_of_pink"
                                 placeholder="Ex: 40%"
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -411,7 +406,6 @@ export default function HorizontalLinearStepper() {
                                 className="input input_flied_of_pink"
                                 placeholder="Enter (days). Ex: 3"
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -431,7 +425,6 @@ export default function HorizontalLinearStepper() {
                                 className="input input_flied_of_pink"
                                 placeholder="Ex: 20%"
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -481,7 +474,6 @@ export default function HorizontalLinearStepper() {
                                 className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://..."
                                 autoComplete="on"
-                               
                               />
                               <div className="text-start ">
                                 <Form.Text className="pool_edt">
@@ -514,7 +506,6 @@ export default function HorizontalLinearStepper() {
                                 className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://..."
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -533,7 +524,6 @@ export default function HorizontalLinearStepper() {
                                 className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://facebook.com/..."
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -552,7 +542,6 @@ export default function HorizontalLinearStepper() {
                                 className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://twitter.com/..."
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -571,7 +560,6 @@ export default function HorizontalLinearStepper() {
                                 className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://github.com/..."
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -590,7 +578,6 @@ export default function HorizontalLinearStepper() {
                                 className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://t.me/..."
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -609,7 +596,6 @@ export default function HorizontalLinearStepper() {
                                 className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://instagram.com/..."
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -628,7 +614,6 @@ export default function HorizontalLinearStepper() {
                                 className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://t.me/..."
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -649,7 +634,6 @@ export default function HorizontalLinearStepper() {
                                 className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://Reddit.com/..."
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -667,7 +651,6 @@ export default function HorizontalLinearStepper() {
                                 className="input input_flied_of_pink"
                                 placeholder="Ex: https://www.youtube.com/watch?v=xxxxxxxxx"
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -815,21 +798,21 @@ export default function HorizontalLinearStepper() {
                       </tbody>
                     </table>
                     <div className="main_tow_bbtn d-flex justify-content-center mb-4">
-                          <button
-                            type="button"
-                            className="btn btn-sm  mt-3 me-3 loc_buttn_nex_back"
-                            onClick={handleBack}
-                          >
-                            Back
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-sm  mt-3 loc_buttn_nex_back"
-                            // onClick={handleNext}
-                          >
-                            Submit
-                          </button>
-                        </div>
+                      <button
+                        type="button"
+                        className="btn btn-sm  mt-3 me-3 loc_buttn_nex_back"
+                        onClick={handleBack}
+                      >
+                        Back
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-sm  mt-3 loc_buttn_nex_back"
+                        // onClick={handleNext}
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

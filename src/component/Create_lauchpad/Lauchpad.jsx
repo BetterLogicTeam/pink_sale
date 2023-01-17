@@ -6,7 +6,7 @@ import StepLabel from "@mui/material/StepLabel";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 // import "./Create_private_sale.css";
-import "./Lauchpad.css"
+import "./Lauchpad.css";
 import Form from "react-bootstrap/Form";
 import { BiImage } from "react-icons/bi";
 import { TbWorld } from "react-icons/tb";
@@ -81,7 +81,7 @@ export default function HorizontalLinearStepper() {
   };
 
   return (
-    <Box sx={{ width: "100%",mt: 5 }} className="box_back_color pt-1 ">
+    <Box sx={{ width: "100%", mt: 5 }} className="box_back_color pt-1 ">
       <Stepper activeStep={activeStep} className="d-none d-md-flex my-5">
         {steps.map((label, index) => {
           const stepProps = {};
@@ -94,7 +94,9 @@ export default function HorizontalLinearStepper() {
           }
           return (
             <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}><span className="text-white">{label.title}</span></StepLabel>
+              <StepLabel {...labelProps}>
+                <span className="text-white">{label.title}</span>
+              </StepLabel>
               <span className="text-white "> {label.dis}</span>
             </Step>
           );
@@ -129,30 +131,25 @@ export default function HorizontalLinearStepper() {
                         />
                         <div className="text-start ">
                           <Form.Text className="pool_edt ">
-                          Pool creation fee: 1 BNB
+                            Pool creation fee: 1 BNB
                           </Form.Text>
                         </div>
                       </Form.Group>
 
-<div className="name_symbal ">
-  <div className="d-flex justify-content-between border-bottom">
-    <p>Name</p>
-    <p>JWDToken</p>
- 
-  </div>
-  <div className="d-flex justify-content-between border-bottom pt-3">
-    <p>Symbol</p>
-    <p>JWD</p>
- 
-  </div>
-  <div className="d-flex justify-content-between border-bottom pt-3">
-    <p>Decimals</p>
-    <p>18</p>
- 
-  </div>
- 
-</div>
-
+                      <div className="name_symbal ">
+                        <div className="d-flex justify-content-between border-bottom">
+                          <p>Name</p>
+                          <p>JWDToken</p>
+                        </div>
+                        <div className="d-flex justify-content-between border-bottom pt-3">
+                          <p>Symbol</p>
+                          <p>JWD</p>
+                        </div>
+                        <div className="d-flex justify-content-between border-bottom pt-3">
+                          <p>Decimals</p>
+                          <p>18</p>
+                        </div>
+                      </div>
 
                       <div className="currency_box mt-2">
                         <div className="text-start pt-4">
@@ -170,7 +167,7 @@ export default function HorizontalLinearStepper() {
                               class="form-check-label crnc d-flex justify-content-start"
                               for="flexRadioDefault1"
                             >
-                             BNB
+                              BNB
                             </label>
                           </div>
                           <div class="form-check">
@@ -218,7 +215,7 @@ export default function HorizontalLinearStepper() {
                         </div>
                         <div className="text-start ">
                           <Form.Text className="pool_edt">
-                          Users will pay with BNB for your token
+                            Users will pay with BNB for your token
                           </Form.Text>
                         </div>
                       </div>
@@ -226,45 +223,34 @@ export default function HorizontalLinearStepper() {
                         <div className="opentin pt-4">
                           <p className="fw-bold">Fee options</p>
                           <div class=" text-start">
-                          
-                          
-                              5% BNB raised only (Recommended)
-                         
+                            5% BNB raised only (Recommended)
                           </div>
-                          
-                          
                         </div>
                       </div>
 
-<div className="mt-4 text-start">
-  <p className="text-danger">(*) it reruired fields</p>
-  <Form.Group
-                              className="mb-3"
-                              controlId="formBasicEmail"
-                            >
-                              <div className="text-start for_fnt">
-                                <Form.Label>Exchange rate *</Form.Label>
-                              </div>
-                              <Form.Control
-                                type="number"
-                                className="input input_flied_of_pink"
-                                placeholder="0"
-                                autoComplete="on"
-                               
-                              />
-                                 <label
-                              className="form-check-label pool_edt crnc d-flex justify-content-start"
-                              for="flexRadioDefault1"
-                            
-                            >
-                              if i spend 1 USDC how many token will i receive ?
-                            </label>
-                            </Form.Group>
-                         
-</div>
+                      <div className="mt-4 text-start">
+                        <p className="text-danger">(*) it reruired fields</p>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                          <div className="text-start for_fnt">
+                            <Form.Label>Exchange rate *</Form.Label>
+                          </div>
+                          <Form.Control
+                            type="number"
+                            className="input input_flied_of_pink"
+                            placeholder="0"
+                            autoComplete="on"
+                          />
+                          <label
+                            className="form-check-label pool_edt crnc d-flex justify-content-start"
+                            for="flexRadioDefault1"
+                          >
+                            if i spend 1 USDC how many token will i receive ?
+                          </label>
+                        </Form.Group>
+                      </div>
 
-<div className="pb-3">
-<div className="row mt-3">
+                      <div className="pb-3">
+                        <div className="row mt-3">
                           <div className="text-start for_fnt">
                             <Form.Label>
                               Select start time & end time (UTC)
@@ -283,7 +269,6 @@ export default function HorizontalLinearStepper() {
                                 className="input input_flied_of_pink"
                                 placeholder="Select date"
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -301,14 +286,11 @@ export default function HorizontalLinearStepper() {
                                 className="input input_flied_of_pink"
                                 placeholder="Select date"
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
                         </div>
-</div>
-
-
+                      </div>
 
                       <div className="d-flex justify-content-center">
                         <button
@@ -324,7 +306,7 @@ export default function HorizontalLinearStepper() {
                 </div>
               </div>
             </>
-          // ) : activeStep == 1 ? (
+          ) : // ) : activeStep == 1 ? (
           //   <>
           //     <div className="container">
           //       <div className="row justify-content-center">
@@ -385,7 +367,7 @@ export default function HorizontalLinearStepper() {
           //                       className="input input_flied_of_pink"
           //                       placeholder="Ex:10"
           //                       autoComplete="on"
-                               
+
           //                     />
           //                     <div className="text-start ">
           //                       <Form.Text className="pool_edt">
@@ -408,7 +390,7 @@ export default function HorizontalLinearStepper() {
           //                       className="input input_flied_of_pink"
           //                       placeholder="Ex:10"
           //                       autoComplete="on"
-                               
+
           //                     />
           //                   </Form.Group>
           //                 </div>
@@ -426,7 +408,7 @@ export default function HorizontalLinearStepper() {
           //                       className="input input_flied_of_pink"
           //                       placeholder="0.1 ETH"
           //                       autoComplete="on"
-                               
+
           //                     />
           //                   </Form.Group>
           //                 </div>
@@ -444,7 +426,7 @@ export default function HorizontalLinearStepper() {
           //                       className="input input_flied_of_pink"
           //                       placeholder="0.2 ETH"
           //                       autoComplete="on"
-                               
+
           //                     />
           //                   </Form.Group>
           //                 </div>
@@ -469,7 +451,7 @@ export default function HorizontalLinearStepper() {
           //                       className="input input_flied_of_pink"
           //                       placeholder="Select date"
           //                       autoComplete="on"
-                               
+
           //                     />
           //                   </Form.Group>
           //                 </div>
@@ -487,7 +469,7 @@ export default function HorizontalLinearStepper() {
           //                       className="input input_flied_of_pink"
           //                       placeholder="Select date"
           //                       autoComplete="on"
-                               
+
           //                     />
           //                   </Form.Group>
           //                 </div>
@@ -509,7 +491,7 @@ export default function HorizontalLinearStepper() {
           //                       className="input input_flied_of_pink"
           //                       placeholder="Ex: 40%"
           //                       autoComplete="on"
-                               
+
           //                     />
           //                   </Form.Group>
           //                 </div>
@@ -531,7 +513,7 @@ export default function HorizontalLinearStepper() {
           //                       className="input input_flied_of_pink"
           //                       placeholder="Enter (days). Ex: 3"
           //                       autoComplete="on"
-                               
+
           //                     />
           //                   </Form.Group>
           //                 </div>
@@ -551,7 +533,7 @@ export default function HorizontalLinearStepper() {
           //                       className="input input_flied_of_pink"
           //                       placeholder="Ex: 20%"
           //                       autoComplete="on"
-                               
+
           //                     />
           //                   </Form.Group>
           //                 </div>
@@ -579,7 +561,7 @@ export default function HorizontalLinearStepper() {
           //       </div>
           //     </div>
           //   </>
-          ) : activeStep == 1 ? (
+          activeStep == 1 ? (
             <>
               <div className="container">
                 <div className="row justify-content-center">
@@ -601,7 +583,6 @@ export default function HorizontalLinearStepper() {
                                 className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://..."
                                 autoComplete="on"
-                               
                               />
                               <div className="text-start ">
                                 <Form.Text className="pool_edt">
@@ -634,7 +615,6 @@ export default function HorizontalLinearStepper() {
                                 className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://..."
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -653,7 +633,6 @@ export default function HorizontalLinearStepper() {
                                 className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://facebook.com/..."
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -672,7 +651,6 @@ export default function HorizontalLinearStepper() {
                                 className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://twitter.com/..."
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -691,7 +669,6 @@ export default function HorizontalLinearStepper() {
                                 className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://github.com/..."
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -710,7 +687,6 @@ export default function HorizontalLinearStepper() {
                                 className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://t.me/..."
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -729,7 +705,6 @@ export default function HorizontalLinearStepper() {
                                 className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://instagram.com/..."
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -748,7 +723,6 @@ export default function HorizontalLinearStepper() {
                                 className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://t.me/..."
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
@@ -769,11 +743,9 @@ export default function HorizontalLinearStepper() {
                                 className="url_input input_flied_of_pink input_flied_of_pinks"
                                 placeholder="Ex: https://Reddit.com/..."
                                 autoComplete="on"
-                               
                               />
                             </Form.Group>
                           </div>
-
 
                           <div className="col-lg-12 pt-3">
                             <Form.Group
@@ -824,19 +796,21 @@ export default function HorizontalLinearStepper() {
                   <div className="col-lg-10 color_of_back_ground box_shadow text-white border mt-5">
                     <table class="table">
                       <tbody>
-                        <tr className=""> 
+                        <tr className="">
                           <td className="text-start clc_fr_size">Total</td>
                           <td></td>
                           <td></td>
                           <td className="text-end clc_fr_color">122,75 JWD</td>
                         </tr>
-                        <tr  className="">
+                        <tr className="">
                           <td className="text-start clc_fr_size">
                             Factory Address
                           </td>
                           <td></td>
                           <td></td>
-                          <td className="text-end clc_fr_blu ">gdgdgghsdus665565</td>
+                          <td className="text-end clc_fr_blu ">
+                            gdgdgghsdus665565
+                          </td>
                         </tr>
                         <tr>
                           <td className="text-start clc_fr_size">Token name</td>
@@ -845,66 +819,64 @@ export default function HorizontalLinearStepper() {
                           <td className="text-end clc_fr_blu">JWDtoken</td>
                         </tr>
                         <tr>
-                          <td className="text-start clc_fr_size">Token symbol</td>
+                          <td className="text-start clc_fr_size">
+                            Token symbol
+                          </td>
                           <td></td>
                           <td></td>
                           <td className="text-end clc_fr_blu">JWD</td>
                         </tr>
                         <tr>
                           <td className="text-start clc_fr_size">
-                             Token decimals
+                            Token decimals
                           </td>
                           <td></td>
                           <td></td>
                           <td className="text-end clc_fr_blu">18</td>
                         </tr>
                         <tr>
-                          <td className="text-start clc_fr_size">
-                           Start time
+                          <td className="text-start clc_fr_size">Start time</td>
+                          <td></td>
+                          <td></td>
+                          <td className="text-end clc_fr_blu">
+                            2023-01-177T05:40 (UTC)
                           </td>
-                          <td></td>
-                          <td></td>
-                          <td className="text-end clc_fr_blu">2023-01-177T05:40 (UTC)</td>
                         </tr>
                         <tr>
                           <td className="text-start clc_fr_size">Time end</td>
                           <td></td>
                           <td></td>
-                          <td className="text-end clc_fr_blu">2023-01-177T05:40 (UTC)</td>
+                          <td className="text-end clc_fr_blu">
+                            2023-01-177T05:40 (UTC)
+                          </td>
                         </tr>
                         <tr>
                           <td className="text-start clc_fr_size">Website</td>
                           <td></td>
                           <td></td>
                           <td className="text-end clc_fr_blu">
-                           https://photos.pinksale.finance/file/pinksale-logo-upload/1673441258678-449fc65d8fb1ca37799fece99e750623.jpg
-                          
+                            https://photos.pinksale.finance/file/pinksale-logo-upload/1673441258678-449fc65d8fb1ca37799fece99e750623.jpg
                           </td>
                         </tr>
-                       
-                             
                       </tbody>
                     </table>
-                    <div>
-    
-  
-                    </div>
+                    <div></div>
                     <div className="main_tow_bbtn d-flex justify-content-center mb-4">
-                          <button
-                            type="button"
-                            className="btn btn-sm  mt-3 me-3 loc_buttn_nex_back"
-                            onClick={handleBack}
-                          >
-                            Back
-                          </button>
-                          <button
-                            type="button"
-                            className="btn btn-sm  mt-3 loc_buttn_nex_back"
-                            // onClick={handleNext}
-                          >
-                            Submit
-                          </button>
-                        </div>
+                      <button
+                        type="button"
+                        className="btn btn-sm  mt-3 me-3 loc_buttn_nex_back"
+                        onClick={handleBack}
+                      >
+                        Back
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-sm  mt-3 loc_buttn_nex_back"
+                        // onClick={handleNext}
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
