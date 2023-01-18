@@ -20,6 +20,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Launchpad_list_view from './component/Launchpad_list_view/Launchpad_list_view';
 
 function App() {
   const walletaddress = useSelector((state) => state.pinksale.walletaddress)
@@ -33,6 +34,7 @@ function App() {
     <div className="App ">
       <BrowserRouter>
         <ToastContainer></ToastContainer>
+        {/* <Launchpad_list_view/> */}
         <Head />
         {/* <Modal_connect/> */}
         {/* <Canvas/> */}

@@ -1,3 +1,6 @@
+.mmain_clc{
+    overflow: hidden !important;
+}
 
 .main_shade {
   background: radial-gradient(
@@ -30,7 +33,7 @@
     gap: 50px;
 }
 
-.p_bgs{
+.p_bg{
     border-radius: 12px !important;
     font-size: 12px !important;
     font-weight: 600;
@@ -94,6 +97,17 @@ table td, th {
     height: max-content !important;
 }
 
+.amount_back_tone{
+    background: radial-gradient( 100.93% 100.93% at 90.83% 0.66%, rgba(77, 0, 138, 0.85) 0, #001355 100.08% ) !important;
+    color: white !important;
+}
+
+.chartjs-render-monitor{
+    width: 100% !important;
+    height: 100% !important;
+    color: white !important;
+}
+
 
 @media only screen and (max-width:600px) {
     .spac_cls{
@@ -102,7 +116,7 @@ table td, th {
 
     .min_img{
         width: 30%;
-        border-radius: 70px;
+        border-radius: 95px;
         border: 2px solid rgba(249, 81, 146, 0.2);
     }
 
@@ -115,3 +129,5 @@ table td, th {
         border: 2px solid rgba(249, 81, 146, 0.2);
     }
 }
+
+

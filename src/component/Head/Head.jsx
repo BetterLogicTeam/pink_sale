@@ -239,6 +239,7 @@ export default function MiniDrawer() {
                 onChange={handleChange("panel1")}
               >
                 <AccordionSummary
+                className="hello_cccc "
                   expandIcon={
                     <ExpandMoreIcon
                       className="color-expant"
@@ -247,7 +248,7 @@ export default function MiniDrawer() {
                   }
                   aria-controls="panel1a-content"
                   id="panel1a-header"
-                  className=""
+                  
                 >
                   <div className="HOVER d-flex pt-2">
                     <div class="dropdown">

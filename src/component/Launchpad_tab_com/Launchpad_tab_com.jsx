@@ -97,3 +97,27 @@
 //     />
 //   );
 // }
+
+import React from 'react'
+import { Doughnut, Pie } from 'react-chartjs-2';
+function Launchpad_tab_com() {
+    const data = {
+        datasets: [{
+            data: [10, 20, 30]
+        }],
+    
+        // These labels appear in the legend and in the tooltips when hovering different arcs
+        labels: [
+            'Red',
+            'Yellow',
+            'Blue'
+        ]
+    };
+  return (
+    <div>
+      <Pie data={data}/>
+    </div>
+  )
+}
+
+export default Launchpad_tab_com
