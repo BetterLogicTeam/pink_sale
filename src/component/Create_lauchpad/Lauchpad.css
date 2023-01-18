@@ -3,7 +3,13 @@
   color: rgb(129, 82, 238) !important;
 }
 
-
+.list-group-item {
+  background-color: transparent;
+  border-top: 1px solid #ddd;
+  border-radius: 0;
+  color: #fff;
+  border-color: #89d2f3 !important;
+  }
 .for_fnt {
   font-size: 14px;
   font-weight: 600;

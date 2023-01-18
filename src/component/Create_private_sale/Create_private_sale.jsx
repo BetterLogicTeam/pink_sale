@@ -16,7 +16,8 @@ import { FaTelegramPlane } from "react-icons/fa";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { BsDiscord } from "react-icons/bs";
 import { ImReddit } from "react-icons/im";
-
+import * as Yup from "yup";
+import { useFormik } from "formik";
 const steps = [
   {
     title: "Before you start",
@@ -82,6 +83,27 @@ export default function HorizontalLinearStepper() {
     setActiveStep(0);
   };
 
+  const createPrivateSaleSchema = Yup.object().shape({
+    title: Yup.string().required("Title is a required field"),
+
+    amount: Yup.string().required("amount is a required field"),
+    // date: Yup.date()
+    //   .required("Unlock time need to be after now")
+    //   .min(new Date(), "date must be greater then current date"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+    },
+    validationSchema: createPrivateSaleSchema,
+
+    onSubmit: async (values, action) => {
+      // await callAPI(values);
+      // action.resetForm();
+    },
+  });
+
   return (
     <Box sx={{ width: "100%", mt: 5 }} className="box_back_color pt-1 ">
       <Stepper activeStep={activeStep} className="d-none d-md-flex my-5">
@@ -127,10 +149,20 @@ export default function HorizontalLinearStepper() {
                           <Form.Label>Title</Form.Label>
                         </div>
                         <Form.Control
-                          type="email"
+                          type="text"
+                          name="title"
+                          onChange={formik.handleChange}
+                          value={formik.values.title}
                           placeholder="Ex: This is my private sale"
                           className="input_flied_of_pink"
                         />
+                        <div className="text-start">
+                          {formik.errors.title && (
+                            <Form.Text className="text-danger">
+                              {formik.errors.title}
+                            </Form.Text>
+                          )}
+                        </div>
                         <div className="text-start ">
                           <Form.Text className="pool_edt ">
                             Pool creation fee: 0.2 ETH

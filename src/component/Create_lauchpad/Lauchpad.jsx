@@ -17,6 +17,16 @@ import { FaTelegramPlane } from "react-icons/fa";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { BsDiscord } from "react-icons/bs";
 import { ImReddit } from "react-icons/im";
+import * as Yup from "yup";
+import { useFormik } from "formik";
+import {
+  pinkSaleLockContract,
+  pinkSaleLockAbi,
+  tokenAbi,
+  tokenAdress,
+} from "../../utilies/Contract";
+import { loadWeb3 } from "../../connectivity/connectivity";
+import { useState } from "react";
 
 const steps = [
   {
@@ -37,7 +47,17 @@ const steps = [
 export default function HorizontalLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
-
+  const [showtokeninfo, setshowtokeninfo] = React.useState(false);
+  const [tokenInfo, setTokenInfo] = React.useState("");
+  const [validate, setValidate] = useState(true);
+  const [getInputdata, setgetInputdata] = useState();
+  const myhandle = async (e, formikData) => {
+    formik.setValues({
+      tokenAddress: formikData.tokenAddress,
+      currency: e,
+      exchangeRate: formikData.exchangeRate,
+    });
+  };
   const isStepOptional = (step) => {
     return step === 1;
   };
@@ -78,6 +98,80 @@ export default function HorizontalLinearStepper() {
 
   const handleReset = () => {
     setActiveStep(0);
+  };
+
+  const createLaunchpadSchema = Yup.object().shape({
+    tokenAddress: Yup.string().required("Token Address is a required field"),
+    exchangeRate: "Please enter exchange rate",
+    // amount: Yup.string().required("amount is a required field"),
+    // date: Yup.date()
+    //   .required("Unlock time need to be after now")
+    //   .min(new Date(), "date must be greater then current date"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      tokenAddress: "",
+      currency: "BNB",
+      exchangeRate: "",
+    },
+    validationSchema: createLaunchpadSchema,
+
+    onSubmit: async (values, action) => {
+      // await callAPI(values);
+      // action.resetForm();
+    },
+  });
+
+  const valid = async (e) => {
+    let acc = await loadWeb3();
+    const web3 = window.web3;
+
+    const _address = e.target.value;
+
+    if (web3.utils.isAddress(_address)) {
+      let _addressStatus = await web3.eth.getCode(_address);
+
+      let obj = {};
+      if (_addressStatus === "0x") {
+        setshowtokeninfo(false);
+
+        setValidate(false);
+
+        formik.setErrors({
+          tokenAddress: "Invalid Address",
+        });
+      } else {
+        setgetInputdata(e.target.value);
+        sessionStorage.setItem("token_Address", e.target.value);
+        let pinkSaleToken = new web3.eth.Contract(tokenAbi, _address);
+        let tokenName, tokenSymbol, tokenDecimal, tokenBalance;
+        tokenName = await pinkSaleToken.methods.name().call();
+        tokenSymbol = await pinkSaleToken.methods.symbol().call();
+        tokenDecimal = await pinkSaleToken.methods.decimals().call();
+        tokenBalance = await pinkSaleToken.methods.balanceOf(acc).call();
+
+        tokenBalance = web3.utils.fromWei(tokenBalance);
+        obj.tokenName = tokenName;
+        obj.tokenSymbol = tokenSymbol;
+        obj.tokenDecimal = tokenDecimal;
+        obj.tokenBalance = tokenBalance;
+        console.log("_addressStatus", obj);
+
+        setshowtokeninfo(true);
+      }
+      setTokenInfo({ ...obj });
+
+      // console.log("obj", obj);
+    } else {
+      setshowtokeninfo(false);
+
+      setValidate(false);
+
+      // formik.setErrors({
+      //   tokenAddress: "Invalid Address",
+      // });
+    }
   };
 
   return (
@@ -122,21 +216,67 @@ export default function HorizontalLinearStepper() {
                     <Form className="my-3">
                       <Form.Group className="mb-3" controlId="formBasicEmail">
                         <div className="text-start for_fnt">
+                          <p className="text-danger">(*) it reruired fields</p>
+
                           <Form.Label>Token address*</Form.Label>
                         </div>
                         <Form.Control
-                          type="email"
+                          type="text"
+                          name="tokenAddress"
+                          value={formik.values.tokenAddress}
+                          onChange={(e) => {
+                            formik.handleChange(e);
+                            valid(e);
+                          }}
                           placeholder="Ex: This is my private sale"
                           className="input_flied_of_pink"
                         />
+                        <div className="text-start">
+                          {formik.errors.tokenAddress && (
+                            <Form.Text className="text-danger">
+                              {formik.errors.tokenAddress}
+                            </Form.Text>
+                          )}
+                        </div>
                         <div className="text-start ">
                           <Form.Text className="pool_edt ">
                             Pool creation fee: 1 BNB
                           </Form.Text>
                         </div>
                       </Form.Group>
-
-                      <div className="name_symbal ">
+                      {showtokeninfo ? (
+                        <>
+                          <ul class="list-group list-group-flush ">
+                            <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                              Name
+                              <span className=" fs_14">
+                                {tokenInfo.tokenName}
+                              </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                              Symbol
+                              <span className="fs_14">
+                                {tokenInfo.tokenSymbol}
+                              </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                              Deimals
+                              <span className="fs_14">
+                                {tokenInfo.tokenDecimal}
+                              </span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                              Balance
+                              <span className=" fs_14">
+                                {tokenInfo.tokenBalance}
+                              </span>
+                            </li>
+                          </ul>
+                        </>
+                      ) : (
+                        ""
+                      )}
+                      {/* <div className="name_symbal ">
                         <div className="d-flex justify-content-between border-bottom">
                           <p>Name</p>
                           <p>JWDToken</p>
@@ -149,7 +289,7 @@ export default function HorizontalLinearStepper() {
                           <p>Decimals</p>
                           <p>18</p>
                         </div>
-                      </div>
+                      </div> */}
 
                       <div className="currency_box mt-2">
                         <div className="text-start pt-4">
@@ -160,7 +300,10 @@ export default function HorizontalLinearStepper() {
                             <input
                               class="form-check-input"
                               type="radio"
-                              name="flexRadioDefault"
+                              value="BNB"
+                              name="currency"
+                              defaultChecked={formik.values.currency === "BNB"}
+                              onChange={(e) => myhandle("BNB", formik.values)}
                               id="flexRadioDefault1"
                             />
                             <label
@@ -174,7 +317,10 @@ export default function HorizontalLinearStepper() {
                             <input
                               class="form-check-input"
                               type="radio"
-                              name="flexRadioDefault"
+                              value="BUSD"
+                              name="currency"
+                              // checked={formik.values.currency === "BUSD"}
+                              onChange={(e) => myhandle("BUSD", formik.values)}
                               id="flexRadioDefault1"
                             />
                             <label
@@ -188,7 +334,10 @@ export default function HorizontalLinearStepper() {
                             <input
                               class="form-check-input"
                               type="radio"
-                              name="flexRadioDefault"
+                              value="USDT"
+                              name="currency"
+                              // checked={formik.values.currency === "USDT"}
+                              onChange={(e) => myhandle("USDT", formik.values)}
                               id="flexRadioDefault2"
                             />
                             <label
@@ -202,9 +351,13 @@ export default function HorizontalLinearStepper() {
                             <input
                               class="form-check-input"
                               type="radio"
-                              name="flexRadioDefault"
+                              value="USDC"
+                              name="currency"
+                              // checked={formik.values.currency === "USDC"}
+                              onChange={(e) => myhandle("USDC", formik.values)}
                               id="flexRadioDefault2"
                             />
+
                             <label
                               class="form-check-label crnc d-flex justify-content-start"
                               for="flexRadioDefault2"
@@ -229,7 +382,6 @@ export default function HorizontalLinearStepper() {
                       </div>
 
                       <div className="mt-4 text-start">
-                        <p className="text-danger">(*) it reruired fields</p>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                           <div className="text-start for_fnt">
                             <Form.Label>Exchange rate *</Form.Label>
@@ -239,7 +391,20 @@ export default function HorizontalLinearStepper() {
                             className="input input_flied_of_pink"
                             placeholder="0"
                             autoComplete="on"
+                            name="exchangeRate"
+                            value={formik.values.exchangeRate}
+                            onChange={(e) => {
+                              formik.handleChange(e);
+                            }}
                           />
+                          <div className="text-start">
+                            {formik.errors.exchangeRate && (
+                              <Form.Text className="text-danger">
+                                {formik.errors.exchangeRate}
+                              </Form.Text>
+                            )}
+                          </div>
+                          {console.log("formikdata", formik)}
                           <label
                             className="form-check-label pool_edt crnc d-flex justify-content-start"
                             for="flexRadioDefault1"
