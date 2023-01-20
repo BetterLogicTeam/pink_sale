@@ -24,9 +24,11 @@ import {
   pinkSaleLockAbi,
   tokenAbi,
   tokenAdress,
+  PinkSaleICOFactoryContractAddress,
 } from "../../utilies/Contract";
 import { loadWeb3 } from "../../connectivity/connectivity";
 import { useState } from "react";
+import moment from "moment";
 
 const steps = [
   {
@@ -34,10 +36,10 @@ const steps = [
     dis: "Input your awesome title and choose the currency",
   },
 
-  {
-    title: "Add Additional Info",
-    dis: "Let people know who you are",
-  },
+  // {
+  //   title: "Add Additional Info",
+  //   dis: "Let people know who you are",
+  // },
   {
     title: "Finish",
     dis: "Review your information",
@@ -56,6 +58,9 @@ export default function HorizontalLinearStepper() {
       tokenAddress: formikData.tokenAddress,
       currency: e,
       exchangeRate: formikData.exchangeRate,
+      startTime: formikData.startTime,
+      endTime: formikData.endTime,
+      totalSupply: formikData.totalSupply,
     });
   };
   const isStepOptional = (step) => {
@@ -100,13 +105,50 @@ export default function HorizontalLinearStepper() {
     setActiveStep(0);
   };
 
+  // const mySchema = Yup.object().shape({
+  //   tokenAddress: Yup.string().required("tokenAddress is a required field"),
+
+  //   // tokenAddress: Yup.string().required("Token Address is a required field"),
+  //   exchangeRate: "Please enter exchange rate",
+  //   // amount: Yup.string().required("amount is a required field"),
+  //   // date: Yup.date()
+  //   //   .required("Unlock time need to be after now")
+  //   //   .min(new Date(), "date must be greater then current date"),
+  // });
+
+  // const formik = useFormik({
+  //   initialValues: {
+  //     tokenAddress: "",
+  //     currency: "",
+  //     exchangeRate: "",
+  //   },
+  //   validationSchema: mySchema,
+
+  //   onSubmit: async (values, action) => {
+  //     // await callAPI(values);
+  //     // action.resetForm();
+  //   },
+  // });
+
   const createLaunchpadSchema = Yup.object().shape({
-    tokenAddress: Yup.string().required("Token Address is a required field"),
-    exchangeRate: "Please enter exchange rate",
-    // amount: Yup.string().required("amount is a required field"),
-    // date: Yup.date()
-    //   .required("Unlock time need to be after now")
-    //   .min(new Date(), "date must be greater then current date"),
+    tokenAddress: Yup.string().required("tokenAddress is a required field"),
+
+    exchangeRate: Yup.number()
+      .min(1, "please enter value greater then 0")
+      .required("exchange rate is required"),
+    totalSupply: Yup.number()
+      .min(0, "please enter value in positive")
+      .required("Total Supply is required to create ICO"),
+
+    amount: Yup.string().required("amount is a required field"),
+    startTime: Yup.date()
+      .required("Must Enter Start time")
+      .min(new Date(), "date must be greater then current date"),
+    endTime: Yup.date()
+      .required("Must enter end time")
+      .min(Yup.ref("startTime"), "end date can't be before start date"),
+    // "end date can't be before start date"
+    // .min(new Date(), "date must be greater then current date"),
   });
 
   const formik = useFormik({
@@ -114,23 +156,38 @@ export default function HorizontalLinearStepper() {
       tokenAddress: "",
       currency: "BNB",
       exchangeRate: "",
+      totalSupply: "",
+      amount: "",
+      startTime: "",
+      endTime: "",
+      useAnotherOwner: false,
+      tokenerror: "",
+
+      //   date1: "",
+      //   tgePercent: "",
+      //   cycleDays: "",
+      //   cycleReleasePercent: "",
     },
     validationSchema: createLaunchpadSchema,
 
     onSubmit: async (values, action) => {
-      // await callAPI(values);
-      // action.resetForm();
+      await createLaunchpad(values);
     },
   });
 
   const valid = async (e) => {
     let acc = await loadWeb3();
     const web3 = window.web3;
-
+    let _addressStatus;
     const _address = e.target.value;
+    // console.log("_address", web3.utils.isAddress(_address));
 
     if (web3.utils.isAddress(_address)) {
-      let _addressStatus = await web3.eth.getCode(_address);
+      try {
+        _addressStatus = await web3.eth.getCode(_address);
+      } catch (error) {
+        console.log(error.message);
+      }
 
       let obj = {};
       if (_addressStatus === "0x") {
@@ -172,6 +229,25 @@ export default function HorizontalLinearStepper() {
       //   tokenAddress: "Invalid Address",
       // });
     }
+  };
+
+  const handleTotalSupply = async (e) => {
+    let totalSupply = e.target.value;
+
+    if (!(totalSupply <= tokenInfo.tokenBalance)) {
+      setTimeout(() => {
+        formik.setErrors({
+          totalSupply: `totalSupply must be less or equal to token balance`,
+        });
+      }, 500);
+      formik.handleChange(e);
+    } else {
+      formik.handleChange(e);
+    }
+  };
+
+  const createLaunchpad = async (values) => {
+    alert("fraz");
   };
 
   return (
@@ -220,6 +296,7 @@ export default function HorizontalLinearStepper() {
 
                           <Form.Label>Token address*</Form.Label>
                         </div>
+                        {console.log("formik today", formik)}
                         <Form.Control
                           type="text"
                           name="tokenAddress"
@@ -240,7 +317,7 @@ export default function HorizontalLinearStepper() {
                         </div>
                         <div className="text-start ">
                           <Form.Text className="pool_edt ">
-                            Pool creation fee: 1 BNB
+                            Pool creation fee: 0.01 BNB
                           </Form.Text>
                         </div>
                       </Form.Group>
@@ -366,52 +443,91 @@ export default function HorizontalLinearStepper() {
                             </label>
                           </div>
                         </div>
-                        <div className="text-start ">
+                        {/* <div className="text-start ">
                           <Form.Text className="pool_edt">
                             Users will pay with BNB for your token
                           </Form.Text>
-                        </div>
+                        </div> */}
                       </div>
-                      <div>
+                      {/* <div>
                         <div className="opentin pt-4">
                           <p className="fw-bold">Fee options</p>
                           <div class=" text-start">
                             5% BNB raised only (Recommended)
                           </div>
                         </div>
-                      </div>
-
-                      <div className="mt-4 text-start">
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
-                          <div className="text-start for_fnt">
-                            <Form.Label>Exchange rate *</Form.Label>
-                          </div>
-                          <Form.Control
-                            type="number"
-                            className="input input_flied_of_pink"
-                            placeholder="0"
-                            autoComplete="on"
-                            name="exchangeRate"
-                            value={formik.values.exchangeRate}
-                            onChange={(e) => {
-                              formik.handleChange(e);
-                            }}
-                          />
-                          <div className="text-start">
-                            {formik.errors.exchangeRate && (
-                              <Form.Text className="text-danger">
-                                {formik.errors.exchangeRate}
-                              </Form.Text>
-                            )}
-                          </div>
-                          {console.log("formikdata", formik)}
-                          <label
-                            className="form-check-label pool_edt crnc d-flex justify-content-start"
-                            for="flexRadioDefault1"
+                      </div> */}
+                      <div className="row">
+                        <div className="mt-4 text-start col-lg-6">
+                          <Form.Group
+                            className="mb-3"
+                            controlId="formBasicEmail"
                           >
-                            if i spend 1 USDC how many token will i receive ?
-                          </label>
-                        </Form.Group>
+                            <div className="text-start for_fnt">
+                              <Form.Label>Exchange rate *</Form.Label>
+                            </div>
+                            <Form.Control
+                              type="number"
+                              className="input input_flied_of_pink"
+                              placeholder="0"
+                              autoComplete="on"
+                              name="exchangeRate"
+                              value={formik.values.exchangeRate}
+                              onChange={(e) => {
+                                formik.handleChange(e);
+                              }}
+                            />
+                            <div className="text-start">
+                              {formik.errors.exchangeRate && (
+                                <Form.Text className="text-danger">
+                                  {formik.errors.exchangeRate}
+                                </Form.Text>
+                              )}
+                            </div>
+                            <label
+                              className="form-check-label pool_edt crnc d-flex justify-content-start"
+                              for="flexRadioDefault1"
+                            >
+                              If user spend 1 {`${formik.values.currency}`} how
+                              many tokens will user receive ?
+                            </label>
+                          </Form.Group>
+                        </div>
+                        <div className="mt-4 text-start col-lg-6">
+                          <Form.Group
+                            className="mb-3"
+                            controlId="formBasicEmail"
+                          >
+                            <div className="text-start for_fnt">
+                              <Form.Label>Total Supply *</Form.Label>
+                            </div>
+                            <Form.Control
+                              type="number"
+                              className="input input_flied_of_pink"
+                              placeholder="0"
+                              autoComplete="on"
+                              name="totalSupply"
+                              value={formik.values.totalSupply}
+                              onChange={async (e) => {
+                                handleTotalSupply(e);
+                              }}
+                            />
+                            <div className="text-start">
+                              {formik.errors.totalSupply && (
+                                <Form.Text className="text-danger">
+                                  {formik.errors.totalSupply}
+                                </Form.Text>
+                              )}
+                            </div>
+                            <label
+                              className="form-check-label pool_edt crnc d-flex justify-content-start"
+                              for="flexRadioDefault1"
+                            >
+                              How much supply will be transfered to ICO
+                              contract?
+                            </label>
+                          </Form.Group>
+                        </div>
                       </div>
 
                       <div className="pb-3">
@@ -426,15 +542,29 @@ export default function HorizontalLinearStepper() {
                               className="mb-3"
                               controlId="formBasicEmail"
                             >
+                              {/* {console.log("dirty", formik)} */}
                               <div className="text-start for_fnt">
                                 <Form.Label>Start time (UTC)</Form.Label>
                               </div>
+                              {console.log("date", formik.values.date)}
                               <Form.Control
                                 type="datetime-local"
+                                name="startTime"
                                 className="input input_flied_of_pink"
                                 placeholder="Select date"
                                 autoComplete="on"
+                                onChange={formik.handleChange}
+                                value={formik.values.startTime}
+                                // Value={formik?.values?.date?.toString()}
+                                // defaultValue={formik?.values?.date?.toString()}
                               />
+                              <div className="text-start">
+                                {formik.errors.startTime && (
+                                  <Form.Text className="text-danger">
+                                    {formik.errors.startTime}
+                                  </Form.Text>
+                                )}
+                              </div>
                             </Form.Group>
                           </div>
 
@@ -451,7 +581,17 @@ export default function HorizontalLinearStepper() {
                                 className="input input_flied_of_pink"
                                 placeholder="Select date"
                                 autoComplete="on"
+                                name="endTime"
+                                onChange={formik.handleChange}
+                                value={formik.values.endTime}
                               />
+                              <div className="text-start">
+                                {formik.errors.endTime && (
+                                  <Form.Text className="text-danger">
+                                    {formik.errors.endTime}
+                                  </Form.Text>
+                                )}
+                              </div>
                             </Form.Group>
                           </div>
                         </div>
@@ -462,6 +602,14 @@ export default function HorizontalLinearStepper() {
                           onClick={handleNext}
                           type="button"
                           className="btn btn-sm  m-auto loc_buttn_nex_back"
+                          disabled={
+                            !formik.dirty ||
+                            formik.errors.totalSupply ||
+                            formik.errors.endTime ||
+                            formik.errors.startTime ||
+                            formik.errors.exchangeRate ||
+                            formik.errors.tokenAddress
+                          }
                         >
                           Next
                         </button>
@@ -726,7 +874,7 @@ export default function HorizontalLinearStepper() {
           //       </div>
           //     </div>
           //   </>
-          activeStep == 1 ? (
+          activeStep == 5 ? (
             <>
               <div className="container">
                 <div className="row justify-content-center">
@@ -954,95 +1102,117 @@ export default function HorizontalLinearStepper() {
                 </div>
               </div>
             </>
-          ) : activeStep == 2 ? (
+          ) : activeStep == 1 ? (
             <>
               <div className="container">
                 <div className="row justify-content-center">
-                  <div className="col-lg-10 color_of_back_ground box_shadow text-white border mt-5">
-                    <table class="table">
-                      <tbody>
-                        <tr className="">
-                          <td className="text-start clc_fr_size">Total</td>
-                          <td></td>
-                          <td></td>
-                          <td className="text-end clc_fr_color">122,75 JWD</td>
-                        </tr>
-                        <tr className="">
-                          <td className="text-start clc_fr_size">
-                            Factory Address
-                          </td>
-                          <td></td>
-                          <td></td>
-                          <td className="text-end clc_fr_blu ">
-                            gdgdgghsdus665565
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="text-start clc_fr_size">Token name</td>
-                          <td></td>
-                          <td></td>
-                          <td className="text-end clc_fr_blu">JWDtoken</td>
-                        </tr>
-                        <tr>
-                          <td className="text-start clc_fr_size">
-                            Token symbol
-                          </td>
-                          <td></td>
-                          <td></td>
-                          <td className="text-end clc_fr_blu">JWD</td>
-                        </tr>
-                        <tr>
-                          <td className="text-start clc_fr_size">
-                            Token decimals
-                          </td>
-                          <td></td>
-                          <td></td>
-                          <td className="text-end clc_fr_blu">18</td>
-                        </tr>
-                        <tr>
-                          <td className="text-start clc_fr_size">Start time</td>
-                          <td></td>
-                          <td></td>
-                          <td className="text-end clc_fr_blu">
-                            2023-01-177T05:40 (UTC)
-                          </td>
-                        </tr>
-                        <tr>
-                          <td className="text-start clc_fr_size">Time end</td>
-                          <td></td>
-                          <td></td>
-                          <td className="text-end clc_fr_blu">
-                            2023-01-177T05:40 (UTC)
-                          </td>
-                        </tr>
-                        <tr>
+                  <form onSubmit={formik.handleSubmit}>
+                    <div className="col-lg-10 color_of_back_ground box_shadow text-white border mt-5">
+                      <table class="table">
+                        <tbody>
+                          <tr className="">
+                            <td className="text-start clc_fr_size">
+                              Total Supply
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td className="text-end clc_fr_color">
+                              {formik.values.totalSupply} JWD
+                            </td>
+                          </tr>
+                          <tr className="">
+                            <td className="text-start clc_fr_size">
+                              Factory Address
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td className="text-end clc_fr_blu ">
+                              <a
+                                href={`https://testnet.bscscan.com/address/${PinkSaleICOFactoryContractAddress}`}
+                                target="_blank"
+                              >
+                                {PinkSaleICOFactoryContractAddress}
+                              </a>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="text-start clc_fr_size">
+                              Token name
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td className="text-end clc_fr_blu">
+                              {tokenInfo.tokenName}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="text-start clc_fr_size">
+                              Token symbol
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td className="text-end clc_fr_blu">
+                              {tokenInfo.tokenSymbol}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="text-start clc_fr_size">
+                              Token decimals
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td className="text-end clc_fr_blu">
+                              {tokenInfo.tokenDecimal}
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="text-start clc_fr_size">
+                              Start time
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td className="text-end clc_fr_blu">
+                              {formik.values.startTime}(UTC)
+                            </td>
+                          </tr>
+                          <tr>
+                            <td className="text-start clc_fr_size">Time end</td>
+                            <td></td>
+                            <td></td>
+                            <td className="text-end clc_fr_blu">
+                              {formik.values.endTime} (UTC)
+                            </td>
+                          </tr>
+                          {/* <tr>
                           <td className="text-start clc_fr_size">Website</td>
                           <td></td>
                           <td></td>
                           <td className="text-end clc_fr_blu">
                             https://photos.pinksale.finance/file/pinksale-logo-upload/1673441258678-449fc65d8fb1ca37799fece99e750623.jpg
                           </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <div></div>
-                    <div className="main_tow_bbtn d-flex justify-content-center mb-4">
-                      <button
-                        type="button"
-                        className="btn btn-sm  mt-3 me-3 loc_buttn_nex_back"
-                        onClick={handleBack}
-                      >
-                        Back
-                      </button>
-                      <button
-                        type="button"
-                        className="btn btn-sm  mt-3 loc_buttn_nex_back"
-                        // onClick={handleNext}
-                      >
-                        Submit
-                      </button>
+                        </tr> */}
+                        </tbody>
+                      </table>
+
+                      <div></div>
+                      <div className="main_tow_bbtn d-flex justify-content-center mb-4">
+                        <button
+                          type="submit"
+                          className="btn btn-sm  mt-3 me-3 loc_buttn_nex_back"
+                          onClick={handleBack}
+                        >
+                          Back
+                        </button>
+                        <button
+                          type="submit"
+                          className="btn btn-sm  mt-3 loc_buttn_nex_back"
+                          onClick={createLaunchpad}
+                        >
+                          Submit
+                        </button>
+                      </div>
                     </div>
-                  </div>
+                  </form>
                 </div>
               </div>
             </>
