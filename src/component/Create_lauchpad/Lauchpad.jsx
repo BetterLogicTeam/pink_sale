@@ -29,6 +29,7 @@ import {
 import { loadWeb3 } from "../../connectivity/connectivity";
 import { useState } from "react";
 import moment from "moment";
+import { toast } from "react-toastify";
 
 const steps = [
   {
@@ -47,6 +48,7 @@ const steps = [
 ];
 
 export default function HorizontalLinearStepper() {
+  const web3 = window.web3;
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const [showtokeninfo, setshowtokeninfo] = React.useState(false);
@@ -146,7 +148,7 @@ export default function HorizontalLinearStepper() {
       .min(new Date(), "date must be greater then current date"),
     endTime: Yup.date()
       .required("Must enter end time")
-      .min(Yup.ref("startTime"), "end date can't be before start date"),
+      .min(Yup.ref("startTime"), "End date must be after start date"),
     // "end date can't be before start date"
     // .min(new Date(), "date must be greater then current date"),
   });
@@ -172,6 +174,7 @@ export default function HorizontalLinearStepper() {
 
     onSubmit: async (values, action) => {
       await createLaunchpad(values);
+      // action.resetForm();
     },
   });
 
@@ -180,46 +183,64 @@ export default function HorizontalLinearStepper() {
     const web3 = window.web3;
     let _addressStatus;
     const _address = e.target.value;
-    // console.log("_address", web3.utils.isAddress(_address));
 
     if (web3.utils.isAddress(_address)) {
-      try {
-        _addressStatus = await web3.eth.getCode(_address);
-      } catch (error) {
-        console.log(error.message);
-      }
+      // try {
+      //   _addressStatus = await web3.eth.getCode(_address);
+      // } catch (error) {
+      //   // toast.error(error.message);
+      //   console.log(error.message);
+      // }
 
       let obj = {};
-      if (_addressStatus === "0x") {
-        setshowtokeninfo(false);
+      setgetInputdata(e.target.value);
+      sessionStorage.setItem("token_Address", e.target.value);
+      let pinkSaleToken = new web3.eth.Contract(tokenAbi, _address);
 
-        setValidate(false);
+      let tokenName, tokenSymbol, tokenDecimal, tokenBalance;
+      tokenName = await pinkSaleToken.methods.name().call();
+      tokenSymbol = await pinkSaleToken.methods.symbol().call();
+      tokenDecimal = await pinkSaleToken.methods.decimals().call();
 
-        formik.setErrors({
-          tokenAddress: "Invalid Address",
-        });
-      } else {
-        setgetInputdata(e.target.value);
-        sessionStorage.setItem("token_Address", e.target.value);
-        let pinkSaleToken = new web3.eth.Contract(tokenAbi, _address);
-        let tokenName, tokenSymbol, tokenDecimal, tokenBalance;
-        tokenName = await pinkSaleToken.methods.name().call();
-        tokenSymbol = await pinkSaleToken.methods.symbol().call();
-        tokenDecimal = await pinkSaleToken.methods.decimals().call();
-        tokenBalance = await pinkSaleToken.methods.balanceOf(acc).call();
+      tokenBalance = await pinkSaleToken.methods.balanceOf(acc).call();
 
-        tokenBalance = web3.utils.fromWei(tokenBalance);
-        obj.tokenName = tokenName;
-        obj.tokenSymbol = tokenSymbol;
-        obj.tokenDecimal = tokenDecimal;
-        obj.tokenBalance = tokenBalance;
-        console.log("_addressStatus", obj);
+      tokenBalance = web3.utils.fromWei(tokenBalance);
+      obj.tokenName = tokenName;
+      obj.tokenSymbol = tokenSymbol;
+      obj.tokenDecimal = tokenDecimal;
+      obj.tokenBalance = tokenBalance;
 
-        setshowtokeninfo(true);
-      }
+      setshowtokeninfo(true);
+      // if (_addressStatus === "0x") {
+      //   setshowtokeninfo(false);
+
+      //   setValidate(false);
+
+      //   formik.setErrors({
+      //     tokenAddress: "Invalid Address",
+      //   });
+      // } else {
+      //   setgetInputdata(e.target.value);
+      //   sessionStorage.setItem("token_Address", e.target.value);
+      //   let pinkSaleToken = new web3.eth.Contract(tokenAbi, _address);
+      //   let tokenName, tokenSymbol, tokenDecimal, tokenBalance;
+      //   tokenName = await pinkSaleToken.methods.name().call();
+      //   tokenSymbol = await pinkSaleToken.methods.symbol().call();
+      //   tokenDecimal = await pinkSaleToken.methods.decimals().call();
+
+      //   tokenBalance = await pinkSaleToken.methods.balanceOf(acc).call();
+
+      //   tokenBalance = web3.utils.fromWei(tokenBalance);
+      //   obj.tokenName = tokenName;
+      //   obj.tokenSymbol = tokenSymbol;
+      //   obj.tokenDecimal = tokenDecimal;
+      //   obj.tokenBalance = tokenBalance;
+
+      //   setshowtokeninfo(true);
+      // }
       setTokenInfo({ ...obj });
 
-      // console.log("obj", obj);
+      console.log("obj", obj);
     } else {
       setshowtokeninfo(false);
 
@@ -234,20 +255,21 @@ export default function HorizontalLinearStepper() {
   const handleTotalSupply = async (e) => {
     let totalSupply = e.target.value;
 
-    if (!(totalSupply <= tokenInfo.tokenBalance)) {
+    // console.log("totaklsupply", !(totalSupply <= tokenInfo.tokenBalance));
+    if (Number(totalSupply) <= Number(tokenInfo.tokenBalance)) {
+      formik.handleChange(e);
+    } else {
       setTimeout(() => {
         formik.setErrors({
           totalSupply: `totalSupply must be less or equal to token balance`,
         });
       }, 500);
       formik.handleChange(e);
-    } else {
-      formik.handleChange(e);
     }
   };
 
-  const createLaunchpad = async (values) => {
-    alert("fraz");
+  const createLaunchpad = async () => {
+    console.log("fraz", formik.values);
   };
 
   return (
@@ -263,7 +285,7 @@ export default function HorizontalLinearStepper() {
             stepProps.completed = false;
           }
           return (
-            <Step key={label} {...stepProps}>
+            <Step key={index} {...stepProps}>
               <StepLabel {...labelProps}>
                 <span className="text-white">{label.title}</span>
               </StepLabel>
@@ -289,7 +311,7 @@ export default function HorizontalLinearStepper() {
               <div className="container ">
                 <div className="row justify-content-center  ">
                   <div className="col-lg-10 border mt-5 color_of_back_ground box_shadow">
-                    <Form className="my-3">
+                    <div className="my-3">
                       <Form.Group className="mb-3" controlId="formBasicEmail">
                         <div className="text-start for_fnt">
                           <p className="text-danger">(*) it reruired fields</p>
@@ -323,29 +345,30 @@ export default function HorizontalLinearStepper() {
                       </Form.Group>
                       {showtokeninfo ? (
                         <>
-                          <ul class="list-group list-group-flush ">
-                            <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                          <ul className="list-group list-group-flush ">
+                            <li className="list-group-item d-flex justify-content-between align-items-center fs_14">
                               Name
                               <span className=" fs_14">
                                 {tokenInfo.tokenName}
                               </span>
                             </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                            <li className="list-group-item d-flex justify-content-between align-items-center fs_14">
                               Symbol
                               <span className="fs_14">
                                 {tokenInfo.tokenSymbol}
                               </span>
                             </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                            <li className="list-group-item d-flex justify-content-between align-items-center fs_14">
                               Deimals
                               <span className="fs_14">
                                 {tokenInfo.tokenDecimal}
                               </span>
                             </li>
-                            <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+
+                            <li className="list-group-item d-flex justify-content-between align-items-center fs_14">
                               Balance
                               <span className=" fs_14">
-                                {tokenInfo.tokenBalance}
+                                {web3.utils.fromWei(tokenInfo.tokenBalance)}
                               </span>
                             </li>
                           </ul>
@@ -373,9 +396,9 @@ export default function HorizontalLinearStepper() {
                           <p className="fw-bold">Currency</p>
                         </div>
                         <div className="chek_box">
-                          <div class="form-check">
+                          <div className="form-check">
                             <input
-                              class="form-check-input"
+                              className="form-check-input"
                               type="radio"
                               value="BNB"
                               name="currency"
@@ -384,15 +407,15 @@ export default function HorizontalLinearStepper() {
                               id="flexRadioDefault1"
                             />
                             <label
-                              class="form-check-label crnc d-flex justify-content-start"
-                              for="flexRadioDefault1"
+                              className="form-check-label crnc d-flex justify-content-start"
+                              htmlFor="flexRadioDefault1"
                             >
                               BNB
                             </label>
                           </div>
-                          <div class="form-check">
+                          <div className="form-check">
                             <input
-                              class="form-check-input"
+                              className="form-check-input"
                               type="radio"
                               value="BUSD"
                               name="currency"
@@ -401,15 +424,15 @@ export default function HorizontalLinearStepper() {
                               id="flexRadioDefault1"
                             />
                             <label
-                              class="form-check-label crnc d-flex justify-content-start"
-                              for="flexRadioDefault1"
+                              className="form-check-label crnc d-flex justify-content-start"
+                              htmlFor="flexRadioDefault1"
                             >
                               BUSD
                             </label>
                           </div>
-                          <div class="form-check">
+                          <div className="form-check">
                             <input
-                              class="form-check-input"
+                              className="form-check-input"
                               type="radio"
                               value="USDT"
                               name="currency"
@@ -418,15 +441,15 @@ export default function HorizontalLinearStepper() {
                               id="flexRadioDefault2"
                             />
                             <label
-                              class="form-check-label crnc d-flex justify-content-start"
-                              for="flexRadioDefault2"
+                              className="form-check-label crnc d-flex justify-content-start"
+                              htmlFor="flexRadioDefault2"
                             >
                               USDT
                             </label>
                           </div>
-                          <div class="form-check">
+                          <div className="form-check">
                             <input
-                              class="form-check-input"
+                              className="form-check-input"
                               type="radio"
                               value="USDC"
                               name="currency"
@@ -436,8 +459,8 @@ export default function HorizontalLinearStepper() {
                             />
 
                             <label
-                              class="form-check-label crnc d-flex justify-content-start"
-                              for="flexRadioDefault2"
+                              className="form-check-label crnc d-flex justify-content-start"
+                              htmlFor="flexRadioDefault2"
                             >
                               USDC
                             </label>
@@ -452,17 +475,14 @@ export default function HorizontalLinearStepper() {
                       {/* <div>
                         <div className="opentin pt-4">
                           <p className="fw-bold">Fee options</p>
-                          <div class=" text-start">
+                          <div className=" text-start">
                             5% BNB raised only (Recommended)
                           </div>
                         </div>
                       </div> */}
                       <div className="row">
                         <div className="mt-4 text-start col-lg-6">
-                          <Form.Group
-                            className="mb-3"
-                            controlId="formBasicEmail"
-                          >
+                          <Form.Group className="mb-3" controlId="exchangeRate">
                             <div className="text-start for_fnt">
                               <Form.Label>Exchange rate *</Form.Label>
                             </div>
@@ -486,7 +506,7 @@ export default function HorizontalLinearStepper() {
                             </div>
                             <label
                               className="form-check-label pool_edt crnc d-flex justify-content-start"
-                              for="flexRadioDefault1"
+                              htmlFor="flexRadioDefault1"
                             >
                               If user spend 1 {`${formik.values.currency}`} how
                               many tokens will user receive ?
@@ -494,15 +514,14 @@ export default function HorizontalLinearStepper() {
                           </Form.Group>
                         </div>
                         <div className="mt-4 text-start col-lg-6">
-                          <Form.Group
-                            className="mb-3"
-                            controlId="formBasicEmail"
-                          >
+                          <Form.Group className="mb-3" controlId="totalSupply">
                             <div className="text-start for_fnt">
                               <Form.Label>Total Supply *</Form.Label>
                             </div>
+                            {console.log("disable", !showtokeninfo)}
                             <Form.Control
                               type="number"
+                              disabled={!showtokeninfo}
                               className="input input_flied_of_pink"
                               placeholder="0"
                               autoComplete="on"
@@ -521,7 +540,7 @@ export default function HorizontalLinearStepper() {
                             </div>
                             <label
                               className="form-check-label pool_edt crnc d-flex justify-content-start"
-                              for="flexRadioDefault1"
+                              htmlFor="flexRadioDefault1"
                             >
                               How much supply will be transfered to ICO
                               contract?
@@ -546,7 +565,6 @@ export default function HorizontalLinearStepper() {
                               <div className="text-start for_fnt">
                                 <Form.Label>Start time (UTC)</Form.Label>
                               </div>
-                              {console.log("date", formik.values.date)}
                               <Form.Control
                                 type="datetime-local"
                                 name="startTime"
@@ -604,6 +622,8 @@ export default function HorizontalLinearStepper() {
                           className="btn btn-sm  m-auto loc_buttn_nex_back"
                           disabled={
                             !formik.dirty ||
+                            formik.values.totalSupply == "" ||
+                            formik.values.totalSupply == "" ||
                             formik.errors.totalSupply ||
                             formik.errors.endTime ||
                             formik.errors.startTime ||
@@ -614,7 +634,7 @@ export default function HorizontalLinearStepper() {
                           Next
                         </button>
                       </div>
-                    </Form>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -630,29 +650,29 @@ export default function HorizontalLinearStepper() {
           //                 <Form.Label>Whitelist</Form.Label>
           //               </div>
           //               <div className="chek_box_tow d-flex">
-          //                 <div class="form-check">
+          //                 <div className="form-check">
           //                   <input
-          //                     class="form-check-input"
+          //                     className="form-check-input"
           //                     type="radio"
           //                     name="flexRadioDefault"
           //                     id="flexRadioDefault1"
           //                   />
           //                   <label
-          //                     class="form-check-label crnc d-flex justify-content-start"
+          //                     className="form-check-label crnc d-flex justify-content-start"
           //                     for="flexRadioDefault1"
           //                   >
           //                     Disable
           //                   </label>
           //                 </div>
-          //                 <div class="form-check">
+          //                 <div className="form-check">
           //                   <input
-          //                     class="form-check-input"
+          //                     className="form-check-input"
           //                     type="radio"
           //                     name="flexRadioDefault"
           //                     id="flexRadioDefault2"
           //                   />
           //                   <label
-          //                     class="form-check-label crnc d-flex justify-content-start"
+          //                     className="form-check-label crnc d-flex justify-content-start"
           //                     for="flexRadioDefault2"
           //                   >
           //                     Enable
@@ -1106,84 +1126,79 @@ export default function HorizontalLinearStepper() {
             <>
               <div className="container">
                 <div className="row justify-content-center">
-                  <form onSubmit={formik.handleSubmit}>
-                    <div className="col-lg-10 color_of_back_ground box_shadow text-white border mt-5">
-                      <table class="table">
-                        <tbody>
-                          <tr className="">
-                            <td className="text-start clc_fr_size">
-                              Total Supply
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-end clc_fr_color">
-                              {formik.values.totalSupply} JWD
-                            </td>
-                          </tr>
-                          <tr className="">
-                            <td className="text-start clc_fr_size">
-                              Factory Address
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-end clc_fr_blu ">
-                              <a
-                                href={`https://testnet.bscscan.com/address/${PinkSaleICOFactoryContractAddress}`}
-                                target="_blank"
-                              >
-                                {PinkSaleICOFactoryContractAddress}
-                              </a>
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="text-start clc_fr_size">
-                              Token name
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-end clc_fr_blu">
-                              {tokenInfo.tokenName}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="text-start clc_fr_size">
-                              Token symbol
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-end clc_fr_blu">
-                              {tokenInfo.tokenSymbol}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="text-start clc_fr_size">
-                              Token decimals
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-end clc_fr_blu">
-                              {tokenInfo.tokenDecimal}
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="text-start clc_fr_size">
-                              Start time
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-end clc_fr_blu">
-                              {formik.values.startTime}(UTC)
-                            </td>
-                          </tr>
-                          <tr>
-                            <td className="text-start clc_fr_size">Time end</td>
-                            <td></td>
-                            <td></td>
-                            <td className="text-end clc_fr_blu">
-                              {formik.values.endTime} (UTC)
-                            </td>
-                          </tr>
-                          {/* <tr>
+                  <div className="col-lg-10 color_of_back_ground box_shadow text-white border mt-5">
+                    <table className="table">
+                      <tbody>
+                        <tr className="">
+                          <td className="text-start clc_fr_size">
+                            Total Supply
+                          </td>
+                          <td></td>
+                          <td></td>
+                          <td className="text-end clc_fr_color">
+                            {formik.values.totalSupply} {tokenInfo?.tokenSymbol}
+                          </td>
+                        </tr>
+                        <tr className="">
+                          <td className="text-start clc_fr_size">
+                            Factory Address
+                          </td>
+                          <td></td>
+                          <td></td>
+                          <td className="text-end clc_fr_blu ">
+                            <a
+                              href={`https://testnet.bscscan.com/address/${PinkSaleICOFactoryContractAddress}`}
+                              target="_blank"
+                            >
+                              {PinkSaleICOFactoryContractAddress}
+                            </a>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="text-start clc_fr_size">Token name</td>
+                          <td></td>
+                          <td></td>
+                          <td className="text-end clc_fr_blu">
+                            {tokenInfo.tokenName}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="text-start clc_fr_size">
+                            Token symbol
+                          </td>
+                          <td></td>
+                          <td></td>
+                          <td className="text-end clc_fr_blu">
+                            {tokenInfo.tokenSymbol}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="text-start clc_fr_size">
+                            Token decimals
+                          </td>
+                          <td></td>
+                          <td></td>
+                          <td className="text-end clc_fr_blu">
+                            {tokenInfo.tokenDecimal}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="text-start clc_fr_size">Start time</td>
+                          <td></td>
+                          <td></td>
+                          <td className="text-end clc_fr_blu">
+                            {formik.values.startTime}(UTC)
+                          </td>
+                        </tr>
+                        <tr>
+                          <td className="text-start clc_fr_size">Time end</td>
+                          <td></td>
+                          <td></td>
+                          <td className="text-end clc_fr_blu">
+                            {formik.values.endTime} (UTC)
+                          </td>
+                        </tr>
+                        {/* <tr>
                           <td className="text-start clc_fr_size">Website</td>
                           <td></td>
                           <td></td>
@@ -1191,28 +1206,27 @@ export default function HorizontalLinearStepper() {
                             https://photos.pinksale.finance/file/pinksale-logo-upload/1673441258678-449fc65d8fb1ca37799fece99e750623.jpg
                           </td>
                         </tr> */}
-                        </tbody>
-                      </table>
+                      </tbody>
+                    </table>
 
-                      <div></div>
-                      <div className="main_tow_bbtn d-flex justify-content-center mb-4">
-                        <button
-                          type="submit"
-                          className="btn btn-sm  mt-3 me-3 loc_buttn_nex_back"
-                          onClick={handleBack}
-                        >
-                          Back
-                        </button>
-                        <button
-                          type="submit"
-                          className="btn btn-sm  mt-3 loc_buttn_nex_back"
-                          onClick={createLaunchpad}
-                        >
-                          Submit
-                        </button>
-                      </div>
+                    <div></div>
+                    <div className="main_tow_bbtn d-flex justify-content-center mb-4">
+                      <button
+                        type="submit"
+                        className="btn btn-sm  mt-3 me-3 loc_buttn_nex_back"
+                        onClick={handleBack}
+                      >
+                        Back
+                      </button>
+                      <button
+                        type="submit"
+                        className="btn btn-sm  mt-3 loc_buttn_nex_back"
+                        // onClick={createLaunchpad}
+                      >
+                        Submit
+                      </button>
                     </div>
-                  </form>
+                  </div>
                 </div>
               </div>
             </>

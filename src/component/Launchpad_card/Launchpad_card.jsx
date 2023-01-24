@@ -13,7 +13,7 @@ function Launchpad_card(props) {
       <div className="container">
         <div className="row mt-5">
           <div className="col-12 ">
-            <div class="card-body bg_color ">
+            <div className="card-body bg_color ">
               <div className=" d-flex justify-content-between align-items-center ">
                 <img src={props.img_card} alt="" className="img_card" />
                 <div>
@@ -42,9 +42,9 @@ function Launchpad_card(props) {
               <p className="text-white progress_text mb-2">
                 Progress{props.para_3}
               </p>
-              <div class="progress">
+              <div className="progress">
                 <div
-                  class="progress-bar"
+                  className="progress-bar"
                   role="progressbar"
                   aria-valuenow="50"
                   aria-valuemin="50"
@@ -63,17 +63,17 @@ function Launchpad_card(props) {
                   Sale Starts In: <br />
                   <strong>
                     <span>00</span>
-                    <span class="dotdot">:</span>
+                    <span className="dotdot">:</span>
                     <span>00</span>
-                    <span class="dotdot">:</span>
+                    <span className="dotdot">:</span>
                     <span>06</span>
-                    <span class="dotdot">:</span>
+                    <span className="dotdot">:</span>
                     <span>41</span>
                   </strong>{" "}
                 </p>
 
                 <div>
-                  <Link to="/Launchpad_list_view" class="btn max_btn_color "  role="button">
+                  <Link to="/Launchpad_list_view" className="btn max_btn_color "  role="button">
                     View
                   </Link>{" "}
                 </div>

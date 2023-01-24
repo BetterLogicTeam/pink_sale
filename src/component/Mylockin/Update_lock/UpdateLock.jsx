@@ -224,28 +224,28 @@ function UpdateLock({
                   </div> */}
 
                   <>
-                    <ul class="list-group list-group-flush ">
-                      <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                    <ul className="list-group list-group-flush ">
+                      <li className="list-group-item d-flex justify-content-between align-items-center fs_14">
                         Token Adress
                         <span className=" fs_14" style={{ color: "#f95192" }}>
                           {data._token}
                         </span>
                       </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                      <li className="list-group-item d-flex justify-content-between align-items-center fs_14">
                         Name
                         <span className="text-primary fs_14">
                           {data._tokenName}
                         </span>
                       </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                      <li className="list-group-item d-flex justify-content-between align-items-center fs_14">
                         Symbol
                         <span className="fs_14">{data._symbol}</span>
                       </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                      <li className="list-group-item d-flex justify-content-between align-items-center fs_14">
                         Deimals
                         <span className="fs_14">{data._tokenDecimals}</span>
                       </li>
-                      <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                      <li className="list-group-item d-flex justify-content-between align-items-center fs_14">
                         Balance
                         <span className="text-primary fs_14">
                           {userBalance}

@@ -44,7 +44,7 @@ function Lockin() {
   const userLockedData = useSelector((state) => state.pinksale.userLockedData);
 
   const Completionist = () => (
-    <div class="featured-card-clock" data-countdown="2021/10/10">
+    <div className="featured-card-clock" data-countdown="2021/10/10">
       <div className="main_time mt-3 d-flex justify-content-center">
         <div className="pik_clr py-1 px-2 arounded">00</div>
         <div className="pik_clr py-1 px-2 arounded">00</div>
@@ -64,7 +64,7 @@ function Lockin() {
     } else {
       return (
         <div className="countdown">
-          {/* <div class="timer-text" data-countdown="2021/11/11">{`${days} : ${hours} : ${minutes} : ${seconds} `}</div> */}
+          {/* <div className="timer-text" data-countdown="2021/11/11">{`${days} : ${hours} : ${minutes} : ${seconds} `}</div> */}
           <div className="main_time mt-3 d-flex justify-content-center">
             <div className="pik_clr p-2 arounded">{days}</div>
             <div className="pik_clr p-2 arounded">{hours}</div>

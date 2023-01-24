@@ -157,8 +157,8 @@ function Launchpad_list_view() {
                   </div>
 
                   <div className="pro_bar mt-4">
-                    <div class="progress">
-                      <div class="progress-bar" role="progressbar" aria-label="Basic example" style={{ width: " 50%" }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                    <div className="progress">
+                      <div className="progress-bar" role="progressbar" aria-label="Basic example" style={{ width: " 50%" }} aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <div className='head_pro d-flex justify-content-between'>
                       <span>0 BNB</span>

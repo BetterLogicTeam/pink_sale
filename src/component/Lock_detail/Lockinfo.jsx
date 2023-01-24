@@ -169,7 +169,7 @@ function Lockinfo() {
                 ) : (
                   <>
                     <div className="table-responsive">
-                      <table class="table  text-white">
+                      <table className="table  text-white">
                         <thead>
                           <tr>
                             <th scope="col">Wallet</th>

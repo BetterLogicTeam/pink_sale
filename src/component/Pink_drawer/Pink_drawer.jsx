@@ -173,7 +173,7 @@ export default function MiniDrawer() {
                 fill="currentColor"
                 stroke-width="0"
                 viewBox="0 0 1024 1024"
-                class="ant-menu-item-icon me-1 "
+                className="ant-menu-item-icon me-1 "
                 height="19"
                 width="19"
                 xmlns="http://www.w3.org/2000/svg"
@@ -192,14 +192,14 @@ export default function MiniDrawer() {
                 className=""
               >
                 <div className="HOVER d-flex pt-3">
-                  <div class="dropdown">
-                    <div class="dropbtn">
+                  <div className="dropdown">
+                    <div className="dropbtn">
                       <svg
                         stroke="currentColor"
                         fill="currentColor"
                         stroke-width="0"
                         viewBox="0 0 1024 1024"
-                        class="ant-menu-item-icon me-1 "
+                        className="ant-menu-item-icon me-1 "
                         height="23"
                         width="23"
                         xmlns="http://www.w3.org/2000/svg"
@@ -208,7 +208,7 @@ export default function MiniDrawer() {
                       </svg>
                     </div>
                     <div style={{ display: !open ? " block" : "none" }}>
-                      <div class="dropdown-content text-start">
+                      <div className="dropdown-content text-start">
                         <a href="#"> Create launchpad</a>
                         <a href="#"> Create fair launch</a>
                         <a href="#"> Create dutch auct...</a>
@@ -270,14 +270,14 @@ export default function MiniDrawer() {
                 id="panel2a-header"
               >
                 <Typography className="HOVER d-flex pt-3">
-                  <div class="dropdown">
-                    <div class="dropbtn">
+                  <div className="dropdown">
+                    <div className="dropbtn">
                       <svg
                         stroke="currentColor"
                         fill="currentColor"
                         stroke-width="0"
                         viewBox="0 0 24 24"
-                        class="ant-menu-item-icon me-1 "
+                        className="ant-menu-item-icon me-1 "
                         height="23"
                         width="23"
                         xmlns="http://www.w3.org/2000/svg"
@@ -286,7 +286,7 @@ export default function MiniDrawer() {
                       </svg>
 
                       <div style={{ display: !open ? " block" : "none" }}>
-                        <div class="dropdown-content text-start">
+                        <div className="dropdown-content text-start">
                           <a href="#"> Create Private Sale</a>
                           <a href="#"> Private Sale List</a>
                         </div>
@@ -325,14 +325,14 @@ export default function MiniDrawer() {
                 id="panel3a-header"
               >
                 <Typography className="HOVER d-flex pt-3">
-                  <div class="dropdown">
-                    <div class="dropbtn">
+                  <div className="dropdown">
+                    <div className="dropbtn">
                       <svg
                         stroke="currentColor"
                         fill="currentColor"
                         stroke-width="0"
                         viewBox="0 0 1024 1024"
-                        class="ant-menu-item-icon me-1"
+                        className="ant-menu-item-icon me-1"
                         height="23"
                         width="23"
                         xmlns="http://www.w3.org/2000/svg"
@@ -340,7 +340,7 @@ export default function MiniDrawer() {
                         <path d="M832 464H332V240c0-30.9 25.1-56 56-56h248c30.9 0 56 25.1 56 56v68c0 4.4 3.6 8 8 8h56c4.4 0 8-3.6 8-8v-68c0-70.7-57.3-128-128-128H388c-70.7 0-128 57.3-128 128v224h-68c-17.7 0-32 14.3-32 32v384c0 17.7 14.3 32 32 32h640c17.7 0 32-14.3 32-32V496c0-17.7-14.3-32-32-32zm-40 376H232V536h560v304zM484 701v53c0 4.4 3.6 8 8 8h40c4.4 0 8-3.6 8-8v-53a48.01 48.01 0 1 0-56 0z"></path>
                       </svg>
                       <div style={{ display: !open ? "block" : " none" }}>
-                        <div class="dropdown-content text-start">
+                        <div className="dropdown-content text-start">
                           <a href="#"> Create Lock</a>
                           <a href="#"> Token</a>
                           <a href="#"> Liquidity</a>
@@ -385,14 +385,14 @@ export default function MiniDrawer() {
                 className="new_no"
               >
                 <Typography className="HOVER d-flex pt-3">
-                  <div class="dropdown">
-                    <div class="dropbtn">
+                  <div className="dropdown">
+                    <div className="dropbtn">
                       <svg
                         stroke="currentColor"
                         fill="currentColor"
                         stroke-width="0"
                         viewBox="0 0 512 512"
-                        class="ant-menu-item-icon"
+                        className="ant-menu-item-icon"
                         height="23"
                         width="23"
                         xmlns="http://www.w3.org/2000/svg"
@@ -400,7 +400,7 @@ export default function MiniDrawer() {
                         <path d="M247 25.332c-.642.046-1.288.098-1.936.152-28.244 52.446-31.912 108.59-28.084 167.936 3.77 58.42 14.916 119.542 15.936 181.58h46.168c1.02-62.038 12.167-123.16 15.936-181.58 3.828-59.347.16-115.49-28.084-167.936-.648-.054-1.294-.106-1.936-.152V352h-18V25.332zm-23.795 3.51c-7.21 1.567-14.562 3.595-21.893 6.04l-2.398 2.88c-38.992 46.79-49.743 83.613-45.955 123.384 3.787 39.772 23.27 83.214 47.31 139.31l4.45 11.458c.898 3.188 4.327 9.14 7.594 15.463-3.76-44.326-10.457-88.814-13.294-132.797-3.65-56.57-.748-112.657 24.185-165.738zm65.59 0c24.933 53.08 27.835 109.168 24.185 165.738-2.837 43.983-9.534 88.47-13.294 132.797 3.267-6.324 6.696-12.275 7.595-15.463l4.45-11.46c24.04-56.094 43.523-99.536 47.31-139.308 3.79-39.77-6.962-76.593-45.954-123.384l-2.4-2.88c-7.33-2.445-14.682-4.473-21.89-6.04zM167.5 49.422c-3.667 1.97-7.256 4.04-10.73 6.21C126.256 74.705 105 100.5 105 128c0 61.75 22.053 90.394 49.773 122.074 2.808 3.21 5.702 6.47 8.608 9.76-14.478-34.99-25.395-66.073-28.34-96.98-3.537-37.152 5.253-73.565 32.46-113.432zm177 0c27.207 39.867 35.997 76.28 32.46 113.432-2.945 30.907-13.862 61.99-28.34 96.98 2.905-3.29 5.8-6.55 8.607-9.76C384.947 218.394 407 189.75 407 128c0-27.5-21.256-53.296-51.77-72.367-3.474-2.172-7.063-4.24-10.73-6.21zM224 393v37h21.424v-37H224zm42.576 0v37H288v-37h-21.424zM224 448v44h64v-44h-64z"></path>
                       </svg>
                       <div style={{ display: !open ? "block" : " none" }}>
-                        <div class="dropdown-content text-start">
+                        <div className="dropdown-content text-start">
                           <a href="#"> Create Airdrop</a>
                           <a href="#"> Airdrop List</a>
                         </div>
@@ -439,7 +439,7 @@ export default function MiniDrawer() {
                 fill="currentColor"
                 stroke-width="0"
                 viewBox="0 0 1024 1024"
-                class="ant-menu-item-icon me-1"
+                className="ant-menu-item-icon me-1"
                 height="23"
                 width="23"
                 xmlns="http://www.w3.org/2000/svg"
@@ -456,7 +456,7 @@ export default function MiniDrawer() {
                 fill="currentColor"
                 stroke-width="0"
                 viewBox="0 0 1024 1024"
-                class="ant-menu-item-icon me-1"
+                className="ant-menu-item-icon me-1"
                 height="23"
                 width="23"
                 xmlns="http://www.w3.org/2000/svg"
@@ -473,7 +473,7 @@ export default function MiniDrawer() {
                 fill="currentColor"
                 stroke-width="0"
                 viewBox="0 0 24 24"
-                class="ant-menu-item-icon me-1"
+                className="ant-menu-item-icon me-1"
                 height="23"
                 width="23"
                 xmlns="http://www.w3.org/2000/svg"
@@ -491,7 +491,7 @@ export default function MiniDrawer() {
                 fill="currentColor"
                 stroke-width="0"
                 viewBox="0 0 24 24"
-                class="ant-menu-item-icon me-1"
+                className="ant-menu-item-icon me-1"
                 height="23"
                 width="23"
                 xmlns="http://www.w3.org/2000/svg"
@@ -511,7 +511,7 @@ export default function MiniDrawer() {
                 fill="currentColor"
                 stroke-width="0"
                 viewBox="0 0 1024 1024"
-                class="ant-menu-item-icon me-1"
+                className="ant-menu-item-icon me-1"
                 height="23"
                 width="23"
                 xmlns="http://www.w3.org/2000/svg"
@@ -528,7 +528,7 @@ export default function MiniDrawer() {
                 fill="currentColor"
                 stroke-width="0"
                 viewBox="0 0 24 24"
-                class="ant-menu-item-icon me-1"
+                className="ant-menu-item-icon me-1"
                 height="23"
                 width="23"
                 xmlns="http://www.w3.org/2000/svg"
@@ -548,7 +548,7 @@ export default function MiniDrawer() {
                 fill="currentColor"
                 stroke-width="0"
                 viewBox="0 0 1024 1024"
-                class="ant-menu-item-icon me-1"
+                className="ant-menu-item-icon me-1"
                 height="23"
                 width="23"
                 xmlns="http://www.w3.org/2000/svg"
@@ -565,21 +565,21 @@ export default function MiniDrawer() {
                 fill="currentColor"
                 stroke-width="0"
                 viewBox="0 0 512 512"
-                class="ant-menu-item-icon  me-1"
+                className="ant-menu-item-icon  me-1"
                 height="23"
                 width="23"
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
                   fill="none"
-                  stroke-linejoin="round"
+                  strokeLinejoin="round"
                   stroke-width="32"
                   d="M416 221.25V416a48 48 0 01-48 48H144a48 48 0 01-48-48V96a48 48 0 0148-48h98.75a32 32 0 0122.62 9.37l141.26 141.26a32 32 0 019.37 22.62z"
                 ></path>
                 <path
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   stroke-width="32"
                   d="M256 56v120a32 32 0 0032 32h120m-232 80h160m-160 80h160"
                 ></path>
@@ -596,14 +596,14 @@ export default function MiniDrawer() {
                 id="panel3a-header"
               >
                 <Typography className="HOVER d-flex ms-1 pt-2">
-                  <div class="dropdown">
-                    <div class="dropbtn">
+                  <div className="dropdown">
+                    <div className="dropbtn">
                       <svg
                         stroke="currentColor"
                         fill="currentColor"
                         stroke-width="0"
                         viewBox="0 0 24 24"
-                        class="ant-menu-item-icon me-1"
+                        className="ant-menu-item-icon me-1"
                         height="23"
                         width="23"
                         xmlns="http://www.w3.org/2000/svg"
@@ -611,13 +611,13 @@ export default function MiniDrawer() {
                         <g>
                           <path fill="none" d="M0 0h24v24H0z"></path>
                           <path
-                            fill-rule="nonzero"
+                            fillRule="nonzero"
                             d="M12 20a8 8 0 1 0 0-16 8 8 0 0 0 0 16zm0 2C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-3.11-8.83l-2.498-.779c-.54-.165-.543-.537.121-.804l9.733-3.76c.565-.23.885.061.702.79l-1.657 7.82c-.116.557-.451.69-.916.433l-2.551-1.888-1.189 1.148c-.122.118-.221.219-.409.244-.187.026-.341-.03-.454-.34l-.87-2.871-.012.008z"
                           ></path>
                         </g>
                       </svg>
                       <div style={{ display: !open ? " block" : "none" }}>
-                        <div class="dropdown-content text-start">
+                        <div className="dropdown-content text-start">
                           <a href="#"> English</a>
                           <a href="#">简体中文</a>
                           <a href="#">日本語</a>
@@ -673,7 +673,7 @@ export default function MiniDrawer() {
                 fill="currentColor"
                 stroke-width="0"
                 viewBox="0 0 24 24"
-                class="ant-menu-item-icon  me-1"
+                className="ant-menu-item-icon  me-1"
                 height="23"
                 width="23"
                 xmlns="http://www.w3.org/2000/svg"
@@ -681,7 +681,7 @@ export default function MiniDrawer() {
                 <g>
                   <path fill="none" d="M0 0h24v24H0z"></path>
                   <path
-                    fill-rule="nonzero"
+                    fillRule="nonzero"
                     d="M15.3 5.55a2.9 2.9 0 0 0-2.9 2.847l-.028 1.575a.6.6 0 0 1-.68.583l-1.561-.212c-2.054-.28-4.022-1.226-5.91-2.799-.598 3.31.57 5.603 3.383 7.372l1.747 1.098a.6.6 0 0 1 .034.993L7.793 18.17c.947.059 1.846.017 2.592-.131 4.718-.942 7.855-4.492 7.855-10.348 0-.478-1.012-2.141-2.94-2.141zm-4.9 2.81a4.9 4.9 0 0 1 8.385-3.355c.711-.005 1.316.175 2.669-.645-.335 1.64-.5 2.352-1.214 3.331 0 7.642-4.697 11.358-9.463 12.309-3.268.652-8.02-.419-9.382-1.841.694-.054 3.514-.357 5.144-1.55C5.16 15.7-.329 12.47 3.278 3.786c1.693 1.977 3.41 3.323 5.15 4.037 1.158.475 1.442.465 1.973.538z"
                   ></path>
                 </g>
@@ -699,7 +699,7 @@ export default function MiniDrawer() {
               fill="currentColor"
               stroke-width="0"
               viewBox="0 0 24 24"
-              class="ant-menu-item-icon me-1"
+              className="ant-menu-item-icon me-1"
               height="23"
               width="23"
               xmlns="http://www.w3.org/2000/svg"
@@ -717,12 +717,12 @@ export default function MiniDrawer() {
       </Drawer>
       <div className="hello_pink">
         <div style={{ display: !open ? "none" : "block" }}>
-          <div class="MainLayout_siderFooter__3itw9 d-flex justify-content-around ">
-            <div class="pb-2 ms-2">
+          <div className="MainLayout_siderFooter__3itw9 d-flex justify-content-around ">
+            <div className="pb-2 ms-2">
               <img
                 src={pink1}
                 alt="pinksale"
-                class="PinksalePrice_logo__w6X7p"
+                className="PinksalePrice_logo__w6X7p"
                 width="20"
               />
 
@@ -735,26 +735,26 @@ export default function MiniDrawer() {
                 PINKSALE
               </a>
             </div>
-            <div class="PinksalePrice ps-3 pt-1 ">$158.16</div>
+            <div className="PinksalePrice ps-3 pt-1 ">$158.16</div>
           </div>
         </div>
         {/* <div style="height: 4px;"></div> */}
-        <div class="d-flex items-center justify-content-around pb-1">
-          <div class="flex-1" style={{ display: !open ? "none" : "block" }}>
-            <div class="ant-dropdown-trigger Language_root__131TC d-flex align-items-center">
+        <div className="d-flex items-center justify-content-around pb-1">
+          <div className="flex-1" style={{ display: !open ? "none" : "block" }}>
+            <div className="ant-dropdown-trigger Language_root__131TC d-flex align-items-center">
               <img
                 src="data:image/png;base64,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"
                 alt="English"
                 width="20"
                 height="20"
-                class="Language_flag__3YaoS"
+                className="Language_flag__3YaoS"
               />
-              <div class="Language_country__3_TAG ps-1">English</div>
+              <div className="Language_country__3_TAG ps-1">English</div>
             </div>
           </div>
-          <div class="ThemeSwitcher_root__20QfE d-flex">
-            <div class="ThemeSwitcher_label__9Qa0m"></div>
-            <div class="ThemeSwitcher_themeIcon__3wg-7 ThemeSwitcher_active__7oUEZ pb-3 ps-1">
+          <div className="ThemeSwitcher_root__20QfE d-flex">
+            <div className="ThemeSwitcher_label__9Qa0m"></div>
+            <div className="ThemeSwitcher_themeIcon__3wg-7 ThemeSwitcher_active__7oUEZ pb-3 ps-1">
               <svg
                 stroke="currentColor"
                 fill="currentColor"
@@ -766,8 +766,8 @@ export default function MiniDrawer() {
               >
                 <path
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-miterlimit="10"
+                  strokeLinecap="round"
+                  strokeMiterlimit="10"
                   stroke-width="32"
                   d="M256 48v48m0 320v48m147.08-355.08l-33.94 33.94M142.86 369.14l-33.94 33.94M464 256h-48m-320 0H48m355.08 147.08l-33.94-33.94M142.86 142.86l-33.94-33.94"
                 ></path>
@@ -776,8 +776,8 @@ export default function MiniDrawer() {
                   cy="256"
                   r="80"
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-miterlimit="10"
+                  strokeLinecap="round"
+                  strokeMiterlimit="10"
                   stroke-width="32"
                 ></circle>
               </svg>
@@ -793,13 +793,13 @@ export default function MiniDrawer() {
                 xmlns="http://www.w3.org/2000/svg"
               >
                 <path
-                  fill-rule="evenodd"
+                  fillRule="evenodd"
                   d="M11.854 4.146a.5.5 0 010 .708l-7 7a.5.5 0 01-.708-.708l7-7a.5.5 0 01.708 0z"
-                  clip-rule="evenodd"
+                  clipRule="evenodd"
                 ></path>
               </svg>
             </div>
-            <div class="ThemeSwitcher_themeIcon__3wg-7">
+            <div className="ThemeSwitcher_themeIcon__3wg-7">
               <svg
                 stroke="currentColor"
                 fill="currentColor"
@@ -811,8 +811,8 @@ export default function MiniDrawer() {
               >
                 <path
                   fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   stroke-width="32"
                   d="M160 136c0-30.62 4.51-61.61 16-88C99.57 81.27 48 159.32 48 248c0 119.29 96.71 216 216 216 88.68 0 166.73-51.57 200-128-26.39 11.49-57.38 16-88 16-119.29 0-216-96.71-216-216z"
                 ></path>

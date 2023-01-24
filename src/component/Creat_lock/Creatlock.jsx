@@ -344,24 +344,24 @@ function Creatlock() {
                   </div>
                   {showtokeninfo ? (
                     <>
-                      <ul class="list-group list-group-flush ">
-                        <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                      <ul className="list-group list-group-flush ">
+                        <li className="list-group-item d-flex justify-content-between align-items-center fs_14">
                           Name
                           <span className="text-primary fs_14">
                             {tokenInfo.tokenName}
                           </span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                        <li className="list-group-item d-flex justify-content-between align-items-center fs_14">
                           Symbol
                           <span className="fs_14">{tokenInfo.tokenSymbol}</span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                        <li className="list-group-item d-flex justify-content-between align-items-center fs_14">
                           Deimals
                           <span className="fs_14">
                             {tokenInfo.tokenDecimal}
                           </span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center fs_14">
+                        <li className="list-group-item d-flex justify-content-between align-items-center fs_14">
                           Balance
                           <span className="text-primary fs_14">
                             {tokenInfo.tokenBalance}

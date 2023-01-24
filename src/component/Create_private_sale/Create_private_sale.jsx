@@ -117,7 +117,7 @@ export default function HorizontalLinearStepper() {
             stepProps.completed = false;
           }
           return (
-            <Step key={label} {...stepProps}>
+            <Step key={index} {...stepProps}>
               <StepLabel {...labelProps}>
                 <span className="text-white">{label.title}</span>
               </StepLabel>
@@ -175,43 +175,43 @@ export default function HorizontalLinearStepper() {
                           <Form.Label>Currency</Form.Label>
                         </div>
                         <div className="chek_box">
-                          <div class="form-check">
+                          <div className="form-check">
                             <input
-                              class="form-check-input"
+                              className="form-check-input"
                               type="radio"
                               name="flexRadioDefault"
                               id="flexRadioDefault1"
                             />
                             <label
-                              class="form-check-label crnc d-flex justify-content-start"
+                              className="form-check-label crnc d-flex justify-content-start"
                               for="flexRadioDefault1"
                             >
                               ETH
                             </label>
                           </div>
-                          <div class="form-check">
+                          <div className="form-check">
                             <input
-                              class="form-check-input"
+                              className="form-check-input"
                               type="radio"
                               name="flexRadioDefault"
                               id="flexRadioDefault2"
                             />
                             <label
-                              class="form-check-label crnc d-flex justify-content-start"
+                              className="form-check-label crnc d-flex justify-content-start"
                               for="flexRadioDefault2"
                             >
                               USDH
                             </label>
                           </div>
-                          <div class="form-check">
+                          <div className="form-check">
                             <input
-                              class="form-check-input"
+                              className="form-check-input"
                               type="radio"
                               name="flexRadioDefault"
                               id="flexRadioDefault2"
                             />
                             <label
-                              class="form-check-label crnc d-flex justify-content-start"
+                              className="form-check-label crnc d-flex justify-content-start"
                               for="flexRadioDefault2"
                             >
                               USDC
@@ -249,29 +249,29 @@ export default function HorizontalLinearStepper() {
                           <Form.Label>Whitelist</Form.Label>
                         </div>
                         <div className="chek_box_tow d-flex">
-                          <div class="form-check">
+                          <div className="form-check">
                             <input
-                              class="form-check-input"
+                              className="form-check-input"
                               type="radio"
                               name="flexRadioDefault"
                               id="flexRadioDefault1"
                             />
                             <label
-                              class="form-check-label crnc d-flex justify-content-start"
+                              className="form-check-label crnc d-flex justify-content-start"
                               for="flexRadioDefault1"
                             >
                               Disable
                             </label>
                           </div>
-                          <div class="form-check">
+                          <div className="form-check">
                             <input
-                              class="form-check-input"
+                              className="form-check-input"
                               type="radio"
                               name="flexRadioDefault"
                               id="flexRadioDefault2"
                             />
                             <label
-                              class="form-check-label crnc d-flex justify-content-start"
+                              className="form-check-label crnc d-flex justify-content-start"
                               for="flexRadioDefault2"
                             >
                               Enable
@@ -734,7 +734,7 @@ export default function HorizontalLinearStepper() {
               <div className="container">
                 <div className="row justify-content-center">
                   <div className="col-lg-10 color_of_back_ground box_shadow text-white border mt-5">
-                    <table class="table">
+                    <table className="table">
                       <tbody>
                         <tr>
                           <td className="text-start clc_fr_size">Title</td>

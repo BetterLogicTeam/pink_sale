@@ -34,7 +34,7 @@ function Modal_bnb() {
           fill="currentColor"
           stroke-width="0"
           viewBox="0 0 1024 1024"
-          class="hide-on-mobile"
+          className="hide-on-mobile"
           height="18"
           width="18"
           xmlns="http://www.w3.org/2000/svg"

@@ -28,43 +28,43 @@ function Cpsform() {
                 <Form.Label>Currency</Form.Label>
               </div>
               <div className="chek_box">
-                <div class="form-check">
+                <div className="form-check">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="radio"
                     name="flexRadioDefault"
                     id="flexRadioDefault1"
                   />
                   <label
-                    class="form-check-label crnc d-flex justify-content-start"
+                    className="form-check-label crnc d-flex justify-content-start"
                     for="flexRadioDefault1"
                   >
                     ETH
                   </label>
                 </div>
-                <div class="form-check">
+                <div className="form-check">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="radio"
                     name="flexRadioDefault"
                     id="flexRadioDefault2"
                   />
                   <label
-                    class="form-check-label crnc d-flex justify-content-start"
+                    className="form-check-label crnc d-flex justify-content-start"
                     for="flexRadioDefault2"
                   >
                     USDH
                   </label>
                 </div>
-                <div class="form-check">
+                <div className="form-check">
                   <input
-                    class="form-check-input"
+                    className="form-check-input"
                     type="radio"
                     name="flexRadioDefault"
                     id="flexRadioDefault2"
                   />
                   <label
-                    class="form-check-label crnc d-flex justify-content-start"
+                    className="form-check-label crnc d-flex justify-content-start"
                     for="flexRadioDefault2"
                   >
                     USDC
