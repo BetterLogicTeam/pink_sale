@@ -63,6 +63,7 @@ function Creatlock() {
     tokenAddress: Yup.string().required("tokenAddress is a required field"),
     // ownerAddress: Yup.string().required("Required"),
     // title: Yup.string().required("Required"),
+
     amount: Yup.string().required("amount is a required field"),
     date: Yup.date()
       .required("Unlock time need to be after now")

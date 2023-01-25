@@ -25,6 +25,7 @@ import {
   tokenAbi,
   tokenAdress,
   PinkSaleICOFactoryContractAddress,
+  PinkSaleICOFactoryContractABI,
 } from "../../utilies/Contract";
 import { loadWeb3 } from "../../connectivity/connectivity";
 import { useState } from "react";
@@ -107,31 +108,6 @@ export default function HorizontalLinearStepper() {
     setActiveStep(0);
   };
 
-  // const mySchema = Yup.object().shape({
-  //   tokenAddress: Yup.string().required("tokenAddress is a required field"),
-
-  //   // tokenAddress: Yup.string().required("Token Address is a required field"),
-  //   exchangeRate: "Please enter exchange rate",
-  //   // amount: Yup.string().required("amount is a required field"),
-  //   // date: Yup.date()
-  //   //   .required("Unlock time need to be after now")
-  //   //   .min(new Date(), "date must be greater then current date"),
-  // });
-
-  // const formik = useFormik({
-  //   initialValues: {
-  //     tokenAddress: "",
-  //     currency: "",
-  //     exchangeRate: "",
-  //   },
-  //   validationSchema: mySchema,
-
-  //   onSubmit: async (values, action) => {
-  //     // await callAPI(values);
-  //     // action.resetForm();
-  //   },
-  // });
-
   const createLaunchpadSchema = Yup.object().shape({
     tokenAddress: Yup.string().required("tokenAddress is a required field"),
 
@@ -139,7 +115,7 @@ export default function HorizontalLinearStepper() {
       .min(1, "please enter value greater then 0")
       .required("exchange rate is required"),
     totalSupply: Yup.number()
-      .min(0, "please enter value in positive")
+      .min(1, "please enter value in positive or greater then 0")
       .required("Total Supply is required to create ICO"),
 
     amount: Yup.string().required("amount is a required field"),
@@ -185,59 +161,42 @@ export default function HorizontalLinearStepper() {
     const _address = e.target.value;
 
     if (web3.utils.isAddress(_address)) {
-      // try {
-      //   _addressStatus = await web3.eth.getCode(_address);
-      // } catch (error) {
-      //   // toast.error(error.message);
-      //   console.log(error.message);
-      // }
+      try {
+        _addressStatus = await web3.eth.getCode(_address);
+      } catch (error) {
+        console.log(error.message);
+      }
 
       let obj = {};
       setgetInputdata(e.target.value);
-      sessionStorage.setItem("token_Address", e.target.value);
-      let pinkSaleToken = new web3.eth.Contract(tokenAbi, _address);
 
-      let tokenName, tokenSymbol, tokenDecimal, tokenBalance;
-      tokenName = await pinkSaleToken.methods.name().call();
-      tokenSymbol = await pinkSaleToken.methods.symbol().call();
-      tokenDecimal = await pinkSaleToken.methods.decimals().call();
+      if (_addressStatus === "0x") {
+        setshowtokeninfo(false);
 
-      tokenBalance = await pinkSaleToken.methods.balanceOf(acc).call();
+        setValidate(false);
 
-      tokenBalance = web3.utils.fromWei(tokenBalance);
-      obj.tokenName = tokenName;
-      obj.tokenSymbol = tokenSymbol;
-      obj.tokenDecimal = tokenDecimal;
-      obj.tokenBalance = tokenBalance;
+        formik.setErrors({
+          tokenAddress: "Invalid Address",
+        });
+      } else {
+        setgetInputdata(e.target.value);
+        sessionStorage.setItem("token_Address", e.target.value);
+        let pinkSaleToken = new web3.eth.Contract(tokenAbi, _address);
+        let tokenName, tokenSymbol, tokenDecimal, tokenBalance;
+        tokenName = await pinkSaleToken.methods.name().call();
+        tokenSymbol = await pinkSaleToken.methods.symbol().call();
+        tokenDecimal = await pinkSaleToken.methods.decimals().call();
 
-      setshowtokeninfo(true);
-      // if (_addressStatus === "0x") {
-      //   setshowtokeninfo(false);
+        tokenBalance = await pinkSaleToken.methods.balanceOf(acc).call();
 
-      //   setValidate(false);
+        tokenBalance = web3.utils.fromWei(tokenBalance);
+        obj.tokenName = tokenName;
+        obj.tokenSymbol = tokenSymbol;
+        obj.tokenDecimal = tokenDecimal;
+        obj.tokenBalance = tokenBalance;
 
-      //   formik.setErrors({
-      //     tokenAddress: "Invalid Address",
-      //   });
-      // } else {
-      //   setgetInputdata(e.target.value);
-      //   sessionStorage.setItem("token_Address", e.target.value);
-      //   let pinkSaleToken = new web3.eth.Contract(tokenAbi, _address);
-      //   let tokenName, tokenSymbol, tokenDecimal, tokenBalance;
-      //   tokenName = await pinkSaleToken.methods.name().call();
-      //   tokenSymbol = await pinkSaleToken.methods.symbol().call();
-      //   tokenDecimal = await pinkSaleToken.methods.decimals().call();
-
-      //   tokenBalance = await pinkSaleToken.methods.balanceOf(acc).call();
-
-      //   tokenBalance = web3.utils.fromWei(tokenBalance);
-      //   obj.tokenName = tokenName;
-      //   obj.tokenSymbol = tokenSymbol;
-      //   obj.tokenDecimal = tokenDecimal;
-      //   obj.tokenBalance = tokenBalance;
-
-      //   setshowtokeninfo(true);
-      // }
+        setshowtokeninfo(true);
+      }
       setTokenInfo({ ...obj });
 
       console.log("obj", obj);
@@ -254,8 +213,6 @@ export default function HorizontalLinearStepper() {
 
   const handleTotalSupply = async (e) => {
     let totalSupply = e.target.value;
-
-    // console.log("totaklsupply", !(totalSupply <= tokenInfo.tokenBalance));
     if (Number(totalSupply) <= Number(tokenInfo.tokenBalance)) {
       formik.handleChange(e);
     } else {
@@ -269,7 +226,53 @@ export default function HorizontalLinearStepper() {
   };
 
   const createLaunchpad = async () => {
-    console.log("fraz", formik.values);
+    const web3 = window.web3;
+    let acc = await loadWeb3();
+
+    let { endTime, startTime, totalSupply, exchangeRate, tokenAddress } =
+      formik.values;
+    let startTimeSeconds = new Date(startTime);
+    startTimeSeconds = Math.floor(startTimeSeconds.getTime() / 1000);
+    let endTimeSeconds = new Date(endTime);
+    endTimeSeconds = Math.floor(endTimeSeconds.getTime() / 1000);
+    let amount = web3.utils.toWei(String(totalSupply));
+    // console.log(
+    //   "endTimeSeconds",
+    //   endTimeSeconds,
+    //   "amount",
+    //   amount,
+    //   "totalsupply",
+    //   totalSupply,
+    //   "exchangerate",
+    //   exchangeRate,
+    //   "tokenadress",
+    //   tokenAddress
+    // );
+    let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
+
+    let approve = await pinkSaleToken.methods
+      .approve(PinkSaleICOFactoryContractAddress, amount)
+      .send({
+        from: acc,
+      });
+    let pinkSaleFactoryICO = new web3.eth.Contract(
+      PinkSaleICOFactoryContractABI,
+      PinkSaleICOFactoryContractAddress
+    );
+
+    let createHash = await pinkSaleFactoryICO.methods
+      .create(
+        tokenAddress,
+        "0x0000000000000000000000000000000000000000",
+        exchangeRate,
+        amount,
+        startTimeSeconds,
+        endTimeSeconds
+      )
+      .send({
+        from: acc,
+        value: 500000000000000000,
+      });
   };
 
   return (
@@ -318,7 +321,7 @@ export default function HorizontalLinearStepper() {
 
                           <Form.Label>Token address*</Form.Label>
                         </div>
-                        {console.log("formik today", formik)}
+
                         <Form.Control
                           type="text"
                           name="tokenAddress"
@@ -368,7 +371,7 @@ export default function HorizontalLinearStepper() {
                             <li className="list-group-item d-flex justify-content-between align-items-center fs_14">
                               Balance
                               <span className=" fs_14">
-                                {web3.utils.fromWei(tokenInfo.tokenBalance)}
+                                {tokenInfo.tokenBalance}
                               </span>
                             </li>
                           </ul>
@@ -518,7 +521,7 @@ export default function HorizontalLinearStepper() {
                             <div className="text-start for_fnt">
                               <Form.Label>Total Supply *</Form.Label>
                             </div>
-                            {console.log("disable", !showtokeninfo)}
+
                             <Form.Control
                               type="number"
                               disabled={!showtokeninfo}
@@ -561,7 +564,6 @@ export default function HorizontalLinearStepper() {
                               className="mb-3"
                               controlId="formBasicEmail"
                             >
-                              {/* {console.log("dirty", formik)} */}
                               <div className="text-start for_fnt">
                                 <Form.Label>Start time (UTC)</Form.Label>
                               </div>
@@ -1130,7 +1132,23 @@ export default function HorizontalLinearStepper() {
                     <table className="table">
                       <tbody>
                         <tr className="">
-                          <td className="text-start clc_fr_size">
+                          <td className="text-start clc_fr_size fst-italic  fw-bold">
+                            Token
+                          </td>
+                          <td></td>
+                          <td></td>
+                          <td className="text-end clc_fr_color">
+                            <a
+                              href={`https://testnet.bscscan.com/address/${formik.values.tokenAddress}`}
+                              target="_blank"
+                              className="text-white"
+                            >
+                              {formik.values.tokenAddress}
+                            </a>
+                          </td>
+                        </tr>
+                        <tr className="">
+                          <td className="text-start clc_fr_size fst-italic  fw-bold">
                             Total Supply
                           </td>
                           <td></td>
@@ -1140,7 +1158,7 @@ export default function HorizontalLinearStepper() {
                           </td>
                         </tr>
                         <tr className="">
-                          <td className="text-start clc_fr_size">
+                          <td className="text-start clc_fr_size fw-bold fst-italic  fw-bold">
                             Factory Address
                           </td>
                           <td></td>
@@ -1149,13 +1167,16 @@ export default function HorizontalLinearStepper() {
                             <a
                               href={`https://testnet.bscscan.com/address/${PinkSaleICOFactoryContractAddress}`}
                               target="_blank"
+                              className="text-white"
                             >
                               {PinkSaleICOFactoryContractAddress}
                             </a>
                           </td>
                         </tr>
                         <tr>
-                          <td className="text-start clc_fr_size">Token name</td>
+                          <td className="text-start clc_fr_size fst-italic  fw-bold">
+                            Token name
+                          </td>
                           <td></td>
                           <td></td>
                           <td className="text-end clc_fr_blu">
@@ -1163,7 +1184,7 @@ export default function HorizontalLinearStepper() {
                           </td>
                         </tr>
                         <tr>
-                          <td className="text-start clc_fr_size">
+                          <td className="text-start clc_fr_size fst-italic  fw-bold">
                             Token symbol
                           </td>
                           <td></td>
@@ -1173,7 +1194,7 @@ export default function HorizontalLinearStepper() {
                           </td>
                         </tr>
                         <tr>
-                          <td className="text-start clc_fr_size">
+                          <td className="text-start clc_fr_size fst-italic  fw-bold">
                             Token decimals
                           </td>
                           <td></td>
@@ -1183,7 +1204,9 @@ export default function HorizontalLinearStepper() {
                           </td>
                         </tr>
                         <tr>
-                          <td className="text-start clc_fr_size">Start time</td>
+                          <td className="text-start clc_fr_size fst-italic  fw-bold">
+                            Start time
+                          </td>
                           <td></td>
                           <td></td>
                           <td className="text-end clc_fr_blu">
@@ -1191,7 +1214,9 @@ export default function HorizontalLinearStepper() {
                           </td>
                         </tr>
                         <tr>
-                          <td className="text-start clc_fr_size">Time end</td>
+                          <td className="text-start clc_fr_size fst-italic  fw-bold">
+                            Time end
+                          </td>
                           <td></td>
                           <td></td>
                           <td className="text-end clc_fr_blu">
@@ -1221,9 +1246,9 @@ export default function HorizontalLinearStepper() {
                       <button
                         type="submit"
                         className="btn btn-sm  mt-3 loc_buttn_nex_back"
-                        // onClick={createLaunchpad}
+                        onClick={createLaunchpad}
                       >
-                        Submit
+                        Create ICO
                       </button>
                     </div>
                   </div>
