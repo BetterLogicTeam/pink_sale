@@ -126,6 +126,8 @@ export default function BasicTabs() {
         timeInfo: timeInfo,
       };
       // allIcosInfo.push(obj);
+
+      console.log("");
       allIcosInfo = [{ ...obj }, ...allIcosInfo];
       // console.log("icoInfo", icoInfo.token_supply);
       // console.log("icoProgress", icoProgress);
