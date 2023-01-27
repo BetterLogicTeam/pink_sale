@@ -43,6 +43,12 @@ function Launchpad_card(props) {
       );
     }
   };
+  // alert(props.index);
+
+  const SetView = async () => {
+    props.setIndex(props.index);
+    props.updateFlag();
+  };
   return (
     <>
       <div className="container">
@@ -123,12 +129,18 @@ function Launchpad_card(props) {
                     renderer={renderer}
                   />
                 </p>
-
+                {/* <div>
+                  {console.log("updateflag", props.updateFlag)}
+                  <button onClick={() => hi()}>View</button>
+                </div> */}
                 <div>
                   <Link
-                    to="/Launchpad_list_view"
+                    // to="/Launchpad_list_view"
                     className="btn max_btn_color "
                     role="button"
+                    onClick={() => {
+                      SetView();
+                    }}
                   >
                     View
                   </Link>{" "}

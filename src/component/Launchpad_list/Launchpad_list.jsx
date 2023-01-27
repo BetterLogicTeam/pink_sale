@@ -11,6 +11,8 @@ import Card_img2 from "../Assets/unity.png";
 import Card_img3 from "../Assets/pepsi.png";
 import Card_img4 from "../Assets/pinkswap.a95de4f3.png";
 import Form from "react-bootstrap/Form";
+import Countdown from "react-countdown";
+
 import {
   pinkSaleLockContract,
   pinkSaleLockAbi,
@@ -22,6 +24,7 @@ import {
   PinksaleICOContractAddress,
 } from "../../utilies/Contract";
 import { loadWeb3 } from "../../connectivity/connectivity";
+import { Button } from "react-bootstrap";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -58,7 +61,10 @@ function a11yProps(index) {
 
 export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
+  const [flag, setFlag] = React.useState(true);
+
   const [totalIcos, setTotalIcos] = useState([]);
+  const [index, setIndex] = useState("0");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -84,7 +90,6 @@ export default function BasicTabs() {
       let icoInfo = await pinkSaleICO.methods.ICO_info().call();
       let icoProgress = await pinkSaleICO.methods.status().call();
       let soldPercent = (icoProgress.sold_amount / icoInfo.token_supply) * 100;
-      // console.log("soldPercent", soldPercent);
       let currentDateSeconds = Math.round(new Date().getTime() / 1000);
       console.log(currentDateSeconds);
       let endTimeLessthenStartTime;
@@ -115,6 +120,11 @@ export default function BasicTabs() {
           title: "ICO Ended",
         };
       }
+      let icoStartdate = new Date(icoInfo.ICO_start * 1000);
+      icoStartdate = icoStartdate.toUTCString();
+      let icoEnddate = new Date(icoInfo.ICO_end * 1000);
+      icoEnddate = icoEnddate.toUTCString();
+
       obj = {
         tokenName: tokenDetail.name,
         tokenSymbol: tokenDetail.symbol,
@@ -124,6 +134,12 @@ export default function BasicTabs() {
         endTime: icoInfo.ICO_end,
         progressInPercent: soldPercent,
         timeInfo: timeInfo,
+        exchangeRate: icoInfo.token_rate,
+        tokenAddress: icoInfo.sale_token,
+        icoAddress: totalIcos[index],
+        icoStartDate: icoStartdate,
+        icoEndDate: icoEnddate,
+        tokenDecimals: tokenDetail.decimal,
       };
       // allIcosInfo.push(obj);
 
@@ -139,104 +155,462 @@ export default function BasicTabs() {
   useEffect(() => {
     allIcos();
   }, []);
+  const updateFlag = async () => {
+    setFlag(!flag);
+  };
+  const Completionist = () => (
+    <div className="mt-2">
+      <div className="text-center">
+        <span className="">{totalIcos[index].timeInfo.timerTitle}</span>
+      </div>
+      <div className="main_time mt-2 d-flex justify-content-center">
+        <div className="pik_clr p-2 arounded">00</div>
+        <div className="pik_clr p-2 arounded">00</div>
+        <div className="pik_clr p-2 arounded">00</div>
+        <div className="pik_clr p-2 arounded">00</div>
+      </div>
+    </div>
+  );
 
+  const renderer = ({ days, hours, minutes, seconds, completed }) => {
+    // setTimeEnded(completed)
+
+    if (completed) {
+      // Render a completed state
+      // setUnlockDisable(false);
+      return <Completionist />;
+    } else {
+      return (
+        <div className="mt-2">
+          <div className="text-center">
+            <span className="">{totalIcos[index].timeInfo.timerTitle}</span>
+          </div>
+          <div className="main_time mt-2 d-flex justify-content-center">
+            <div className="pik_clr p-2 arounded">{days}</div>
+            <div className="pik_clr p-2 arounded">{hours}</div>
+            <div className="pik_clr p-2 arounded">{minutes}</div>
+            <div className="pik_clr p-2 arounded">{seconds}</div>
+          </div>
+        </div>
+      );
+    }
+  };
+  const LaunchpadList = (props) => {
+    return (
+      <div className="launh_grid">
+        {totalIcos.map((item, index, arr) => {
+          return (
+            <Launchpad_card
+              img_card={Card_img}
+              totalSupply={`1 BNB = ${item.totalSupply} ${item.tokenSymbol}`}
+              para_3="(0.00%)"
+              soldAmountForProgress={`${item.soldAmount} ${item.tokenSymbol}`}
+              totalSupplyForProgress={`${item.totalSupply} ${item.tokenSymbol}`}
+              tokenName={item.tokenName}
+              tokenSymbol={item.tokenSymbol}
+              startTime={item.startTime}
+              endTime={item.endTime}
+              progressInPercent={item.progressInPercent}
+              timeInfo={item.timeInfo}
+              flag={flag}
+              updateFlag={props.updateFlag}
+              setIndex={setIndex}
+              index={index}
+            />
+          );
+        })}
+      </div>
+    );
+  };
+
+  function Launchpad_list_view() {
+    return (
+      <div className="container">
+        <div className="row">
+          <div className="col-lg-12 py-5 px-4 main_shade">
+            <div className="row d-flex justify-content-center">
+              <div className="col-lg-11">
+                <button
+                  className="btn text-white mb-3"
+                  onClick={() => {
+                    setFlag(!flag);
+                  }}
+                >
+                  Go Back
+                </button>
+                <div className="row spac_cls">
+                  <div className="col-lg-7 col-sm-12 view_shade text-white ">
+                    <div className="row my-4">
+                      <div className="col-lg-2 col-sm-12">
+                        <figure className="pic_left">
+                          {/* <img src={lft_img} alt="" className="min_img" /> */}
+                        </figure>
+                      </div>
+
+                      <div className="col-lg-10 col-sm-12 lft_boox">
+                        <div className="heading_outer_layer d-flex justify-content-between ">
+                          <div className="left_item">
+                            <h1 className="epn_cls">
+                              {totalIcos[index].tokenName}
+                            </h1>
+                          </div>
+                          <div className="right_item">
+                            <p
+                              className={` px-2 rounded-pill `}
+                              style={{
+                                backgroundColor: `${totalIcos[index].timeInfo.backgroundcolor}`,
+                              }}
+                            >
+                              <svg
+                                className=""
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="10"
+                                height="10"
+                                version="1.1"
+                                style={{ marginRight: "5px" }}
+                              >
+                                <circle
+                                  cx="5"
+                                  cy="5"
+                                  r="5"
+                                  fill={`${totalIcos[index].timeInfo.color}`}
+                                />
+                              </svg>
+                              <span
+                                className="text-"
+                                style={{
+                                  color: `${totalIcos[index].timeInfo.color}`,
+                                }}
+                              >
+                                <small>{totalIcos[index].timeInfo.title}</small>
+                              </span>
+                            </p>
+                          </div>
+                        </div>
+
+                        {/* <div className="icons_outer d-flex ">
+                          <div className="icon_1"><TbWorld className="con_siz" /></div>
+                          <div className="icon_2"><FiTwitter className="con_siz" /></div>
+                          <div className="icon_3"><RiFacebookCircleLine className="con_siz" /></div>
+                          <div className="icon_4">
+                            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" fontSize={"23"} height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M446.7 98.6l-67.6 318.8c-5.1 22.5-18.4 28.1-37.3 17.5l-103-75.9-49.7 47.8c-5.5 5.5-10.1 10.1-20.7 10.1l7.4-104.9 190.9-172.5c8.3-7.4-1.8-11.5-12.9-4.1L117.8 284 16.2 252.2c-22.1-6.9-22.5-22.1 4.6-32.7L418.2 66.4c18.4-6.9 34.5 4.1 28.5 32.2z"></path></svg>
+                          </div>
+                          <div className="icon_5"><AiOutlineInstagram className="con_siz" /></div>
+                          <div className="icon_6"><BsDiscord className="con_siz" /></div>
+                        </div>
+  
+                        <div className="detail_box mt-4">
+                          <p className='perag text-start'>
+                            A powerful exchange that comprises the power of two potential exchanges of the cryptocurrency market is the Hybrid Exchange. It is an exchange platform that amalgamates the features of both centralized and decentralized exchanges, it is best suited for big businesses and revenue-driven models. And in the end, what the user gets is a highly-secure, user-friendly, reliable and transparent exchange for allowing traders and investors to make fair and unbiased decisions.
+                          </p>
+                        </div> */}
+                      </div>
+                    </div>
+
+                    <div className="tab_main_layer py-3">
+                      <table className="table">
+                        <tbody>
+                          <tr className="d-flex justify-content-between trr_brd_b">
+                            <td className="text-white brd_no">ICO Address</td>
+                            <td className="for_blu brd_no">
+                              <a
+                                href={`https://testnet.bscscan.com/address/${totalIcos[index].icoAddress}`}
+                                target="_blank"
+                                className="text-decoration-none"
+                              >
+                                {totalIcos[index].icoAddress}
+                              </a>
+                            </td>
+                          </tr>
+                          <tr className="d-flex justify-content-between trr_brd_b">
+                            <td className="text-white brd_no">Token Name</td>
+                            <td className="text-white brd_no">
+                              {totalIcos[index].tokenName}
+                            </td>
+                          </tr>
+                          <tr className="d-flex justify-content-between trr_brd_b">
+                            <td className="text-white brd_no">Token Symbol</td>
+                            <td className="text-white brd_no">
+                              {" "}
+                              {totalIcos[index].tokenSymbol}
+                            </td>
+                          </tr>
+                          <tr className="d-flex justify-content-between trr_brd_b">
+                            <td className="text-white brd_no">
+                              Token Decimals
+                            </td>
+                            <td className="text-white brd_no">
+                              {totalIcos[index].tokenDecimals}
+                            </td>
+                          </tr>
+                          <tr className="d-flex justify-content-between trr_brd_b">
+                            <td className="text-white brd_no">Token Address</td>
+                            <td className="for_blu brd_no">
+                              <a
+                                className="text-decoration-none"
+                                href={`https://testnet.bscscan.com/address/${totalIcos[index].tokenAddress}`}
+                                target="_blank"
+                              >
+                                {totalIcos[index].tokenAddress}
+                              </a>
+                            </td>
+                          </tr>
+                          <tr className="d-flex justify-content-between trr_brd_b">
+                            <td className="text-white brd_no">Total Supply</td>
+                            <td className="text-white brd_no">
+                              {totalIcos[index].totalSupply}{" "}
+                              {totalIcos[index].tokenSymbol}
+                            </td>
+                          </tr>
+
+                          <tr className="d-flex justify-content-between trr_brd_b">
+                            <td className="text-white brd_no">Exchange Rate</td>
+                            <td className="text-white brd_no">
+                              {`1 BNB = ${totalIcos[index].exchangeRate} ${totalIcos[index].tokenSymbol}
+                              `}
+                            </td>
+                          </tr>
+
+                          <tr className="d-flex justify-content-between trr_brd_b">
+                            <td className="text-white brd_no">Unsold Tokens</td>
+                            <td className="text-white brd_no">Refund</td>
+                          </tr>
+                          <tr className="d-flex justify-content-between trr_brd_b">
+                            <td className="text-white brd_no">
+                              ICO Start Time
+                            </td>
+                            <td className="text-white brd_no">
+                              {totalIcos[index].icoStartDate}
+                            </td>
+                          </tr>
+                          <tr className="d-flex justify-content-between trr_brd_b">
+                            <td className="text-white brd_no">ICO End Time</td>
+                            <td className="text-white brd_no">
+                              {totalIcos[index].icoEndDate}
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div className="col-lg-4 col-sm-12 view_shade view_tow text-white pt-3">
+                    {/* <div className="tab_main_layer py-3">
+                      <table className="table">
+                        <tbody>
+                          <tr className="d-flex justify-content-between trr_brd_b">
+                            <td className="text-white brd_no">Status</td>
+                            <td className="for_blu brd_no">inprogress</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div> */}
+                    <Countdown
+                      date={
+                        Date.now() +
+                        (String(totalIcos[index].timeInfo.seconds * 1000) -
+                          Date.now())
+                      }
+                      renderer={renderer}
+                    />
+
+                    <div className="pro_bar mt-4">
+                      <div className="progress">
+                        <div
+                          className="progress-bar"
+                          role="progressbar"
+                          aria-valuenow="50"
+                          aria-valuemin="50"
+                          style={{
+                            width: `${totalIcos[index].progressInPercent}%`,
+                          }}
+                          aria-valuemax="100"
+                        ></div>
+                      </div>
+                      <div className="head_pro d-flex justify-content-between">
+                        <span>
+                          {totalIcos[index].soldAmount}{" "}
+                          {totalIcos[index].tokenSymbol}
+                        </span>
+                        <span>
+                          {totalIcos[index].totalSupply}{" "}
+                          {totalIcos[index].tokenSymbol}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="feild my-4">
+                      <Form>
+                        <Form.Group
+                          className="mb-3 text-start"
+                          controlId="formBasicEmail"
+                        >
+                          <Form.Label>Amount</Form.Label>
+                          <Form.Control type="number" placeholder="0.0" />
+                        </Form.Group>
+
+                        <Form.Group
+                          className="mb-3 text-start"
+                          controlId="formBasicPassword"
+                        >
+                          <Form.Label>Amount 2</Form.Label>
+                          <Form.Control type="number" placeholder="0.0" />
+                        </Form.Group>
+
+                        <div className="btn_uper_layer d-flex justify-content-md-start justify-content-center">
+                          <Button
+                            variant="primary "
+                            className="text-start swit_bbtn"
+                            type="submit"
+                          >
+                            Switch Network To BSC
+                          </Button>
+                        </div>
+                      </Form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="row warn_box justify-content-center mt-5">
+              <div className="col-lg-9 col-sm-9">
+                <p className="text-white">
+                  Disclaimer: The information provided shall not in any way
+                  constitute a recommendation as to whether you should invest in
+                  any product discussed. We accept no liability for any loss
+                  occasioned to any person acting or refraining from action as a
+                  result of any material provided or published
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
-    <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="basic tabs example"
-          centered
-          className="mt-4"
-        >
-          <Tab label="All launchpads" {...a11yProps(0)} />
-          <Tab label="My Contributions" {...a11yProps(1)} />
-        </Tabs>
-        <div className="input_filed mt-5 px-4 px-md-5 ">
-          <div className="text-start for_fnt"></div>
+    <>
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="basic tabs example"
+            centered
+            className="mt-4"
+          >
+            <Tab label="All launchpads" {...a11yProps(0)} />
+            <Tab label="My Contributions" {...a11yProps(1)} />
+          </Tabs>
+          <div className="input_filed mt-5 px-4 px-md-5 ">
+            <div className="text-start for_fnt"></div>
 
-          <Form.Control
-            type="url"
-            className="url_input input_flied_of_pink "
-            placeholder="Enter token address"
-            autoComplete="on"
-          />
-        </div>
+            <Form.Control
+              type="url"
+              className="url_input input_flied_of_pink "
+              placeholder="Enter token address"
+              autoComplete="on"
+            />
+          </div>
+        </Box>
+        <TabPanel value={value} index={0} className="">
+          {flag == true ? (
+            <>
+              <LaunchpadList updateFlag={updateFlag} />
+            </>
+          ) : (
+            <>
+              <Launchpad_list_view />
+            </>
+          )}
+          {/* <div className="launh_grid">
+            {totalIcos.map((item, index, arr) => {
+              return (
+                <Launchpad_card
+                  img_card={Card_img}
+                  totalSupply={`1 BNB = ${item.totalSupply} ${item.tokenSymbol}`}
+                  para_3="(0.00%)"
+                  soldAmountForProgress={`${item.soldAmount} ${item.tokenSymbol}`}
+                  totalSupplyForProgress={`${item.totalSupply} ${item.tokenSymbol}`}
+                  tokenName={item.tokenName}
+                  tokenSymbol={item.tokenSymbol}
+                  startTime={item.startTime}
+                  endTime={item.endTime}
+                  progressInPercent={item.progressInPercent}
+                  timeInfo={item.timeInfo}
+                  flag={flag}
+                  // updateFlag={props.updateFlag}
+                  setIndex={setIndex}
+                  index={index}
+                />
+              );
+            })}
+          </div> */}
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <div className="launh_grid">
+            <h1>hi</h1>
+            {/* <Launchpad_card
+              img_card={Card_img}
+              para_1="Tweetfi"
+              para_2="1 BNB = 30,000 TW."
+              para_3="(0.00%)"
+              BNB_1="0 BNB"
+              BNB_2="200 BNB"
+            />
+            <Launchpad_card
+              img_card={Card_img2}
+              para_1="untitled presale"
+              para_2="150 BNB - 250 BNB"
+              para_3="(0.00%)"
+              BNB_1="0 BNB"
+              BNB_2="250 BNB"
+            />
+            <Launchpad_card
+              img_card={Card_img3}
+              para_1="-"
+              para_2="0.1 BNB"
+              para_3="(0.00%)"
+              BNB_1="0 BNB"
+              BNB_2="200 BNB"
+            />
+            <Launchpad_card
+              img_card={Card_img4}
+              para_1="untitled presale"
+              para_2="1 USDC - 2 USDC"
+              para_3="(0.00%)"
+              BNB_1="0 USDC"
+              BNB_2="2 USDC"
+            />
+            <Launchpad_card
+              img_card={Card_img4}
+              para_1="aa"
+              para_2="0.002 BNB - 0.003 BNB"
+              para_3="(0.00%)"
+              BNB_1="0 BNB"
+              BNB_2="200 BNB"
+            />
+            <Launchpad_card
+              img_card={Card_img4}
+              para_1="Etherst"
+              para_2="120 BNB"
+              para_3="(0.00%)"
+              BNB_1="0 BNB"
+              BNB_2="200 BNB"
+            /> */}
+          </div>
+        </TabPanel>
       </Box>
-      <TabPanel value={value} index={0} className="">
-        <div className="launh_grid">
-          {totalIcos.map((item, index, arr) => {
-            return (
-              <Launchpad_card
-                img_card={Card_img}
-                totalSupply={`1 BNB = ${item.totalSupply} ${item.tokenSymbol}`}
-                para_3="(0.00%)"
-                soldAmountForProgress={`${item.soldAmount} ${item.tokenSymbol}`}
-                totalSupplyForProgress={`${item.totalSupply} ${item.tokenSymbol}`}
-                tokenName={item.tokenName}
-                tokenSymbol={item.tokenSymbol}
-                startTime={item.startTime}
-                endTime={item.endTime}
-                progressInPercent={item.progressInPercent}
-                timeInfo={item.timeInfo}
-              />
-            );
-          })}
-        </div>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <div className="launh_grid">
-          <Launchpad_card
-            img_card={Card_img}
-            para_1="Tweetfi"
-            para_2="1 BNB = 30,000 TW."
-            para_3="(0.00%)"
-            BNB_1="0 BNB"
-            BNB_2="200 BNB"
-          />
-          <Launchpad_card
-            img_card={Card_img2}
-            para_1="untitled presale"
-            para_2="150 BNB - 250 BNB"
-            para_3="(0.00%)"
-            BNB_1="0 BNB"
-            BNB_2="250 BNB"
-          />
-          <Launchpad_card
-            img_card={Card_img3}
-            para_1="-"
-            para_2="0.1 BNB"
-            para_3="(0.00%)"
-            BNB_1="0 BNB"
-            BNB_2="200 BNB"
-          />
-          <Launchpad_card
-            img_card={Card_img4}
-            para_1="untitled presale"
-            para_2="1 USDC - 2 USDC"
-            para_3="(0.00%)"
-            BNB_1="0 USDC"
-            BNB_2="2 USDC"
-          />
-          <Launchpad_card
-            img_card={Card_img4}
-            para_1="aa"
-            para_2="0.002 BNB - 0.003 BNB"
-            para_3="(0.00%)"
-            BNB_1="0 BNB"
-            BNB_2="200 BNB"
-          />
-          <Launchpad_card
-            img_card={Card_img4}
-            para_1="Etherst"
-            para_2="120 BNB"
-            para_3="(0.00%)"
-            BNB_1="0 BNB"
-            BNB_2="200 BNB"
-          />
-        </div>
-      </TabPanel>
-    </Box>
+      {/* {flag == true ? (
+        <>
+          <LaunchpadList updateFlag={updateFlag} />
+        </>
+      ) : (
+        <>
+          <Launchpad_list_view />
+        </>
+      )} */}
+    </>
   );
 }
