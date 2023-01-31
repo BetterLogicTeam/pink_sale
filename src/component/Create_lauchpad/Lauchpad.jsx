@@ -228,14 +228,26 @@ export default function HorizontalLinearStepper() {
   const createLaunchpad = async () => {
     const web3 = window.web3;
     let acc = await loadWeb3();
+    console.log("acc", acc);
 
-    let { endTime, startTime, totalSupply, exchangeRate, tokenAddress } =
-      formik.values;
+    let {
+      endTime,
+      startTime,
+      totalSupply,
+      exchangeRate,
+      tokenAddress,
+      currency,
+    } = formik.values;
     let startTimeSeconds = new Date(startTime);
     startTimeSeconds = Math.floor(startTimeSeconds.getTime() / 1000);
+
     let endTimeSeconds = new Date(endTime);
+
     endTimeSeconds = Math.floor(endTimeSeconds.getTime() / 1000);
+
     let amount = web3.utils.toWei(String(totalSupply));
+    console.log("amount", amount);
+
     // console.log(
     //   "endTimeSeconds",
     //   endTimeSeconds,
@@ -248,7 +260,10 @@ export default function HorizontalLinearStepper() {
     //   "tokenadress",
     //   tokenAddress
     // );
-    let pinkSaleToken = new web3.eth.Contract(tokenAbi, tokenAdress);
+    let newtokenAdress = sessionStorage.getItem("token_Address");
+
+    let pinkSaleToken = new web3.eth.Contract(tokenAbi, newtokenAdress);
+    console.log("pinkSaleToken", pinkSaleToken);
 
     let approve = await pinkSaleToken.methods
       .approve(PinkSaleICOFactoryContractAddress, amount)
@@ -264,6 +279,7 @@ export default function HorizontalLinearStepper() {
       .create(
         tokenAddress,
         "0x0000000000000000000000000000000000000000",
+        currency,
         exchangeRate,
         amount,
         startTimeSeconds,

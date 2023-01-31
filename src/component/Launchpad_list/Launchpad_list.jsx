@@ -88,6 +88,8 @@ export default function BasicTabs() {
       );
       let tokenDetail = await pinkSaleICO.methods.tokeninfo().call();
       let icoInfo = await pinkSaleICO.methods.ICO_info().call();
+      // console.log("buy_token_name ", icoInfo.buy_token_name);
+
       let icoProgress = await pinkSaleICO.methods.status().call();
       let soldPercent = (icoProgress.sold_amount / icoInfo.token_supply) * 100;
       let currentDateSeconds = Math.round(new Date().getTime() / 1000);
@@ -120,6 +122,7 @@ export default function BasicTabs() {
           title: "ICO Ended",
         };
       }
+      console.log("timeinfo", timeInfo);
       let icoStartdate = new Date(icoInfo.ICO_start * 1000);
       icoStartdate = icoStartdate.toUTCString();
       let icoEnddate = new Date(icoInfo.ICO_end * 1000);
@@ -140,6 +143,7 @@ export default function BasicTabs() {
         icoStartDate: icoStartdate,
         icoEndDate: icoEnddate,
         tokenDecimals: tokenDetail.decimal,
+        currency: icoInfo.buy_token_name,
       };
       // allIcosInfo.push(obj);
 
@@ -152,12 +156,14 @@ export default function BasicTabs() {
 
     setTotalIcos([...allIcosInfo]);
   };
+  console.table(totalIcos);
   useEffect(() => {
     allIcos();
   }, []);
   const updateFlag = async () => {
     setFlag(!flag);
   };
+
   const Completionist = () => (
     <div className="mt-2">
       <div className="text-center">
@@ -224,6 +230,35 @@ export default function BasicTabs() {
   };
 
   function Launchpad_list_view() {
+    const [bnbValue, setbnbValue] = React.useState({
+      bnbvalues: "",
+      swapedValue: "",
+    });
+    const [swapedValue, setSwapedValue] = React.useState("");
+
+    const swapValue = async (e, exchangerate) => {
+      const updatedValue = {
+        bnbvalues: e.target.value,
+        swapedValue: e.target.value * exchangerate,
+      };
+      setbnbValue((bnbValue) => ({ ...bnbValue, ...updatedValue }));
+      // setSwapedValue(e.target.value * exchangerate);
+    };
+    const buy = async () => {
+      const web3 = window.web3;
+      let acc = await loadWeb3();
+      let pinkSaleICO = new web3.eth.Contract(
+        PinksaleICOContractABI,
+        PinksaleICOContractAddress
+      );
+      console.log("pinkSaleICO", pinkSaleICO);
+      console.log("amount", web3.utils.toWei(bnbValue.bnbvalues));
+
+      let swap = await pinkSaleICO.methods.buyWithBNB().send({
+        from: acc,
+        value: web3.utils.toWei(bnbValue.bnbvalues),
+      });
+    };
     return (
       <div className="container">
         <div className="row">
@@ -445,25 +480,57 @@ export default function BasicTabs() {
                           className="mb-3 text-start"
                           controlId="formBasicEmail"
                         >
-                          <Form.Label>Amount</Form.Label>
-                          <Form.Control type="number" placeholder="0.0" />
+                          <Form.Label>
+                            Amount in {`${totalIcos[index].currency}`}{" "}
+                          </Form.Label>
+                          <Form.Control
+                            type="number"
+                            placeholder="0.0"
+                            value={bnbValue.bnbvalues}
+                            onChange={(e) => {
+                              swapValue(e, totalIcos[index].exchangeRate);
+                            }}
+                          />
                         </Form.Group>
 
                         <Form.Group
                           className="mb-3 text-start"
                           controlId="formBasicPassword"
                         >
-                          <Form.Label>Amount 2</Form.Label>
-                          <Form.Control type="number" placeholder="0.0" />
+                          <Form.Label>
+                            Amount in {`${totalIcos[index].tokenName}`}
+                          </Form.Label>
+                          <Form.Control
+                            type="number"
+                            placeholder="0.0"
+                            value={bnbValue.swapedValue}
+                          />
                         </Form.Group>
+                        {console.log(
+                          "disable",
+                          JSON.parse(
+                            `${
+                              totalIcos[index].timeInfo.title == "Upcoming"
+                                ? true
+                                : false
+                            }`
+                          )
+                        )}
 
                         <div className="btn_uper_layer d-flex justify-content-md-start justify-content-center">
                           <Button
                             variant="primary "
-                            className="text-start swit_bbtn"
-                            type="submit"
+                            className="text-start swit_bbtn mx-auto"
+                            disabled={JSON.parse(
+                              `${
+                                totalIcos[index].timeInfo.title == "Upcoming"
+                                  ? true
+                                  : false
+                              }`
+                            )}
+                            onClick={buy}
                           >
-                            Switch Network To BSC
+                            BUY
                           </Button>
                         </div>
                       </Form>

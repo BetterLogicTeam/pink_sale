@@ -57,7 +57,7 @@ function Launchpad_card(props) {
             <div className="card-body bg_color ">
               <div className=" d-flex justify-content-between align-items-center ">
                 <img src={props.img_card} alt="" className="img_card" />
-                {console.log("color", props.timeInfo.color)}
+
                 <div>
                   <p
                     className={` px-2 rounded-pill `}
