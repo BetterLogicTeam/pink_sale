@@ -47,11 +47,18 @@ function Launchpad_card(props) {
 
   const SetView = async () => {
     props.setIndex(props.index);
-    props.updateFlag();
+if(props.dummy==1){
+  props.updateFlag();
+
+}
+else if(props.dummy==2){
+  props.updateFlag();
+
+}
   };
   return (
     <>
-      <div className="container">
+      <div className="container" key={props.index}>
         <div className="row mt-5">
           <div className="col-12 ">
             <div className="card-body bg_color ">

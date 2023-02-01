@@ -25,6 +25,8 @@ import {
 } from "../../utilies/Contract";
 import { loadWeb3 } from "../../connectivity/connectivity";
 import { Button } from "react-bootstrap";
+import Web3 from "web3";
+let getData;
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -61,9 +63,15 @@ function a11yProps(index) {
 
 export default function BasicTabs() {
   const [value, setValue] = React.useState(0);
+
   const [flag, setFlag] = React.useState(true);
+  const [flagForUSer, setFlagForUser] = React.useState(true);
+
+  let websupply = new Web3("https://bsc-testnet.public.blastapi.io");
 
   const [totalIcos, setTotalIcos] = useState([]);
+  const [totalIcosForUser, setTotalIcosForUser] = useState([]);
+
   const [index, setIndex] = useState("0");
 
   const handleChange = (event, newValue) => {
@@ -74,7 +82,7 @@ export default function BasicTabs() {
     let acc = await loadWeb3();
     let allIcosInfo = [];
     let obj;
-    let pinkSaleFactoryICO = new web3.eth.Contract(
+    let pinkSaleFactoryICO = new websupply.eth.Contract(
       PinkSaleICOFactoryContractABI,
       PinkSaleICOFactoryContractAddress
     );
@@ -82,7 +90,7 @@ export default function BasicTabs() {
     console.log("icos", totalIcos);
     for (let index = 0; index < totalIcos.length; index++) {
       const contractAddress = totalIcos[index];
-      let pinkSaleICO = new web3.eth.Contract(
+      let pinkSaleICO = new websupply.eth.Contract(
         PinksaleICOContractABI,
         contractAddress
       );
@@ -131,8 +139,8 @@ export default function BasicTabs() {
       obj = {
         tokenName: tokenDetail.name,
         tokenSymbol: tokenDetail.symbol,
-        totalSupply: web3.utils.fromWei(icoInfo.token_supply),
-        soldAmount: web3.utils.fromWei(icoProgress.sold_amount),
+        totalSupply: websupply.utils.fromWei(icoInfo.token_supply),
+        soldAmount: websupply.utils.fromWei(icoProgress.sold_amount),
         startTime: icoInfo.ICO_start,
         endTime: icoInfo.ICO_end,
         progressInPercent: soldPercent,
@@ -148,7 +156,7 @@ export default function BasicTabs() {
       // allIcosInfo.push(obj);
 
       console.log("");
-      allIcosInfo = [{ ...obj }, ...allIcosInfo];
+      allIcosInfo = [...allIcosInfo, { ...obj }];
       // console.log("icoInfo", icoInfo.token_supply);
       // console.log("icoProgress", icoProgress);
     }
@@ -156,18 +164,110 @@ export default function BasicTabs() {
 
     setTotalIcos([...allIcosInfo]);
   };
+  const allIcosForUser = async () => {
+    const web3 = window.web3;
+    let acc = await loadWeb3();
+    let allIcosInfo = [];
+    let obj;
+    let pinkSaleFactoryICO = new websupply.eth.Contract(
+      PinkSaleICOFactoryContractABI,
+      PinkSaleICOFactoryContractAddress
+    );
+    let totalIcos = await pinkSaleFactoryICO.methods
+      .totalICOsForUser(acc)
+      .call();
+    console.log("icos", totalIcos);
+    for (let index = 0; index < totalIcos.length; index++) {
+      const contractAddress = totalIcos[index];
+      let pinkSaleICO = new websupply.eth.Contract(
+        PinksaleICOContractABI,
+        contractAddress
+      );
+      let tokenDetail = await pinkSaleICO.methods.tokeninfo().call();
+      let icoInfo = await pinkSaleICO.methods.ICO_info().call();
+      // console.log("buy_token_name ", icoInfo.buy_token_name);
+
+      let icoProgress = await pinkSaleICO.methods.status().call();
+      let soldPercent = (icoProgress.sold_amount / icoInfo.token_supply) * 100;
+      let currentDateSeconds = Math.round(new Date().getTime() / 1000);
+      console.log(currentDateSeconds);
+      let endTimeLessthenStartTime;
+      let timeInfo;
+
+      if (currentDateSeconds < Number(icoInfo.ICO_start)) {
+        timeInfo = {
+          timerTitle: "  ICO Starts In",
+          seconds: icoInfo.ICO_start,
+          backgroundcolor: "#fdfaea",
+          color: "#d29813",
+          title: "Upcoming",
+        };
+      } else if (currentDateSeconds < Number(icoInfo.ICO_end)) {
+        timeInfo = {
+          timerTitle: "  ICO Ends In",
+          seconds: icoInfo.ICO_end,
+          backgroundcolor: "#d1fae5",
+          color: "#10b981",
+          title: "ICO Live",
+        };
+      } else {
+        timeInfo = {
+          timerTitle: "  ICO Ended ",
+          seconds: icoInfo.ICO_end,
+          backgroundcolor: "#ffeaef",
+          color: "#ff3465",
+          title: "ICO Ended",
+        };
+      }
+      console.log("timeinfo", timeInfo);
+      let icoStartdate = new Date(icoInfo.ICO_start * 1000);
+      icoStartdate = icoStartdate.toUTCString();
+      let icoEnddate = new Date(icoInfo.ICO_end * 1000);
+      icoEnddate = icoEnddate.toUTCString();
+
+      obj = {
+        tokenName: tokenDetail.name,
+        tokenSymbol: tokenDetail.symbol,
+        totalSupply: websupply.utils.fromWei(icoInfo.token_supply),
+        soldAmount: websupply.utils.fromWei(icoProgress.sold_amount),
+        startTime: icoInfo.ICO_start,
+        endTime: icoInfo.ICO_end,
+        progressInPercent: soldPercent,
+        timeInfo: timeInfo,
+        exchangeRate: icoInfo.token_rate,
+        tokenAddress: icoInfo.sale_token,
+        icoAddress: totalIcos[index],
+        icoStartDate: icoStartdate,
+        icoEndDate: icoEnddate,
+        tokenDecimals: tokenDetail.decimal,
+        currency: icoInfo.buy_token_name,
+      };
+      // allIcosInfo.push(obj);
+
+      console.log("");
+      allIcosInfo = [...allIcosInfo, { ...obj }];
+      // console.log("icoInfo", icoInfo.token_supply);
+      // console.log("icoProgress", icoProgress);
+    }
+    // console.log("objectobject", allIcosInfo);
+
+    setTotalIcosForUser([...allIcosInfo]);
+  };
   console.table(totalIcos);
   useEffect(() => {
     allIcos();
+    allIcosForUser();
   }, []);
   const updateFlag = async () => {
     setFlag(!flag);
   };
-
+  const updateFlagForUSer = async () => {
+    setFlagForUser(!flagForUSer);
+  };
   const Completionist = () => (
     <div className="mt-2">
       <div className="text-center">
-        <span className="">{totalIcos[index].timeInfo.timerTitle}</span>
+        <span className="">{getData?.timeInfo.timerTitle}</span>
       </div>
       <div className="main_time mt-2 d-flex justify-content-center">
         <div className="pik_clr p-2 arounded">00</div>
@@ -189,7 +289,7 @@ export default function BasicTabs() {
       return (
         <div className="mt-2">
           <div className="text-center">
-            <span className="">{totalIcos[index].timeInfo.timerTitle}</span>
+            <span className="">{getData?.timeInfo.timerTitle}</span>
           </div>
           <div className="main_time mt-2 d-flex justify-content-center">
             <div className="pik_clr p-2 arounded">{days}</div>
@@ -222,6 +322,7 @@ export default function BasicTabs() {
               updateFlag={props.updateFlag}
               setIndex={setIndex}
               index={index}
+              dummy={"2"}
             />
           );
         })}
@@ -229,27 +330,59 @@ export default function BasicTabs() {
     );
   };
 
-  function Launchpad_list_view() {
+  const LaunchpadListForUSer = (props) => {
+    return (
+      <div className="launh_grid">
+        {totalIcosForUser.map((item, index, arr) => {
+          return (
+            <Launchpad_card
+              img_card={Card_img}
+              totalSupply={`1 BNB = ${item.totalSupply} ${item.tokenSymbol}`}
+              para_3="(0.00%)"
+              soldAmountForProgress={`${item.soldAmount} ${item.tokenSymbol}`}
+              totalSupplyForProgress={`${item.totalSupply} ${item.tokenSymbol}`}
+              tokenName={item.tokenName}
+              tokenSymbol={item.tokenSymbol}
+              startTime={item.startTime}
+              endTime={item.endTime}
+              progressInPercent={item.progressInPercent}
+              timeInfo={item.timeInfo}
+              flag={flag}
+              dummy={"1"}
+              updateFlag={props.updateFlagForUSer}
+              setIndex={setIndex}
+              index={index}
+            />
+          );
+        })}
+      </div>
+    );
+  };
+
+  function Launchpad_list_view(props) {
     const [bnbValue, setbnbValue] = React.useState({
       bnbvalues: "",
       swapedValue: "",
     });
     const [swapedValue, setSwapedValue] = React.useState("");
-
+    if (props.dummy == 2) {
+      getData = totalIcos[index];
+    } else if (props.dummy == 1) {
+      getData = totalIcosForUser[index];
+    }
     const swapValue = async (e, exchangerate) => {
       const updatedValue = {
         bnbvalues: e.target.value,
         swapedValue: e.target.value * exchangerate,
       };
       setbnbValue((bnbValue) => ({ ...bnbValue, ...updatedValue }));
-      // setSwapedValue(e.target.value * exchangerate);
     };
     const buy = async () => {
       const web3 = window.web3;
       let acc = await loadWeb3();
       let pinkSaleICO = new web3.eth.Contract(
         PinksaleICOContractABI,
-        PinksaleICOContractAddress
+        getData.icoAddress
       );
       console.log("pinkSaleICO", pinkSaleICO);
       console.log("amount", web3.utils.toWei(bnbValue.bnbvalues));
@@ -258,6 +391,34 @@ export default function BasicTabs() {
         from: acc,
         value: web3.utils.toWei(bnbValue.bnbvalues),
       });
+    };
+    const withdrawRemaningSaleTokens = async () => {
+      const web3 = window.web3;
+      let acc = await loadWeb3();
+      let pinkSaleICO = new web3.eth.Contract(
+        PinksaleICOContractABI,
+        getData.icoAddress
+      );
+
+      let ownerWithdrawCollectedBNBs = await pinkSaleICO.methods
+        .ownerWithdrawRemainingTokens()
+        .send({
+          from: acc,
+        });
+    };
+    const withdrawCollectedBNB = async () => {
+      const web3 = window.web3;
+      let acc = await loadWeb3();
+      let pinkSaleICO = new web3.eth.Contract(
+        PinksaleICOContractABI,
+        getData.icoAddress
+      );
+
+      let ownerWithdrawRemainingTokens = await pinkSaleICO.methods
+        .ownerWithdrawCollectedBNBs()
+        .send({
+          from: acc,
+        });
     };
     return (
       <div className="container">
@@ -268,7 +429,11 @@ export default function BasicTabs() {
                 <button
                   className="btn text-white mb-3"
                   onClick={() => {
-                    setFlag(!flag);
+                    {
+                      props.dummy == 2
+                        ? setFlag(!flag)
+                        : setFlagForUser(!flagForUSer);
+                    }
                   }}
                 >
                   Go Back
@@ -285,15 +450,13 @@ export default function BasicTabs() {
                       <div className="col-lg-10 col-sm-12 lft_boox">
                         <div className="heading_outer_layer d-flex justify-content-between ">
                           <div className="left_item">
-                            <h1 className="epn_cls">
-                              {totalIcos[index].tokenName}
-                            </h1>
+                            <h1 className="epn_cls">{getData?.tokenName}</h1>
                           </div>
                           <div className="right_item">
                             <p
                               className={` px-2 rounded-pill `}
                               style={{
-                                backgroundColor: `${totalIcos[index].timeInfo.backgroundcolor}`,
+                                backgroundColor: `${getData?.timeInfo.backgroundcolor}`,
                               }}
                             >
                               <svg
@@ -308,16 +471,16 @@ export default function BasicTabs() {
                                   cx="5"
                                   cy="5"
                                   r="5"
-                                  fill={`${totalIcos[index].timeInfo.color}`}
+                                  fill={`${getData?.timeInfo.color}`}
                                 />
                               </svg>
                               <span
                                 className="text-"
                                 style={{
-                                  color: `${totalIcos[index].timeInfo.color}`,
+                                  color: `${getData?.timeInfo.color}`,
                                 }}
                               >
-                                <small>{totalIcos[index].timeInfo.title}</small>
+                                <small>{getData?.timeInfo.title}</small>
                               </span>
                             </p>
                           </div>
@@ -349,25 +512,25 @@ export default function BasicTabs() {
                             <td className="text-white brd_no">ICO Address</td>
                             <td className="for_blu brd_no">
                               <a
-                                href={`https://testnet.bscscan.com/address/${totalIcos[index].icoAddress}`}
+                                href={`https://testnet.bscscan.com/address/${getData?.icoAddress}`}
                                 target="_blank"
                                 className="text-decoration-none"
                               >
-                                {totalIcos[index].icoAddress}
+                                {getData?.icoAddress}
                               </a>
                             </td>
                           </tr>
                           <tr className="d-flex justify-content-between trr_brd_b">
                             <td className="text-white brd_no">Token Name</td>
                             <td className="text-white brd_no">
-                              {totalIcos[index].tokenName}
+                              {getData?.tokenName}
                             </td>
                           </tr>
                           <tr className="d-flex justify-content-between trr_brd_b">
                             <td className="text-white brd_no">Token Symbol</td>
                             <td className="text-white brd_no">
                               {" "}
-                              {totalIcos[index].tokenSymbol}
+                              {getData?.tokenSymbol}
                             </td>
                           </tr>
                           <tr className="d-flex justify-content-between trr_brd_b">
@@ -375,7 +538,7 @@ export default function BasicTabs() {
                               Token Decimals
                             </td>
                             <td className="text-white brd_no">
-                              {totalIcos[index].tokenDecimals}
+                              {getData?.tokenDecimals}
                             </td>
                           </tr>
                           <tr className="d-flex justify-content-between trr_brd_b">
@@ -383,25 +546,24 @@ export default function BasicTabs() {
                             <td className="for_blu brd_no">
                               <a
                                 className="text-decoration-none"
-                                href={`https://testnet.bscscan.com/address/${totalIcos[index].tokenAddress}`}
+                                href={`https://testnet.bscscan.com/address/${getData?.tokenAddress}`}
                                 target="_blank"
                               >
-                                {totalIcos[index].tokenAddress}
+                                {getData?.tokenAddress}
                               </a>
                             </td>
                           </tr>
                           <tr className="d-flex justify-content-between trr_brd_b">
                             <td className="text-white brd_no">Total Supply</td>
                             <td className="text-white brd_no">
-                              {totalIcos[index].totalSupply}{" "}
-                              {totalIcos[index].tokenSymbol}
+                              {getData?.totalSupply} {getData?.tokenSymbol}
                             </td>
                           </tr>
 
                           <tr className="d-flex justify-content-between trr_brd_b">
                             <td className="text-white brd_no">Exchange Rate</td>
                             <td className="text-white brd_no">
-                              {`1 BNB = ${totalIcos[index].exchangeRate} ${totalIcos[index].tokenSymbol}
+                              {`1 BNB = ${getData?.exchangeRate} ${getData?.tokenSymbol}
                               `}
                             </td>
                           </tr>
@@ -415,13 +577,13 @@ export default function BasicTabs() {
                               ICO Start Time
                             </td>
                             <td className="text-white brd_no">
-                              {totalIcos[index].icoStartDate}
+                              {getData?.icoStartDate}
                             </td>
                           </tr>
                           <tr className="d-flex justify-content-between trr_brd_b">
                             <td className="text-white brd_no">ICO End Time</td>
                             <td className="text-white brd_no">
-                              {totalIcos[index].icoEndDate}
+                              {getData?.icoEndDate}
                             </td>
                           </tr>
                         </tbody>
@@ -443,8 +605,7 @@ export default function BasicTabs() {
                     <Countdown
                       date={
                         Date.now() +
-                        (String(totalIcos[index].timeInfo.seconds * 1000) -
-                          Date.now())
+                        (String(getData?.timeInfo.seconds * 1000) - Date.now())
                       }
                       renderer={renderer}
                     />
@@ -457,19 +618,17 @@ export default function BasicTabs() {
                           aria-valuenow="50"
                           aria-valuemin="50"
                           style={{
-                            width: `${totalIcos[index].progressInPercent}%`,
+                            width: `${getData?.progressInPercent}%`,
                           }}
                           aria-valuemax="100"
                         ></div>
                       </div>
                       <div className="head_pro d-flex justify-content-between">
                         <span>
-                          {totalIcos[index].soldAmount}{" "}
-                          {totalIcos[index].tokenSymbol}
+                          {getData?.soldAmount} {getData?.tokenSymbol}
                         </span>
                         <span>
-                          {totalIcos[index].totalSupply}{" "}
-                          {totalIcos[index].tokenSymbol}
+                          {getData?.totalSupply} {getData?.tokenSymbol}
                         </span>
                       </div>
                     </div>
@@ -481,14 +640,14 @@ export default function BasicTabs() {
                           controlId="formBasicEmail"
                         >
                           <Form.Label>
-                            Amount in {`${totalIcos[index].currency}`}{" "}
+                            Amount in {`${getData?.currency}`}{" "}
                           </Form.Label>
                           <Form.Control
                             type="number"
                             placeholder="0.0"
                             value={bnbValue.bnbvalues}
                             onChange={(e) => {
-                              swapValue(e, totalIcos[index].exchangeRate);
+                              swapValue(e, getData?.exchangeRate);
                             }}
                           />
                         </Form.Group>
@@ -498,7 +657,7 @@ export default function BasicTabs() {
                           controlId="formBasicPassword"
                         >
                           <Form.Label>
-                            Amount in {`${totalIcos[index].tokenName}`}
+                            Amount in {`${getData?.tokenName}`}
                           </Form.Label>
                           <Form.Control
                             type="number"
@@ -510,7 +669,7 @@ export default function BasicTabs() {
                           "disable",
                           JSON.parse(
                             `${
-                              totalIcos[index].timeInfo.title == "Upcoming"
+                              getData?.timeInfo.title == "Upcoming"
                                 ? true
                                 : false
                             }`
@@ -523,7 +682,7 @@ export default function BasicTabs() {
                             className="text-start swit_bbtn mx-auto"
                             disabled={JSON.parse(
                               `${
-                                totalIcos[index].timeInfo.title == "Upcoming"
+                                getData?.timeInfo.title == "Upcoming"
                                   ? true
                                   : false
                               }`
@@ -533,6 +692,55 @@ export default function BasicTabs() {
                             BUY
                           </Button>
                         </div>
+                        {props.dummy == 1 && (
+                          <>
+                            <div className="btn_uper_layer d-flex mt-3 justify-content-md-start justify-content-center">
+                              <Button
+                                variant="primary "
+                                className="text-start swit_bbtn mx-auto"
+                                disabled={JSON.parse(
+                                  `${!(getData?.timeInfo.title == "ICO Ended"
+                                    ? true
+                                    : false)}`
+                                )}
+                                onClick={withdrawCollectedBNB}
+                              >
+                                Withdraw Collected BNB
+                              </Button>
+                            </div>
+                            <div className="btn_uper_layer d-flex mt-3 justify-content-md-start justify-content-center">
+                              <Button
+                                variant="primary "
+                                className="text-start swit_bbtn mx-auto"
+                                disabled={JSON.parse(
+                                  `${!(getData?.timeInfo.title == "ICO Ended"
+                                    ? true
+                                    : false)}`
+                                )}
+                                onClick={withdrawRemaningSaleTokens}
+                              >
+                                Withdraw Remaning Sale Tokens
+                              </Button>
+                            </div>
+                          </>
+                        )}
+
+                        {/* <div className="btn_uper_layer d-flex py-3 justify-content-md-start justify-content-center">
+                          <Button
+                            variant="primary "
+                            className="text-start swit_bbtn mx-auto"
+                            disabled={JSON.parse(
+                              `${
+                                getData.timeInfo.title == "Upcoming"
+                                  ? true
+                                  : false
+                              }`
+                            )}
+                            onClick={buy}
+                          >
+                            Withdraw Collected Buy Tokens
+                          </Button>
+                        </div> */}
                       </Form>
                     </div>
                   </div>
@@ -567,8 +775,22 @@ export default function BasicTabs() {
             centered
             className="mt-4"
           >
-            <Tab label="All launchpads" {...a11yProps(0)} />
-            <Tab label="My Contributions" {...a11yProps(1)} />
+            <Tab
+              label="All launchpads"
+              {...a11yProps(0)}
+              onClick={() => {
+                setFlag(true);
+                setFlagForUser(true);
+              }}
+            />
+            <Tab
+              label="My Contributions"
+              {...a11yProps(1)}
+              onClick={() => {
+                setFlag(true);
+                setFlagForUser(true);
+              }}
+            />
           </Tabs>
           <div className="input_filed mt-5 px-4 px-md-5 ">
             <div className="text-start for_fnt"></div>
@@ -588,7 +810,7 @@ export default function BasicTabs() {
             </>
           ) : (
             <>
-              <Launchpad_list_view />
+              <Launchpad_list_view dummy={"2"} />
             </>
           )}
           {/* <div className="launh_grid">
@@ -616,9 +838,17 @@ export default function BasicTabs() {
           </div> */}
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <div className="launh_grid">
-            <h1>hi</h1>
-            {/* <Launchpad_card
+          {flagForUSer == true ? (
+            <>
+              <LaunchpadListForUSer updateFlagForUSer={updateFlagForUSer} />
+            </>
+          ) : (
+            <>
+              <Launchpad_list_view dummy={"1"} />
+            </>
+          )}
+
+          {/* <Launchpad_card
               img_card={Card_img}
               para_1="Tweetfi"
               para_2="1 BNB = 30,000 TW."
@@ -666,7 +896,6 @@ export default function BasicTabs() {
               BNB_1="0 BNB"
               BNB_2="200 BNB"
             /> */}
-          </div>
         </TabPanel>
       </Box>
       {/* {flag == true ? (

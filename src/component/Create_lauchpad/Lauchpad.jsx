@@ -240,6 +240,7 @@ export default function HorizontalLinearStepper() {
     } = formik.values;
     let startTimeSeconds = new Date(startTime);
     startTimeSeconds = Math.floor(startTimeSeconds.getTime() / 1000);
+    console.log("startTimeSeconds", startTimeSeconds);
 
     let endTimeSeconds = new Date(endTime);
 
